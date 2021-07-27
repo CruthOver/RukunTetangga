@@ -1,0 +1,40 @@
+<resources>
+    <string name="app_name">RukunTetangga</string>
+
+    <!-- Label Menu -->
+    <string name="label_menu_home">Home</string>
+    <string name="label_menu_surat">Surat</string>
+    <string name="label_menu_laporan">Laporan</string>
+    <string name="label_menu_darurat">Darurat</string>
+    <string name="label_menu_niaga">Niaga</string>
+    <string name="label_menu_lapor">Lapor</string>
+    <string name="label_menu_job">Pekerjaan</string>
+    <string name="logo_pbb">Logo PBB</string>
+    <string name="hint_no_telephone">No. Telephone</string>
+    <string name="hint_password">Password</string>
+    <string name="show_hide_password">Show Hide Password</string>
+    <string name="label_btn_login">Login</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hint_search">Search…</string>
+    <string name="title_menu_kegiatan">Kegiatan</string>
+    <string name="title_menu_informasi">Informasi</string>
+    <string name="title_menu_kas">Kas</string>
+    <string name="title_menu_structure">Struktur RT</string>
+    <string name="title_menu_warga">Data Warga</string>
+    <string name="title_menu_voting">Voting</string>
+    <string name="title_menu_jasa">Jasa</string>
+    <string name="title_menu_musrenbang">Musrenbang</string>
+    <string name="title_menu_complaint">Pengaduan</string>
+    <string name="title_menu_darurat">Darurat</string>
+    <string name="label_fragment_letter">Daftar Pengajuan Surat</string>
+    <string name="title_fragment_letter">Data Surat</string>
+    <string name="label_jenis_surat">Jenis Surat</string>
+    <string name="label_applicant_name">Nama Pemohon</string>
+    <string name="label_date_need">Tanggal Dibutuhkan</string>
+    <string name="label_date_birth">Tempat, Tgl Lahir</string>
+    <string name="label_address">Alamat</string>
+    <string name="label_description">Keterangan</string>
+    <string name="label_email">Email</string>
+    <!-- End Label Menu -->
+</resources>
