@@ -19,25 +19,27 @@
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize">
-
+            android:layout_height="?attr/actionBarSize"
+            android:background="@android:color/transparent">
             <RelativeLayout
                 android:id="@+id/relativeLayout"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginLeft="32dp"
+                android:layout_weight="1.5"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
                 android:layout_marginTop="16dp"
-                android:layout_marginEnd="32dp"
-                android:layout_marginRight="32dp">
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp">
 
                 <EditText
-                    android:id="@+id/etPassword"
+                    android:id="@+id/search_bar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/edit_text_rounded"
                     android:hint="@string/hint_search"
                     android:importantForAutofill="no"
+                    android:focusableInTouchMode="false"
                     android:inputType="text"
                     android:padding="8dp"
                     tools:ignore="TextFields" />

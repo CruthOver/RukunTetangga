@@ -33,8 +33,129 @@
     <string name="label_applicant_name">Nama Pemohon</string>
     <string name="label_date_need">Tanggal Dibutuhkan</string>
     <string name="label_date_birth">Tempat, Tgl Lahir</string>
+    <string name="label_birth_place">Tempat Lahir</string>
+    <string name="label_birth_date">Tanggal Lahir</string>
     <string name="label_address">Alamat</string>
     <string name="label_description">Keterangan</string>
     <string name="label_email">Email</string>
+    <string name="icon_service">Icon Service</string>
+    <string name="icon_whatsapp">Icon WhatsApp</string>
+    <string name="add_button">Tambah</string>
+    <string name="hint_information">Masukkan Informasi</string>
+    <string name="label_upload">Upload</string>
+    <string name="label_input_information">Input Informasi</string>
+    <string name="label_input_niaga">Input Niaga</string>
+    <string name="label_input_musrenbang">Input Musrenbang</string>
+    <string name="label_description_activity">Deskripsi Kegiatan</string>
+    <string name="hint_description_activity">Masukkan Deskripsi Kegiatan</string>
+    <string name="label_date">Tanggal</string>
+    <string name="label_hour">Waktu</string>
+    <string name="label_upload_photo">Unggah Foto</string>
+    <string name="information_account">Informasi Akun</string>
+    <string name="label_phone_number">Nomor Telepon</string>
+    <string name="ktp_address">Alamat KTP</string>
+    <string name="label_gender">Jenis Kelamin</string>
+    <string name="label_logout">LOGOUT</string>
+    <string name="label_profile">Profile</string>
+    <string name="titik_dua">:</string>
+    <string name="title_profile">Profile</string>
+    <string name="title_edit_profile">Edit Profile</string>
+    <string name="label_service_name">Nama</string>
+    <string name="hint_service_name">Masukkan Nama Jasa</string>
+    <string name="title_input_service">Input Jasa</string>
+    <string name="title_detail_warga">Detail Data Warga</string>
+    <string name="title_add_data_warga">Input Data Warga</string>
+    <string name="hint_warga_name">Masukkan Nama Warga</string>
+    <string name="hint_birth_place">Tempat Lahir</string>
+    <string name="hint_birth_date">Tanggal Lahir</string>
+    <string name="hint_nik">Masukkan NIK</string>
+    <string name="label_nik">NIK</string>
+    <string name="label_religion">Agama</string>
+    <string name="label_status_married">Status Perkawinan</string>
     <!-- End Label Menu -->
+    <string name="error_textfield_empty">%1$s! harus diisi!</string>
+    <string name="error_phone_number_length">Nomor Telepon tidak Valid</string>
+    <string name="error_phone_number_empty">Nomor Telepon harus diisi!</string>
+    <string name="error_phone_number_invalid">Nomor Telepon tidak sesuai!</string>
+    <string name="error_password_length">Password tidak Valid</string>
+    <string name="error_password_empty">Password harus diisi!</string>
+    <string name="error_password_invalid">Password tidak sesuai!</string>
+    <string name="label_position">Jabatan</string>
+    <string name="label_buy">Beli</string>
+    <string name="label_question">Pertanyaan</string>
+    <string name="hint_question">Masukkan Pertanyaan</string>
+    <string name="label_choice">Pilihan</string>
+    <string name="hint_choice">Pilihan</string>
+    <string name="label_time_vote">Batas Waktu Voting</string>
+    <string name="title_data_voting">Data Voting</string>
+    <string name="title_hasil_voting">Hasil Voting</string>
+    <string name="label_input_file">Input File</string>
+    <string name="label_input_ktp">Input KTP</string>
+    <string name="label_saldo">Saldo</string>
+    <string name="label_month">Info Keuangan Bulanan</string>
+    <string name="label_kebutuhan">Nama Kebutuhan</string>
+    <string name="label_income">Jumlah Pemasukan</string>
+    <string name="label_expense">Jumlah Pengeluaran</string>
+    <string name="label_info_kas">Info Keuangan</string>
+    <string name="label_letter_type">Jenis Surat</string>
+    <string name="hint_applicant_name">Masukkan Nama Pemohon</string>
+    <string name="title_add_letter">Ajukan Surat</string>
+    <string name="label_cancel">Cancel</string>
+    <string name="error_permission_denied">Permission Denied</string>
+    <string name="title_choose_image">Pilih Photo</string>
+
+    <string name="error_500">Server Error : Kesalahan Server Dari Dalam</string>
+    <string name="error_400">Server Error : Permintaan yang buruk</string>
+    <string name="error_403">Server Error : Terlarang</string>
+    <string name="error_404">Server Error : Tidak ditemukan</string>
+    <string name="error_parsing">Format </string>
+    <string name="error_xxx">Error Tidak Ditemukan</string>
+    <string name="process_api">Mohon Tunggu…</string>
+    <string name="process_upload">Proses Data…</string>
+
+    <string name="warning_title">Konfirmasi</string>
+    <string name="warning_confirmation">Anda yakin data yang dimasukkan sudah sesuai?</string>
+    <string name="warning_confirmation_update">Anda yakin ingin merubah status laporan ini?</string>
+    <string name="warning_ok">Iya</string>
+    <string name="warning_cancel">Tidak</string>
+    <string name="label_welcome">Selamat Datang</string>
+    <string name="label_sent">Kirim</string>
+    <string name="label_pendidikan">Pendidikan</string>
+    <string name="error_email_invalid">Email tidak valid</string>
+    <string name="hint_email">Masukkan Email</string>
+    <string name="hint_address">Masukkan Alamat</string>
+    <string name="label_date_vote">Batas Tanggal Voting</string>
+
+    <string-array name="agama">
+        <item>Islam</item>
+        <item>Kristen</item>
+        <item>Katholik</item>
+        <item>Budha</item>
+        <item>Hindu</item>
+        <item>Konguchu</item>
+    </string-array>
+
+    <string-array name="pendidikan">
+        <item>TIDAK / BELUM SEKOLAH</item>
+        <item>BELUM TAMAT SD/SEDERAJAT</item>
+        <item>TAMAT SD / SEDERAJAT</item>
+        <item>SLTP/SEDERAJAT</item>
+        <item>SLTA / SEDERAJAT</item>
+        <item>AKADEMI/ DIPLOMA III/S. MUDA</item>
+        <item>DIPLOMA IV/ STRATA I</item>
+        <item>DIPLOMA I / II</item>
+        <item>STRATA I</item>
+        <item>STRATA II</item>
+        <item>STRATA III</item>
+    </string-array>
+
+    <string-array name="status_perkawinan">
+        <item>BELUM KAWIN</item>
+        <item>KAWIN</item>
+    </string-array>
+
+    <string-array name="gender">
+        <item>Laki-laki</item>
+        <item>Perempuan</item>
+    </string-array>
 </resources>

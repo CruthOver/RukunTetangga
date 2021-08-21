@@ -21,6 +21,7 @@ public class MenuGridAdapter extends RecyclerView.Adapter<MenuGridAdapter.GridVi
 
     private final List<MenuGrid> dataMenuGrid;
     private AdapterListener<MenuGrid> listener;
+    private Context context;
 
     public MenuGridAdapter(List<MenuGrid> dataMenuGrid, AdapterListener<MenuGrid> listener) {
         this.dataMenuGrid = dataMenuGrid;
@@ -37,6 +38,9 @@ public class MenuGridAdapter extends RecyclerView.Adapter<MenuGridAdapter.GridVi
     @Override
     public void onBindViewHolder(@NonNull GridViewHolder holder, int position) {
         holder.imgIconMenu.setImageResource(dataMenuGrid.get(position).getImageIcon());
+        if (dataMenuGrid.get(position).getTitle() == R.string.title_menu_musrenbang) {
+            holder.titleMenu.setMaxLines(1);
+        }
         holder.titleMenu.setText(dataMenuGrid.get(position).getTitle());
     }
 
@@ -55,12 +59,12 @@ public class MenuGridAdapter extends RecyclerView.Adapter<MenuGridAdapter.GridVi
 
             itemView.setOnClickListener(v -> {
                 if (listener != null)
-                    listener.onItemSelected(dataMenuGrid.get(getAdapterPosition()));
+                    listener.onItemSelected(dataMenuGrid.get(getBindingAdapterPosition()));
             });
 
             itemView.setOnLongClickListener(v -> {
                 if (listener != null)
-                    listener.onItemLongSelected(dataMenuGrid.get(getAdapterPosition()));
+                    listener.onItemLongSelected(dataMenuGrid.get(getBindingAdapterPosition()));
                 return true;
             });
         }

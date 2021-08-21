@@ -4,210 +4,252 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@drawable/item_letter">
+    android:background="@drawable/item_letter"
+    android:layout_margin="8dp">
 
-    <TextView
-        android:id="@+id/label_jenis_surat"
-        android:layout_width="0dp"
+    <LinearLayout
+        android:id="@+id/linearLayout_jenis_surat"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/label_jenis_surat"
-        android:layout_margin="8dp"
-        android:textSize="14sp"
-        android:textColor="@color/black"
-        android:gravity="start"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/tv_type_letter"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/tv_type_letter"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        tools:text="Surat Pengantar"
-        android:layout_margin="8dp"
-        android:textSize="14sp"
-        android:textColor="@color/colorPrimary"
-        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/label_jenis_surat"
-        app:layout_constraintTop_toTopOf="parent"
-        android:gravity="end" />
-
-    <TextView
-        android:id="@+id/label_name_pemohon"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:gravity="start"
-        android:text="@string/label_applicant_name"
-        android:textColor="@color/black"
-        android:textSize="14sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/tv_applicant_name"
-        app:layout_constraintTop_toBottomOf="@+id/label_jenis_surat" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <TextView
-        android:id="@+id/tv_applicant_name"
-        android:layout_width="0dp"
+        <TextView
+            android:id="@+id/label_jenis_surat"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:gravity="start"
+            android:text="@string/label_jenis_surat"
+            android:textColor="@color/black"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tv_type_letter"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_weight="1"
+            android:gravity="end"
+            android:textColor="@color/colorPrimary"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            tools:text="Surat Pengantar" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout_applicant"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:gravity="end"
-        android:textColor="@color/colorPrimary"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@+id/label_name_pemohon"
-        app:layout_constraintTop_toBottomOf="@+id/tv_type_letter"
         app:layout_constraintEnd_toEndOf="parent"
-        tools:text="Bambang Stiawan" />
-
-    <TextView
-        android:id="@+id/label_date_birth"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:gravity="start"
-        android:text="@string/label_date_birth"
-        android:textColor="@color/black"
-        android:textSize="14sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/tv_applicant_name"
-        app:layout_constraintTop_toBottomOf="@+id/label_name_pemohon" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout_jenis_surat">
 
-    <TextView
-        android:id="@+id/tv_date_of_birth"
-        android:layout_width="0dp"
+        <TextView
+            android:id="@+id/label_name_pemohon"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:gravity="start"
+            android:text="@string/label_applicant_name"
+            android:textColor="@color/black"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tv_applicant_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:gravity="end"
+            android:textColor="@color/colorPrimary"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            tools:text="Bambang Stiawan" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout_date_birth"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:gravity="end"
-        android:textColor="@color/colorPrimary"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@+id/label_date_birth"
-        app:layout_constraintTop_toBottomOf="@+id/tv_applicant_name"
         app:layout_constraintEnd_toEndOf="parent"
-        tools:text="Jakarta, 18 September 1997" />
-
-    <TextView
-        android:id="@+id/label_date_need"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:gravity="start"
-        android:text="@string/label_date_need"
-        android:textColor="@color/black"
-        android:textSize="14sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/tv_date_of_birth"
-        app:layout_constraintTop_toBottomOf="@+id/label_date_birth" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout_applicant">
 
-    <TextView
-        android:id="@+id/tv_date_need"
-        android:layout_width="0dp"
+        <TextView
+            android:id="@+id/label_date_birth"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:gravity="start"
+            android:text="@string/label_date_birth"
+            android:textColor="@color/black"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tv_date_of_birth"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:gravity="end"
+            android:textColor="@color/colorPrimary"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            tools:text="Jakarta, 18 September 1997" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout_date_need"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:gravity="end"
-        android:textColor="@color/colorPrimary"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@+id/label_date_need"
-        app:layout_constraintTop_toBottomOf="@+id/tv_date_of_birth"
         app:layout_constraintEnd_toEndOf="parent"
-        tools:text="13-05-2021" />
-
-    <TextView
-        android:id="@+id/label_address"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:gravity="start"
-        android:text="@string/label_address"
-        android:textColor="@color/black"
-        android:textSize="14sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/tv_address"
-        app:layout_constraintTop_toBottomOf="@+id/label_date_need" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout_date_birth">
 
-    <TextView
-        android:id="@+id/tv_address"
-        android:layout_width="0dp"
+        <TextView
+            android:id="@+id/label_date_need"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:gravity="start"
+            android:text="@string/label_date_need"
+            android:textColor="@color/black"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tv_date_need"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:gravity="end"
+            android:textColor="@color/colorPrimary"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            tools:text="13-05-2021" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout_address"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:gravity="end"
-        android:textColor="@color/colorPrimary"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@+id/label_address"
-        app:layout_constraintTop_toBottomOf="@+id/tv_date_need"
         app:layout_constraintEnd_toEndOf="parent"
-        tools:text="Perum Permata Sepatan" />
-
-    <TextView
-        android:id="@+id/label_description"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:gravity="start"
-        android:text="@string/label_description"
-        android:textColor="@color/black"
-        android:textSize="14sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/tv_description"
-        app:layout_constraintTop_toBottomOf="@+id/label_address" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout_date_need">
 
-    <TextView
-        android:id="@+id/tv_description"
-        android:layout_width="0dp"
+        <TextView
+            android:id="@+id/label_address"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:gravity="start"
+            android:text="@string/label_address"
+            android:textColor="@color/black"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tv_address"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:gravity="end"
+            android:textColor="@color/colorPrimary"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            tools:text="Perum Permata Sepatan" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout_desciption"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:gravity="end"
-        android:textColor="@color/colorPrimary"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@+id/label_description"
-        app:layout_constraintTop_toBottomOf="@+id/tv_address"
         app:layout_constraintEnd_toEndOf="parent"
-        tools:text="Pengantar Numpang Nikah" />
-
-    <TextView
-        android:id="@+id/label_email"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:gravity="start"
-        android:text="@string/label_email"
-        android:textColor="@color/black"
-        android:textSize="14sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/tv_email"
-        app:layout_constraintTop_toBottomOf="@+id/label_description" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout_address">
 
-    <TextView
-        android:id="@+id/tv_email"
-        android:layout_width="0dp"
+        <TextView
+            android:id="@+id/label_description"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:gravity="start"
+            android:text="@string/label_description"
+            android:textColor="@color/black"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tv_description"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:gravity="end"
+            android:textColor="@color/colorPrimary"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            tools:text="Pengantar Numpang Nikah" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/linearLayout_email"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:gravity="end"
-        android:textColor="@color/colorPrimary"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@+id/label_email"
-        app:layout_constraintTop_toBottomOf="@+id/tv_description"
         app:layout_constraintEnd_toEndOf="parent"
-        tools:text="xdamn.xd@gmail.com" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout_desciption">
+
+        <TextView
+            android:id="@+id/label_email"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:gravity="start"
+            android:text="@string/label_email"
+            android:textColor="@color/black"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tv_email"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:gravity="end"
+            android:textColor="@color/colorPrimary"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            tools:text="xdamn.xd@gmail.com" />
+    </LinearLayout>
+
 
     <Button
+        android:id="@+id/btn_status_letter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
+        android:layout_marginBottom="8dp"
         app:backgroundTint="@color/colorPrimary"
         android:clickable="false"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_email"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout_email"
         tools:text="Diajukan"
         android:textSize="12sp"/>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

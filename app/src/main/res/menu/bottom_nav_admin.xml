@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <item android:title="@string/label_menu_home"
         android:id="@+id/navigation_home"
         android:icon="@drawable/ic_home"
-        android:iconTint="#F09C00"/>
+        tools:iconTint="#F09C00" />
     <item android:title="@string/label_menu_surat"
         android:id="@+id/navigation_letter"
         android:icon="@drawable/ic_letter" />

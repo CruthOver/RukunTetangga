@@ -1,66 +1,204 @@
 package id.akhir.proyek.rukuntetangga.fragments.admin;
 
+import android.app.Dialog;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import id.akhir.proyek.rukuntetangga.MainActivity;
 import id.akhir.proyek.rukuntetangga.R;
+import id.akhir.proyek.rukuntetangga.adapters.ComplaintAdapter;
+import id.akhir.proyek.rukuntetangga.adapters.EmergencyAdapter;
+import id.akhir.proyek.rukuntetangga.apihelper.AppSession;
+import id.akhir.proyek.rukuntetangga.apihelper.BaseApiService;
+import id.akhir.proyek.rukuntetangga.apihelper.UtilsApi;
+import id.akhir.proyek.rukuntetangga.helpers.CallbackApi;
+import id.akhir.proyek.rukuntetangga.listener.AdapterListener;
+import id.akhir.proyek.rukuntetangga.listener.DialogListener;
+import id.akhir.proyek.rukuntetangga.models.ApiUser;
+import id.akhir.proyek.rukuntetangga.models.Complaint;
+import id.akhir.proyek.rukuntetangga.models.Letter;
+import id.akhir.proyek.rukuntetangga.models.Service;
+import id.akhir.proyek.rukuntetangga.models.User;
+import id.akhir.proyek.rukuntetangga.models.viewModel.MainViewModelComplaint;
+import id.akhir.proyek.rukuntetangga.models.viewModel.MainViewModelLetter;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link LaporanFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class LaporanFragment extends Fragment {
+    Toolbar toolbar;
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public LaporanFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment LaporanFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static LaporanFragment newInstance(String param1, String param2) {
-        LaporanFragment fragment = new LaporanFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
+    private List<Complaint> _dataComplaint = new ArrayList<>();
+    private ComplaintAdapter adapter;
+    private RecyclerView rvComplaint;
+    AppSession appSession;
+    BaseApiService mApiService;
+    Dialog progressDialog;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_laporan, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        toolbar = view.findViewById(R.id.toolbar);
+        if (getActivity() != null)
+            ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+        toolbar.setTitle(R.string.label_menu_laporan);
+        toolbar.setTitleTextColor(getResources().getColor(R.color.black));
+
+        mApiService = UtilsApi.getApiService();
+        appSession = new AppSession(getActivity());
+        progressDialog = new Dialog(getContext());
+        showProgress();
+        initData(view);
+    }
+
+    private final Observer<List<Complaint>> getComplaint = new Observer<List<Complaint>>() {
+        @Override
+        public void onChanged(List<Complaint> complaintData) {
+//            if (serviceData != null) {
+//
+//            } else {
+//                layoutNoConnection(getView());
+//            }
+            progressDialog.dismiss();
+            _dataComplaint = complaintData;
+            adapter.setData(complaintData);
+        }
+    };
+
+    private void initData(View view) {
+        rvComplaint = view.findViewById(R.id.rv_complaint);
+        rvComplaint.setLayoutManager(new LinearLayoutManager(getContext()));
+        adapter = new ComplaintAdapter(appSession.isAdmin(), _dataComplaint, getContext(), new AdapterListener<Complaint>() {
+            @Override
+            public void onItemSelected(Complaint data) {
+                alertSubmitDone(R.string.warning_title, R.string.warning_confirmation_update, new DialogListener() {
+                    @Override
+                    public void onPositiveButton() {
+                        int status = data.getStatusComplaint();
+                        progressDialog.show();
+                        complaintUpdate.context = getContext();
+                        if (status == 0) {
+                            status = 1;
+                            mApiService.updateStatusLaporan("Bearer " + appSession.getData(AppSession.TOKEN), data.getComplaintId(), status)
+                                    .enqueue(complaintUpdate.build());
+                        } else if (status == 1){
+                            status = 2;
+                            mApiService.updateStatusLaporan("Bearer " + appSession.getData(AppSession.TOKEN), data.getComplaintId(), status)
+                                    .enqueue(complaintUpdate.build());
+                        } else {
+                            progressDialog.dismiss();
+                            Toast.makeText(view.getContext(), "Laporan Sudah Selesai", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onNegativeButton() {
+                        Toast.makeText(getActivity(), R.string.label_cancel, Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+
+            @Override
+            public void onItemLongSelected(Complaint data) {
+                Toast.makeText(view.getContext(), data.getTitleComplaint(), Toast.LENGTH_SHORT).show();
+            }
+        });
+        progressDialog.show();
+        MainViewModelComplaint mainViewModel = ViewModelProviders.of(this).get(MainViewModelComplaint.class);
+        mainViewModel.getListComplaint().observe(getViewLifecycleOwner(), getComplaint);
+        mainViewModel.setData("Bearer " + appSession.getData(AppSession.TOKEN), getContext());
+        rvComplaint.setAdapter(adapter);
+    }
+
+    private void showProgress(){
+        progressDialog.setContentView(R.layout.progressdialog);
+        TextView message = progressDialog.findViewById(R.id.tv_process);
+        message.setText(R.string.process_api);
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        progressDialog.setCancelable(true);
+    }
+
+    CallbackApi complaintUpdate = new CallbackApi() {
+        @Override
+        public void onApiSuccess(String result) {
+            progressDialog.dismiss();
+            ApiUser<Complaint> apiComplaint = new Gson().fromJson(result, new TypeToken<ApiUser<Complaint>>(){}.getType());
+            Complaint complaint = apiComplaint.getData();
+            for (int i=0; i<_dataComplaint.size(); i++) {
+                if (_dataComplaint.get(i).getComplaintId() == complaint.getComplaintId()) {
+                    _dataComplaint.get(i).setStatusComplaint(complaint.getStatusComplaint());
+                    break;
+                }
+            }
+            adapter.setData(_dataComplaint);
+            adapter.notifyDataSetChanged();
+        }
+
+        @Override
+        public void onApiFailure(String errorMessage) {
+            progressDialog.dismiss();
+            Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show();
+        }
+    };
+
+    public void alertSubmitDone(int title, int message, DialogListener listener){
+
+        TextView textView = new TextView(getActivity());
+        textView.setText(title);
+        textView.setPadding(32, 30, 32, 30);
+        textView.setTextSize(20F);
+        textView.setBackgroundColor(getResources().getColor(R.color.colorSecondary));
+        textView.setGravity(Gravity.CENTER);
+        textView.setTextColor(Color.WHITE);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
+                .setCustomTitle(textView)
+                .setMessage(message);
+        builder.setPositiveButton(R.string.warning_ok, (dialog, id) -> {
+            if (listener != null)
+                listener.onPositiveButton();
+        });
+        builder.setNegativeButton(R.string.warning_cancel, (dialog, which) -> {
+            if (listener != null)
+                listener.onNegativeButton();
+        });
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
     }
 }

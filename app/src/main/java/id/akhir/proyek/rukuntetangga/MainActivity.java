@@ -1,6 +1,7 @@
 package id.akhir.proyek.rukuntetangga;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
@@ -12,6 +13,7 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import id.akhir.proyek.rukuntetangga.apihelper.AppSession;
 import id.akhir.proyek.rukuntetangga.controllers.BaseActivity;
 
 public class MainActivity extends BaseActivity {
@@ -20,10 +22,14 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        loadBottomNavigation("Admin");
+
+//        checkSession();
+
+        loadBottomNavigation(appSession.isAdmin());
+        Log.d(TAG, appSession.getData(AppSession.TOKEN));
     }
 
-    private void loadBottomNavigation(String user) {
+    private void loadBottomNavigation(boolean isAdmin) {
         BottomNavigationView navView = findViewById(R.id.nav_view);
         navView.getMenu().clear();
 //        AppBarConfiguration appBarConfiguration;
@@ -31,7 +37,7 @@ public class MainActivity extends BaseActivity {
 
         NavController navController = navHostFragment.getNavController();
         navView.setItemIconTintList(null);
-        if (user.equals("Admin")) {
+        if (isAdmin) {
             navController.setGraph(R.navigation.navigation_admin);
             navView.inflateMenu(R.menu.bottom_nav_admin);
 //            appBarConfiguration = new AppBarConfiguration.Builder(

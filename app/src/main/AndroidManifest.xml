@@ -1,15 +1,236 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="id.akhir.proyek.rukuntetangga">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
+        android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
+        android:requestLegacyExternalStorage="true"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.RukunTetangga">
-        <activity android:name=".activities.LoginActivity"
+        android:theme="@style/AppThemeNoActionBar"
+        android:usesCleartextTraffic="true"
+        tools:targetApi="m">
+        <activity android:name=".activities.user.AddJobActivity"></activity>
+        <activity
+            android:name=".activities.user.AddNiagaActivity"
+            android:label="@string/label_input_niaga"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+        <activity
+            android:name=".LetterListActivity"
+            android:label="@string/title_fragment_letter"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+        <activity
+            android:name=".activities.admin.AddKasActivity"
+            android:label="@string/label_info_kas"
+            android:parentActivityName=".activities.admin.KasAdminActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.admin.KasAdminActivity" />
+        </activity>
+        <activity
+            android:name=".activities.admin.AddMusrenbangActivity"
+            android:label="@string/label_input_musrenbang"
+            android:parentActivityName=".activities.MusrenbangActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.MusrenbangActivity" />
+        </activity>
+        <activity
+            android:name=".activities.DetailVotingActivity"
+            android:label="@string/title_hasil_voting"
+            android:parentActivityName=".activities.VotingListActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.VotingListActivity" />
+        </activity>
+        <activity
+            android:name=".activities.VotingListActivity"
+            android:label="@string/title_data_voting"
+            android:parentActivityName=".activities.admin.VotingAdminActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.admin.VotingAdminActivity" />
+        </activity>
+        <activity
+            android:name=".activities.admin.AddDataWargaActivity"
+            android:label="@string/title_add_data_warga"
+            android:parentActivityName=".activities.admin.DataWargaActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.admin.DataWargaActivity" />
+        </activity>
+        <activity
+            android:name=".activities.admin.DetailWargaActivity"
+            android:label="@string/title_detail_warga"
+            android:parentActivityName=".activities.admin.DataWargaActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.admin.DataWargaActivity" />
+        </activity>
+        <activity
+            android:name=".activities.admin.AddServiceActivity"
+            android:label="@string/title_input_service"
+            android:parentActivityName=".activities.ServiceActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.ServiceActivity" />
+        </activity>
+        <activity
+            android:name=".activities.EditProfileActivity"
+            android:label="@string/title_edit_profile"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+        <activity
+            android:name=".activities.ProfileActivity"
+            android:label="@string/title_profile"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+        <activity
+            android:name=".activities.user.ComplaintActivity"
+            android:label="@string/title_menu_complaint"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+        <activity
+            android:name=".activities.user.StructureUserActivity"
+            android:label="@string/title_menu_structure"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+        <activity
+            android:name=".activities.admin.StructureAdminActivity"
+            android:label="@string/title_menu_structure"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+        <activity
+            android:name=".activities.user.MusrenbangUserActivity"
+            android:label="@string/title_menu_musrenbang"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+        <activity
+            android:name=".activities.MusrenbangActivity"
+            android:label="@string/title_menu_musrenbang"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+        <activity
+            android:name=".activities.admin.InformationActivity"
+            android:label="@string/title_menu_informasi"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+        <activity
+            android:name=".activities.user.VotingUserActivity"
+            android:label="@string/title_menu_voting"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+        <activity
+            android:name=".activities.admin.VotingAdminActivity"
+            android:label="@string/title_menu_voting"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+        <activity
+            android:name=".activities.admin.KegiatanAdminActivity"
+            android:label="@string/title_menu_kegiatan"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+        <activity
+            android:name=".activities.user.KegiatanUserActivity"
+            android:label="@string/title_menu_kegiatan"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+        <activity
+            android:name=".activities.user.EmergencyActivity"
+            android:label="@string/title_menu_darurat"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+        <activity
+            android:name=".activities.ServiceActivity"
+            android:label="@string/title_menu_jasa"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+        <activity
+            android:name=".activities.user.KasUserActivity"
+            android:label="@string/title_menu_kas"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+        <activity
+            android:name=".activities.admin.KasAdminActivity"
+            android:label="@string/title_menu_kas"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+        <activity
+            android:name=".activities.admin.DataWargaActivity"
+            android:label="@string/title_menu_warga"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+        <activity
+            android:name=".activities.LoginActivity"
             android:theme="@style/AppThemeNoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -17,7 +238,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity"/>
+        <activity android:name=".MainActivity" />
     </application>
 
 </manifest>

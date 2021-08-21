@@ -9,6 +9,10 @@
     <color name="white">#FFFFFFFF</color>
 
     <color name="colorPrimary">#0D5C46</color>
+    <color name="colorSekunder">#1F9C79</color>
     <color name="colorSecondary">#F09C00</color>
     <color name="colorGray">#BDBDBD</color>
+    <color name="colorRed">#FF0000</color>
+    <color name="slider1">#f486f7</color>
+    <color name="slider2">#ffaf87</color>
 </resources>
