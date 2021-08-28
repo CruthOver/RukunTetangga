@@ -1,6 +1,7 @@
 package id.akhir.proyek.rukuntetangga.fragments.admin;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -31,6 +32,8 @@ import java.util.List;
 
 import id.akhir.proyek.rukuntetangga.MainActivity;
 import id.akhir.proyek.rukuntetangga.R;
+import id.akhir.proyek.rukuntetangga.activities.admin.AddComplaintActionActivity;
+import id.akhir.proyek.rukuntetangga.activities.user.ComplaintActionActivity;
 import id.akhir.proyek.rukuntetangga.adapters.ComplaintAdapter;
 import id.akhir.proyek.rukuntetangga.adapters.EmergencyAdapter;
 import id.akhir.proyek.rukuntetangga.apihelper.AppSession;
@@ -61,6 +64,7 @@ public class LaporanFragment extends Fragment {
     AppSession appSession;
     BaseApiService mApiService;
     Dialog progressDialog;
+    MainViewModelComplaint mainViewModel;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -88,11 +92,6 @@ public class LaporanFragment extends Fragment {
     private final Observer<List<Complaint>> getComplaint = new Observer<List<Complaint>>() {
         @Override
         public void onChanged(List<Complaint> complaintData) {
-//            if (serviceData != null) {
-//
-//            } else {
-//                layoutNoConnection(getView());
-//            }
             progressDialog.dismiss();
             _dataComplaint = complaintData;
             adapter.setData(complaintData);
@@ -105,31 +104,37 @@ public class LaporanFragment extends Fragment {
         adapter = new ComplaintAdapter(appSession.isAdmin(), _dataComplaint, getContext(), new AdapterListener<Complaint>() {
             @Override
             public void onItemSelected(Complaint data) {
-                alertSubmitDone(R.string.warning_title, R.string.warning_confirmation_update, new DialogListener() {
-                    @Override
-                    public void onPositiveButton() {
-                        int status = data.getStatusComplaint();
-                        progressDialog.show();
-                        complaintUpdate.context = getContext();
-                        if (status == 0) {
-                            status = 1;
-                            mApiService.updateStatusLaporan("Bearer " + appSession.getData(AppSession.TOKEN), data.getComplaintId(), status)
-                                    .enqueue(complaintUpdate.build());
-                        } else if (status == 1){
-                            status = 2;
-                            mApiService.updateStatusLaporan("Bearer " + appSession.getData(AppSession.TOKEN), data.getComplaintId(), status)
-                                    .enqueue(complaintUpdate.build());
-                        } else {
-                            progressDialog.dismiss();
-                            Toast.makeText(view.getContext(), "Laporan Sudah Selesai", Toast.LENGTH_SHORT).show();
+                if (data.getStatusComplaint() == 1) {
+                    Intent intent = new Intent(getContext(), AddComplaintActionActivity.class);
+                    intent.putExtra("complaint_id", data.getComplaintId());
+                    startActivity(intent);
+                } else {
+                    alertSubmitDone(R.string.warning_title, R.string.warning_confirmation_update, new DialogListener() {
+                        @Override
+                        public void onPositiveButton() {
+                            int status = data.getStatusComplaint();
+                            progressDialog.show();
+                            complaintUpdate.context = getContext();
+                            if (status == 0) {
+                                status = 1;
+                                mApiService.updateStatusLaporan("Bearer " + appSession.getData(AppSession.TOKEN), data.getComplaintId(), status)
+                                        .enqueue(complaintUpdate.build());
+                            } else if (status == 1){
+//                                status = 2;
+//                                mApiService.updateStatusLaporan("Bearer " + appSession.getData(AppSession.TOKEN), data.getComplaintId(), status)
+//                                        .enqueue(complaintUpdate.build());
+                            } else {
+                                progressDialog.dismiss();
+                                Toast.makeText(view.getContext(), "Laporan Sudah Selesai", Toast.LENGTH_SHORT).show();
+                            }
                         }
-                    }
 
-                    @Override
-                    public void onNegativeButton() {
-                        Toast.makeText(getActivity(), R.string.label_cancel, Toast.LENGTH_SHORT).show();
-                    }
-                });
+                        @Override
+                        public void onNegativeButton() {
+                            Toast.makeText(getActivity(), R.string.label_cancel, Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
             }
 
             @Override
@@ -138,7 +143,15 @@ public class LaporanFragment extends Fragment {
             }
         });
         progressDialog.show();
-        MainViewModelComplaint mainViewModel = ViewModelProviders.of(this).get(MainViewModelComplaint.class);
+        mainViewModel = ViewModelProviders.of(this).get(MainViewModelComplaint.class);
+        mainViewModel.getListComplaint().observe(getViewLifecycleOwner(), getComplaint);
+        mainViewModel.setData("Bearer " + appSession.getData(AppSession.TOKEN), getContext());
+        rvComplaint.setAdapter(adapter);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         mainViewModel.getListComplaint().observe(getViewLifecycleOwner(), getComplaint);
         mainViewModel.setData("Bearer " + appSession.getData(AppSession.TOKEN), getContext());
         rvComplaint.setAdapter(adapter);

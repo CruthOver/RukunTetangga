@@ -35,17 +35,19 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/label_question"
+                android:text="@string/label_niaga_name"
                 android:textColor="@color/white"
                 android:textSize="20sp"
-                android:layout_marginBottom="8dp" />
+                android:layout_marginBottom="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp" />
 
             <EditText
                 android:id="@+id/et_niaga_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/edit_text_rounded_gray"
-                android:hint="@string/hint_question"
+                android:hint="@string/hint_niaga"
                 android:layout_marginStart="16dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
@@ -61,7 +63,9 @@
                 android:text="@string/label_phone_number"
                 android:textColor="@color/white"
                 android:textSize="20sp"
-                android:layout_marginBottom="8dp" />
+                android:layout_marginBottom="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp"/>
 
             <EditText
                 android:id="@+id/et_phone_number"
@@ -85,7 +89,9 @@
                 android:text="@string/label_description"
                 android:textColor="@color/white"
                 android:textSize="20sp"
-                android:layout_marginBottom="8dp" />
+                android:layout_marginBottom="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp"/>
 
             <EditText
                 android:id="@+id/et_description"
@@ -109,7 +115,9 @@
                 android:text="@string/label_upload_photo"
                 android:textColor="@color/white"
                 android:textSize="20sp"
-                android:layout_marginBottom="8dp" />
+                android:layout_marginBottom="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp"/>
 
             <RelativeLayout
                 android:layout_width="match_parent"

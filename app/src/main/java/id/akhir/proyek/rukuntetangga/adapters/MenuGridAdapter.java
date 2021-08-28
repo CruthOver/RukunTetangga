@@ -19,13 +19,14 @@ import id.akhir.proyek.rukuntetangga.models.MenuGrid;
 
 public class MenuGridAdapter extends RecyclerView.Adapter<MenuGridAdapter.GridViewHolder> {
 
-    private final List<MenuGrid> dataMenuGrid;
+    private List<MenuGrid> dataMenuGrid;
     private AdapterListener<MenuGrid> listener;
     private Context context;
 
-    public MenuGridAdapter(List<MenuGrid> dataMenuGrid, AdapterListener<MenuGrid> listener) {
+    public MenuGridAdapter(Context context, List<MenuGrid> dataMenuGrid, AdapterListener<MenuGrid> listener) {
         this.dataMenuGrid = dataMenuGrid;
         this.listener = listener;
+        this.context = context;
     }
 
     @NonNull
@@ -38,10 +39,15 @@ public class MenuGridAdapter extends RecyclerView.Adapter<MenuGridAdapter.GridVi
     @Override
     public void onBindViewHolder(@NonNull GridViewHolder holder, int position) {
         holder.imgIconMenu.setImageResource(dataMenuGrid.get(position).getImageIcon());
-        if (dataMenuGrid.get(position).getTitle() == R.string.title_menu_musrenbang) {
+        if (dataMenuGrid.get(position).getTitle().equals(context.getString(R.string.title_menu_musrenbang))) {
             holder.titleMenu.setMaxLines(1);
         }
         holder.titleMenu.setText(dataMenuGrid.get(position).getTitle());
+    }
+
+    public void setData(List<MenuGrid> dataMenuGrid) {
+        this.dataMenuGrid = dataMenuGrid;
+        notifyDataSetChanged();
     }
 
     @Override

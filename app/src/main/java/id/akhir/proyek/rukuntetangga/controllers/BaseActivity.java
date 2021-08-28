@@ -35,7 +35,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 
 import id.akhir.proyek.rukuntetangga.MainActivity;
 import id.akhir.proyek.rukuntetangga.R;
@@ -46,6 +50,7 @@ import id.akhir.proyek.rukuntetangga.apihelper.UtilsApi;
 import id.akhir.proyek.rukuntetangga.helpers.DateHelper;
 import id.akhir.proyek.rukuntetangga.listener.DialogListener;
 import id.akhir.proyek.rukuntetangga.models.ApiStatus;
+import id.akhir.proyek.rukuntetangga.models.Month;
 import id.akhir.proyek.rukuntetangga.models.User;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -58,6 +63,12 @@ public class BaseActivity extends AppCompatActivity {
     public String[] permissions = new String[]{Manifest.permission.CAMERA,
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.READ_EXTERNAL_STORAGE};
+
+    public String[] months = {
+            "", "Januari", "Februari", "Maret",
+            "April", "Mei", "Juni", "Juli", "Agustus",
+            "September", "November", "December"
+    };
 
     public Context context;
     public AppSession appSession;
@@ -87,11 +98,47 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     public void logout(){
-        //TODO: Logout
+        alertSubmitDone(R.string.warning_title, R.string.warning_logout, new DialogListener() {
+            @Override
+            public void onPositiveButton() {
+                appSession.logout();
+                appSession.clearSession();
+                nextActivity(LoginActivity.class);
+            }
+
+            @Override
+            public void onNegativeButton() {
+
+            }
+        });
     }
 
     public void alertSubmitDone(int title, int message, DialogListener listener){
-        //TODO: Alert Confirmation
+        TextView textView = new TextView(context);
+        textView.setText(title);
+        textView.setPadding(32, 30, 32, 30);
+        textView.setTextSize(20F);
+        textView.setBackgroundColor(getResources().getColor(R.color.colorSecondary));
+        textView.setGravity(Gravity.CENTER);
+        textView.setTextColor(Color.WHITE);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(context)
+                .setCustomTitle(textView)
+                .setMessage(message);
+        builder.setPositiveButton(R.string.warning_ok, (dialog, id) -> {
+            if (listener != null)
+                listener.onPositiveButton();
+        });
+        builder.setNegativeButton(R.string.warning_cancel, (dialog, which) -> {
+            if (listener != null)
+                listener.onNegativeButton();
+        });
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
+
+    public void alertSubmitDone(String title, String message, DialogListener listener){
         TextView textView = new TextView(context);
         textView.setText(title);
         textView.setPadding(32, 30, 32, 30);
@@ -181,6 +228,10 @@ public class BaseActivity extends AppCompatActivity {
 
     public String getStringExtraData(String name){
         return getIntent().getStringExtra(name);
+    }
+
+    public int getIntExtraData(String name){
+        return getIntent().getIntExtra(name, 0);
     }
 
     public long getLongExtraData(String name){
@@ -306,5 +357,28 @@ public class BaseActivity extends AppCompatActivity {
 
         public abstract void onApiSuccess(String result);
         public abstract void onApiFailure(String errorMessage);
+    }
+
+    public String formatRupiah(int price) {
+        Locale localeID = new Locale("in", "ID");
+        NumberFormat formatRupiah = NumberFormat.getCurrencyInstance(localeID);
+        return formatRupiah.format(price);
+    }
+
+    public List<Month> setDataMonth() {
+        List<Month> dataMonth = new ArrayList<>();
+        dataMonth.add(new Month(1,"Januari", R.color.colorGray));
+        dataMonth.add(new Month(2, "Februari", R.color.colorGray));
+        dataMonth.add(new Month(3, "Maret", R.color.colorGray));
+        dataMonth.add(new Month(4,"April", R.color.colorGray));
+        dataMonth.add(new Month(5,"Mei", R.color.colorGray));
+        dataMonth.add(new Month(6,"Juni", R.color.colorGray));
+        dataMonth.add(new Month(7,"Juli", R.color.colorGray));
+        dataMonth.add(new Month(8,"Agustus", R.color.colorGray));
+        dataMonth.add(new Month(9,"September", R.color.colorGray));
+        dataMonth.add(new Month(10, "Oktober", R.color.colorGray));
+        dataMonth.add(new Month(11,"November", R.color.colorGray));
+        dataMonth.add(new Month(12,"Desember", R.color.colorGray));
+        return dataMonth;
     }
 }

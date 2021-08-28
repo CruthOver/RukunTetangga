@@ -3,23 +3,13 @@ package id.akhir.proyek.rukuntetangga.activities.admin;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.loader.content.CursorLoader;
-import androidx.recyclerview.widget.LinearLayoutManager;
 
-import android.app.Activity;
-import android.content.ContentUris;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.DocumentsContract;
-import android.provider.MediaStore;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -29,24 +19,14 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URLEncoder;
 
 import id.akhir.proyek.rukuntetangga.R;
-import id.akhir.proyek.rukuntetangga.adapters.MusrenbangAdapter;
 import id.akhir.proyek.rukuntetangga.controllers.BaseActivity;
 import id.akhir.proyek.rukuntetangga.helpers.PathUtils;
-import id.akhir.proyek.rukuntetangga.listener.AdapterListener;
 import id.akhir.proyek.rukuntetangga.models.ApiStatus;
-import id.akhir.proyek.rukuntetangga.models.Musrenbang;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
-
-import static id.akhir.proyek.rukuntetangga.helpers.PathUtils.getDataColumn;
 
 public class AddMusrenbangActivity extends BaseActivity {
     private static final int REQUEST_CHOOSE_PHOTO = 2;
@@ -90,24 +70,24 @@ public class AddMusrenbangActivity extends BaseActivity {
         });
 
         ivMusrenbang.setOnClickListener(v -> {
-            pickImageGallery();
+            pickPDFGallery();
         });
 
         btnUpload.setOnClickListener(v -> {
             RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), _filePhoto);
 //        // MultipartBody.Part is used to send also the actual file name
-            MultipartBody.Part body = MultipartBody.Part.createFormData("user_photo", _filePhoto.getName(), requestFile);
+            MultipartBody.Part body = MultipartBody.Part.createFormData("berkas", _filePhoto.getName(), requestFile);
             RequestBody rbName = RequestBody.create(MultipartBody.FORM, _filePhoto.getName());
             showProgressBarUpload(true);
             mApiService.addMusrenbang("Bearer " + getUserToken(), rbName, body).enqueue(addMusrenbangCallback.build());
         });
     }
 
-    private void pickImageGallery() {
+    private void pickPDFGallery() {
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if(checkPermission(2))
                 dispatchChoosePictureIntent();
-            else Toast.makeText(context, "Keluarin Toast", Toast.LENGTH_SHORT).show();
+            else showToast(R.string.error_permission_denied);
         } else
             dispatchChoosePictureIntent();
     }
@@ -136,33 +116,7 @@ public class AddMusrenbangActivity extends BaseActivity {
         }
     }
 
-    public String getRealPathFromURI(Uri contentUri) {
-        String docId;
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT  &&
-                DocumentsContract.isDocumentUri(context, contentUri)){
-            if("com.android.externalstorage.documents".equals(contentUri.getAuthority())) {
-                docId = DocumentsContract.getDocumentId(contentUri);
-                final String split[] = docId.split(":");
-                if("primary".equalsIgnoreCase(split[0])) {
-                    return Environment.getExternalStorageDirectory() + "/" + split[1];
-                }
-            }
-            else if("com.android.providers.downloads.documents".equals(uri.getAuthority())) {
-                docId = DocumentsContract.getDocumentId(uri);
-                contentUri = ContentUris.withAppendedId(
-                        Uri.parse("content://downloads/my_downloads"), Long.valueOf(docId));
-                return getDataColumn(context, contentUri, null, null);
-            }
-        }
-        else if(contentUri.getScheme().equalsIgnoreCase("content")) {
-            return  getDataColumn(context, contentUri, null, null);
-        }
-        else if(contentUri.getScheme().equalsIgnoreCase("file")){
-            return contentUri.getPath();
-        }
-        return null;
-    }
-
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -170,14 +124,12 @@ public class AddMusrenbangActivity extends BaseActivity {
         if (requestCode == REQUEST_CHOOSE_PHOTO && resultCode == RESULT_OK && data != null){
             uri = data.getData();
             if (uri != null) {
-                Log.d("Uri", uri.getAuthority());
-                Log.d("Uri", uri.getPath());
-                _filePhoto = new File(getRealPathFromURI(uri));
+                _filePhoto = new File(PathUtils.getFilePathFromURI(context, uri));
                 ivPreviewImage.setVisibility(View.VISIBLE);
                 ivRemoveImage.setVisibility(View.VISIBLE);
                 tvFileName.setVisibility(View.VISIBLE);
                 ivMusrenbang.setVisibility(View.GONE);
-//                tvFileName.setText(_filePhoto.getName());
+                tvFileName.setText(_filePhoto.getName());
                 ivPreviewImage.setImageResource(R.drawable.ic_pdf);
             }
         }

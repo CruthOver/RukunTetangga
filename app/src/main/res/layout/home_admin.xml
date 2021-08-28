@@ -21,41 +21,58 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@android:color/transparent">
-            <RelativeLayout
-                android:id="@+id/relativeLayout"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1.5"
-                android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginRight="16dp">
-
-                <EditText
-                    android:id="@+id/search_bar"
-                    android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <RelativeLayout
+                    android:id="@+id/relativeLayout"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/edit_text_rounded"
-                    android:hint="@string/hint_search"
-                    android:importantForAutofill="no"
-                    android:focusableInTouchMode="false"
-                    android:inputType="text"
-                    android:padding="8dp"
-                    tools:ignore="TextFields" />
+                    android:layout_weight="1.5"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginRight="16dp">
 
-                <ImageView
-                    android:id="@+id/show_pass_btn"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
+                    <EditText
+                        android:id="@+id/search_bar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/edit_text_rounded"
+                        android:hint="@string/hint_search"
+                        android:importantForAutofill="no"
+                        android:inputType="text"
+                        android:padding="8dp"
+                        tools:ignore="TextFields" />
+
+                    <ImageView
+                        android:id="@+id/ic_search"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginRight="16dp"
+                        android:contentDescription="@string/show_hide_password"
+                        android:src="@drawable/ic_baseline_search_24" />
+                </RelativeLayout>
+
+                <ImageButton
+                    android:id="@+id/ib_logout"
+                    android:layout_width="0dp"
+                    android:layout_height="36dp"
+                    android:layout_gravity="center"
+                    android:background="@android:color/transparent"
+                    android:layout_marginTop="8dp"
                     android:layout_marginEnd="16dp"
                     android:layout_marginRight="16dp"
-                    android:contentDescription="@string/show_hide_password"
-                    android:src="@drawable/ic_baseline_search_24" />
-            </RelativeLayout>
+                    android:layout_weight="0.20"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_baseline_logout_24"
+                    app:tint="@color/white" />
+            </LinearLayout>
         </androidx.appcompat.widget.Toolbar>
 
         <ImageView

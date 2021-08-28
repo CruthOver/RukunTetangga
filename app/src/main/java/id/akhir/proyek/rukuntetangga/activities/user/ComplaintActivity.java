@@ -4,6 +4,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -45,7 +46,11 @@ public class ComplaintActivity extends BaseActivity {
         adapter = new ComplaintAdapter(appSession.isAdmin(), dataComplaint, context, new AdapterListener<Complaint>() {
             @Override
             public void onItemSelected(Complaint data) {
-                Toast.makeText(context, data.getTitleComplaint(), Toast.LENGTH_SHORT).show();
+                if (data.getStatusComplaint() == 2) {
+                    Intent intent = new Intent(context, ComplaintActionActivity.class);
+                    intent.putExtra("complaint_id", data.getComplaintId());
+                    startActivity(intent);
+                }
             }
 
             @Override

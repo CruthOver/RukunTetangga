@@ -51,9 +51,13 @@ public class EmergencyAdapter extends RecyclerView.Adapter<EmergencyAdapter.View
         } else {
             holder.ivWhatsApp.setVisibility(View.GONE);
         }
-        Picasso.get().load(service.getServiceImage())
-                .placeholder(R.drawable.image_placeholder)
-                .error(R.drawable.broken_image).into(holder.ivImageService);
+        if (service.getServiceImage() != null || !service.getServiceImage().isEmpty()) {
+            Picasso.get().load(service.getServiceImage())
+                    .placeholder(R.drawable.image_placeholder)
+                    .error(R.drawable.broken_image).into(holder.ivImageService);
+        } else {
+            holder.ivImageService.setImageResource(R.drawable.image_placeholder);
+        }
         holder.tvServiceName.setText(service.getServiceName());
     }
 

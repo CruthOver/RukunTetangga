@@ -85,6 +85,14 @@ public class DataWargaActivity extends BaseActivity {
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        showProgressBar(true);
+        mApiService.getWarga("Bearer " + appSession.getData(AppSession.TOKEN)).enqueue(getWargaCallback.build());
+        rvDataWarga.setAdapter(adapter);
+    }
+
     ApiCallback getWargaCallback = new ApiCallback() {
         @Override
         public void onApiSuccess(String result) {

@@ -4,8 +4,7 @@
     package="id.akhir.proyek.rukuntetangga">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission
-        android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
@@ -13,14 +12,68 @@
         android:allowBackup="true"
         android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
-        android:requestLegacyExternalStorage="true"
         android:label="@string/app_name"
+        android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppThemeNoActionBar"
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
-        <activity android:name=".activities.user.AddJobActivity"></activity>
+        <activity android:name=".activities.admin.ViewInformationActivity"
+            android:label="@string/title_menu_informasi"
+            android:parentActivityName=".activities.admin.InformationActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.admin.InformationActivity" />
+        </activity>
+        <activity
+            android:name=".activities.admin.AddComplaintActionActivity"
+            android:label="@string/complaint_action"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+        <activity
+            android:name=".activities.user.ComplaintActionActivity"
+            android:label="@string/complaint_action"
+            android:parentActivityName=".activities.user.ComplaintActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.user.ComplaintActivity" />
+        </activity>
+        <activity
+            android:name=".activities.user.DetailKegiatanActivity"
+            android:label="@string/label_detail_kegiatan"
+            android:parentActivityName=".activities.user.KegiatanUserActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.user.KegiatanUserActivity" />
+        </activity>
+        <activity
+            android:name=".activities.user.HowToPayActivity"
+            android:label="@string/title_pembayaran"
+            android:parentActivityName=".activities.user.KasUserActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.user.KasUserActivity" />
+        </activity>
+        <activity
+            android:name=".activities.user.InfoKeuanganActivity"
+            android:label="@string/label_info_keuangan"
+            android:parentActivityName=".activities.user.KasUserActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.user.KasUserActivity" />
+        </activity>
+        <activity
+            android:name=".activities.user.AddJobActivity"
+            android:label="@string/add_job"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
         <activity
             android:name=".activities.user.AddNiagaActivity"
             android:label="@string/label_input_niaga"
@@ -64,10 +117,10 @@
         <activity
             android:name=".activities.VotingListActivity"
             android:label="@string/title_data_voting"
-            android:parentActivityName=".activities.admin.VotingAdminActivity">
+            android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.admin.VotingAdminActivity" />
+                android:value=".MainActivity" />
         </activity>
         <activity
             android:name=".activities.admin.AddDataWargaActivity"
@@ -96,10 +149,10 @@
         <activity
             android:name=".activities.EditProfileActivity"
             android:label="@string/title_edit_profile"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".activities.ProfileActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
+                android:value=".activities.ProfileActivity" />
         </activity>
         <activity
             android:name=".activities.ProfileActivity"
@@ -160,26 +213,26 @@
         <activity
             android:name=".activities.user.VotingUserActivity"
             android:label="@string/title_menu_voting"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".activities.VotingListActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
+                android:value=".activities.VotingListActivity" />
         </activity>
         <activity
             android:name=".activities.admin.VotingAdminActivity"
             android:label="@string/title_menu_voting"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".activities.VotingListActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
+                android:value=".activities.VotingListActivity" />
         </activity>
         <activity
             android:name=".activities.admin.KegiatanAdminActivity"
             android:label="@string/title_menu_kegiatan"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".activities.user.KegiatanUserActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
+                android:value=".activities.user.KegiatanUserActivity" />
         </activity>
         <activity
             android:name=".activities.user.KegiatanUserActivity"

@@ -7,18 +7,28 @@ import androidx.loader.content.CursorLoader;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.ImageView;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -31,6 +41,7 @@ import id.akhir.proyek.rukuntetangga.adapters.MusrenbangAdapter;
 import id.akhir.proyek.rukuntetangga.adapters.VotingAdapter;
 import id.akhir.proyek.rukuntetangga.controllers.BaseActivity;
 import id.akhir.proyek.rukuntetangga.listener.AdapterListener;
+import id.akhir.proyek.rukuntetangga.models.ApiData;
 import id.akhir.proyek.rukuntetangga.models.Musrenbang;
 import id.akhir.proyek.rukuntetangga.models.Voting;
 
@@ -45,7 +56,6 @@ public class MusrenbangActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_musrenbang_admin);
-        setData();
         initData();
     }
 
@@ -57,7 +67,8 @@ public class MusrenbangActivity extends BaseActivity {
         adapter = new MusrenbangAdapter(dataMusrenbang, context, new AdapterListener<Musrenbang>() {
             @Override
             public void onItemSelected(Musrenbang data) {
-
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(data.getUrlBerkas()));
+                startActivity(browserIntent);
             }
 
             @Override
@@ -65,16 +76,16 @@ public class MusrenbangActivity extends BaseActivity {
 
             }
         });
-        rvMusrenbang.setAdapter(adapter);
+
+        showProgressBar(true);
+        mApiService.getMusrenbang("Bearer "+ getUserToken()).enqueue(musrenbangCallback.build());
     }
 
-    private void setData() {
-        dataMusrenbang.add(new Musrenbang("Musrenbang 2021", 20));
-        dataMusrenbang.add(new Musrenbang("Musrenbang 2020", 20));
-        dataMusrenbang.add(new Musrenbang("Musrenbang 2019", 20));
-        dataMusrenbang.add(new Musrenbang("Musrenbang 2018", 20));
-        dataMusrenbang.add(new Musrenbang("Musrenbang 2017", 20));
-        dataMusrenbang.add(new Musrenbang("Musrenbang 2016", 20));
+    @Override
+    protected void onResume() {
+        super.onResume();
+        showProgressBar(true);
+        mApiService.getMusrenbang("Bearer "+ getUserToken()).enqueue(musrenbangCallback.build());
     }
 
     @Override
@@ -96,4 +107,21 @@ public class MusrenbangActivity extends BaseActivity {
             return super.onOptionsItemSelected(item);
         }
     }
+
+    ApiCallback musrenbangCallback = new ApiCallback() {
+        @Override
+        public void onApiSuccess(String result) {
+            showProgressBar(false);
+            ApiData<Musrenbang> apiMusrenbang = new Gson().fromJson(result, new TypeToken<ApiData<Musrenbang>>(){}.getType());
+            dataMusrenbang = apiMusrenbang.getData();
+            adapter.setData(dataMusrenbang);
+            rvMusrenbang.setAdapter(adapter);
+        }
+
+        @Override
+        public void onApiFailure(String errorMessage) {
+            showProgressBar(false);
+            showToast(errorMessage);
+        }
+    };
 }

@@ -1,7 +1,14 @@
 package id.akhir.proyek.rukuntetangga.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -13,12 +20,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import id.akhir.proyek.rukuntetangga.R;
+import id.akhir.proyek.rukuntetangga.activities.admin.KegiatanAdminActivity;
+import id.akhir.proyek.rukuntetangga.activities.admin.VotingAdminActivity;
 import id.akhir.proyek.rukuntetangga.activities.user.VotingUserActivity;
 import id.akhir.proyek.rukuntetangga.adapters.VotingAdapter;
 import id.akhir.proyek.rukuntetangga.apihelper.AppSession;
 import id.akhir.proyek.rukuntetangga.controllers.BaseActivity;
 import id.akhir.proyek.rukuntetangga.listener.AdapterListener;
+import id.akhir.proyek.rukuntetangga.listener.DialogListener;
+import id.akhir.proyek.rukuntetangga.listener.MenuListener;
 import id.akhir.proyek.rukuntetangga.models.ApiData;
+import id.akhir.proyek.rukuntetangga.models.ApiStatus;
 import id.akhir.proyek.rukuntetangga.models.ApiUser;
 import id.akhir.proyek.rukuntetangga.models.Service;
 import id.akhir.proyek.rukuntetangga.models.Voting;
@@ -30,6 +42,7 @@ public class VotingListActivity extends BaseActivity {
     private List<Voting> dataVoting = new ArrayList<>();
     private VotingAdapter adapter;
     boolean isAlreadyVote;
+    Voting votingSelected;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,36 +57,78 @@ public class VotingListActivity extends BaseActivity {
 
         rvVoting = findViewById(R.id.rv_voting_list);
         rvVoting.setLayoutManager(new LinearLayoutManager(context));
-        adapter = new VotingAdapter(dataVoting, context, new AdapterListener<Voting>() {
+        adapter = new VotingAdapter(getIsAdmin(), dataVoting, context, new AdapterListener<Voting>() {
             @Override
             public void onItemSelected(Voting data) {
+                votingSelected = data;
                 if (getIsAdmin()) {
-                    nextActivity(DetailVotingActivity.class);
+                    Intent intent = new Intent(context, DetailVotingActivity.class);
+                    intent.putExtra("vote_id", data.getVoteId());
+                    startActivity(intent);
                 } else {
                     mApiService.isAlreadyVote("Bearer " + appSession.getData(AppSession.TOKEN), getUserSession().getUserId(), data.getVoteId()).enqueue(alreadyVoteCallback.build());
-                    if (isAlreadyVote) {
-                        nextActivity(DetailVotingActivity.class);
-                    } else {
-                        nextActivity(VotingUserActivity.class);
-                    }
                 }
             }
 
             @Override
             public void onItemLongSelected(Voting data) {
             }
+        }, new MenuListener<Voting>() {
+            @Override
+            public void onEdit(Voting data) {
+                Intent intent = new Intent(context, VotingAdminActivity.class);
+                intent.putExtra("edit_voting", data);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onDelete(Voting data) {
+                alertSubmitDone(getString(R.string.warning_confirmation), getString(R.string.delete_confirmation, "Voting"),
+                        new DialogListener() {
+                            @Override
+                            public void onPositiveButton() {
+                                votingSelected = data;
+                                showProgressBar(true);
+                                mApiService.deleteVoting("Bearer " + getUserToken(), data.getVoteId()).enqueue(deleteCallback.build());
+                            }
+
+                            @Override
+                            public void onNegativeButton() {
+
+                            }
+                        });
+            }
         });
         showProgressBar(true);
         mApiService.getVoting("Bearer " + appSession.getData(AppSession.TOKEN)).enqueue(getVotingCallback.build());
-        rvVoting.setAdapter(adapter);
     }
 
-//    private void setData() {
-//        dataVoting.add(new Voting(1, "Pelaksanaan Gotong Royong", "Jumat, 20.00", "Sabtu, 19 Agustus 2021 08.00", "Sabtu, 19 Agustus 2021 10.00", "Minggu, 20 Agustus 2021 08.00"));
-//        dataVoting.add(new Voting(1, "Pelaksanaan Rapat", "Jumat, 20.00", "Sabtu, 19 Agustus 2021 08.00", "Sabtu, 19 Agustus 2021 10.00", "Minggu, 20 Agustus 2021 08.00"));
-//        dataVoting.add(new Voting(1, "Perbaikan jalan PBB", "Jumat, 20.00", "Sabtu, 19 Agustus 2021 08.00", "Sabtu, 19 Agustus 2021 10.00", "Minggu, 20 Agustus 2021 08.00"));
-//        dataVoting.add(new Voting(1, "Bersih-bersih Masjid PBB", "Jumat, 20.00", "Sabtu, 19 Agustus 2021 08.00", "Sabtu, 19 Agustus 2021 10.00", "Minggu, 20 Agustus 2021 08.00"));
-//    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        showProgressBar(true);
+        mApiService.getVoting("Bearer " + appSession.getData(AppSession.TOKEN)).enqueue(getVotingCallback.build());
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        if (appSession.isAdmin()) {
+            MenuInflater inflater = getMenuInflater();
+            inflater.inflate(R.menu.menu_add, menu);
+            return true;
+        } else
+            return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.menu_toolbar) {
+            nextActivity(VotingAdminActivity.class);
+            return true;
+        } else {
+            return super.onOptionsItemSelected(item);
+        }
+    }
 
     ApiCallback getVotingCallback = new ApiCallback() {
         @Override
@@ -84,6 +139,30 @@ public class VotingListActivity extends BaseActivity {
             dataVoting = apiService.getData();
 
             adapter.setData(dataVoting);
+            rvVoting.setAdapter(adapter);
+        }
+
+        @Override
+        public void onApiFailure(String errorMessage) {
+            showProgressBar(false);
+            showToast(errorMessage);
+        }
+    };
+
+    ApiCallback alreadyVoteCallback = new ApiCallback() {
+        @Override
+        public void onApiSuccess(String result) {
+            showProgressBar(false);
+            ApiUser<Boolean> apiService = new Gson().fromJson(result, new TypeToken<ApiUser<Boolean>>(){}.getType());
+            isAlreadyVote = apiService.getData();
+            Intent intent;
+            if (!isAlreadyVote) {
+                intent = new Intent(context, VotingUserActivity.class);
+            } else {
+                intent = new Intent(context, DetailVotingActivity.class);
+            }
+            intent.putExtra("vote_id", votingSelected.getVoteId());
+            startActivity(intent);
         }
 
         @Override
@@ -92,18 +171,21 @@ public class VotingListActivity extends BaseActivity {
         }
     };
 
-    ApiCallback alreadyVoteCallback = new ApiCallback() {
+    ApiCallback deleteCallback = new ApiCallback() {
         @Override
         public void onApiSuccess(String result) {
             showProgressBar(false);
-
-            ApiUser<Boolean> apiService = new Gson().fromJson(result, new TypeToken<ApiUser<Boolean>>(){}.getType());
-            isAlreadyVote = apiService.getData();
+            ApiStatus status = new Gson().fromJson(result, ApiStatus.class);
+            showToast(status.getMessage());
+            dataVoting.remove(votingSelected);
+            adapter.setData(dataVoting);
+            rvVoting.setAdapter(adapter);
         }
 
         @Override
         public void onApiFailure(String errorMessage) {
-
+            showProgressBar(false);
+            showToast(errorMessage);
         }
     };
 }

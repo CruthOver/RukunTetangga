@@ -57,9 +57,15 @@ public class User implements Parcelable {
     @SerializedName("is_admin")
     private boolean isAdmin;
 
+    @SerializedName("foto_ktp")
+    private String imageKTP;
+
+    @SerializedName("foto_kk")
+    private String imageKK;
+
     public User(int userId, String fullName, String phoneNumber, String currentAddress, String email, String gender,
                 String dateBirth, String authToken, boolean isAdmin, String agama, String pendidikan, String statusPerkawinan,
-                String nikWarga, String pekerjaan, String address, String birthPlace) {
+                String nikWarga, String pekerjaan, String address, String birthPlace, String imageKTP, String imageKK) {
         this.userId = userId;
         this.phoneNumber = phoneNumber;
         this.currentAddress = currentAddress;
@@ -76,6 +82,8 @@ public class User implements Parcelable {
         this.pekerjaan = pekerjaan;
         this.address = address;
         this.birthPlace = birthPlace;
+        this.imageKTP = imageKTP;
+        this.imageKK = imageKK;
     }
 
     public User(String fullName, String phoneNumber, String email, String gender,
@@ -219,6 +227,22 @@ public class User implements Parcelable {
         this.birthPlace = birthPlace;
     }
 
+    public String getImageKTP() {
+        return imageKTP;
+    }
+
+    public void setImageKTP(String imageKTP) {
+        this.imageKTP = imageKTP;
+    }
+
+    public String getImageKK() {
+        return imageKK;
+    }
+
+    public void setImageKK(String imageKK) {
+        this.imageKK = imageKK;
+    }
+
     @Override
     public String toString() {
         return fullName;
@@ -245,6 +269,8 @@ public class User implements Parcelable {
         dest.writeString(this.nikWarga);
         dest.writeString(this.birthPlace);
         dest.writeString(this.pendidikan);
+        dest.writeString(this.imageKK);
+        dest.writeString(this.imageKTP);
     }
 
     protected User(Parcel in) {
@@ -262,6 +288,8 @@ public class User implements Parcelable {
         this.nikWarga = in.readString();
         this.birthPlace = in.readString();
         this.pendidikan = in.readString();
+        this.imageKK = in.readString();
+        this.imageKTP = in.readString();
     }
 
     // Cukup sesuaikan nama objeknya

@@ -38,6 +38,8 @@ import id.akhir.proyek.rukuntetangga.apihelper.UtilsApi;
 import id.akhir.proyek.rukuntetangga.helpers.CallbackApi;
 import id.akhir.proyek.rukuntetangga.listener.AdapterListener;
 import id.akhir.proyek.rukuntetangga.listener.DialogListener;
+import id.akhir.proyek.rukuntetangga.listener.MenuListener;
+import id.akhir.proyek.rukuntetangga.models.ApiStatus;
 import id.akhir.proyek.rukuntetangga.models.ApiUser;
 import id.akhir.proyek.rukuntetangga.models.Complaint;
 import id.akhir.proyek.rukuntetangga.models.Letter;
@@ -54,6 +56,7 @@ public class LetterFragment extends Fragment {
     private List<Letter> _dataLetter = new ArrayList<>();
     private LetterAdapter adapter;
     private RecyclerView rvLetter;
+    Letter letterSelected;
     AppSession appSession;
     BaseApiService mApiService;
     Dialog progressDialog;
@@ -110,7 +113,7 @@ public class LetterFragment extends Fragment {
                             status = 1;
                             mApiService.updateStatusLetter("Bearer " + appSession.getData(AppSession.TOKEN), data.getLetterId(), status)
                                     .enqueue(letterUpdate.build());
-                        } else if (status == 1){
+                        } else if (status == 1) {
                             status = 2;
                             mApiService.updateStatusLetter("Bearer " + appSession.getData(AppSession.TOKEN), data.getLetterId(), status)
                                     .enqueue(letterUpdate.build());
@@ -130,6 +133,30 @@ public class LetterFragment extends Fragment {
             @Override
             public void onItemLongSelected(Letter data) {
                 Toast.makeText(getContext(), data.getLetterType(), Toast.LENGTH_SHORT).show();
+            }
+        }, new MenuListener<Letter>() {
+            @Override
+            public void onEdit(Letter data) {
+
+            }
+
+            @Override
+            public void onDelete(Letter data) {
+                alertSubmitDone(getString(R.string.warning_title), getString(R.string.delete_confirmation, "Surat"), new DialogListener() {
+                    @Override
+                    public void onPositiveButton() {
+                        deleteLetterCallback.context = getContext();
+                        letterSelected = data;
+                        progressDialog.show();
+                        mApiService.deleteSurat("Bearer " + appSession.getData(AppSession.TOKEN), data.getLetterId())
+                                .enqueue(deleteLetterCallback.build());
+                    }
+
+                    @Override
+                    public void onNegativeButton() {
+
+                    }
+                });
             }
         });
 
@@ -172,7 +199,50 @@ public class LetterFragment extends Fragment {
         }
     };
 
+    CallbackApi deleteLetterCallback = new CallbackApi() {
+        @Override
+        public void onApiSuccess(String result) {
+            progressDialog.dismiss();
+            ApiStatus status = new Gson().fromJson(result, ApiStatus.class);
+            Toast.makeText(context, status.getMessage(), Toast.LENGTH_SHORT).show();
+            _dataLetter.remove(letterSelected);
+            adapter.setData(_dataLetter);
+            rvLetter.setAdapter(adapter);
+        }
+
+        @Override
+        public void onApiFailure(String errorMessage) {
+            progressDialog.dismiss();
+            Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show();
+        }
+    };
+
     public void alertSubmitDone(int title, int message, DialogListener listener){
+        TextView textView = new TextView(getActivity());
+        textView.setText(title);
+        textView.setPadding(32, 30, 32, 30);
+        textView.setTextSize(20F);
+        textView.setBackgroundColor(getResources().getColor(R.color.colorSecondary));
+        textView.setGravity(Gravity.CENTER);
+        textView.setTextColor(Color.WHITE);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
+                .setCustomTitle(textView)
+                .setMessage(message);
+        builder.setPositiveButton(R.string.warning_ok, (dialog, id) -> {
+            if (listener != null)
+                listener.onPositiveButton();
+        });
+        builder.setNegativeButton(R.string.warning_cancel, (dialog, which) -> {
+            if (listener != null)
+                listener.onNegativeButton();
+        });
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
+
+    public void alertSubmitDone(String title, String message, DialogListener listener){
         TextView textView = new TextView(getActivity());
         textView.setText(title);
         textView.setPadding(32, 30, 32, 30);

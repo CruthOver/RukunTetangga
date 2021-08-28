@@ -53,7 +53,9 @@ public class DatePickerFragment extends DialogFragment
         if (minDate != 0) {
             dpd.getDatePicker().setMinDate(minDate);
         }
-        dpd.getDatePicker().setMaxDate(maxDate);
+
+        if (maxDate != 0)
+            dpd.getDatePicker().setMaxDate(maxDate);
         return dpd;
     }
 

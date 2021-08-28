@@ -28,6 +28,7 @@ import id.akhir.proyek.rukuntetangga.helpers.DatePickerFragment;
 import id.akhir.proyek.rukuntetangga.helpers.TimePicker;
 import id.akhir.proyek.rukuntetangga.listener.UniversalListener;
 import id.akhir.proyek.rukuntetangga.models.ApiStatus;
+import id.akhir.proyek.rukuntetangga.models.Voting;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -39,6 +40,8 @@ public class VotingAdminActivity extends BaseActivity implements View.OnClickLis
     Button btnUpload;
     String date, time;
 
+    Voting editVoting;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,8 +51,6 @@ public class VotingAdminActivity extends BaseActivity implements View.OnClickLis
 
     private void initData() {
         toolbar = findViewById(R.id.toolbar);
-        setToolbar(toolbar, getString(R.string.title_menu_voting));
-        
         etQuestion = findViewById(R.id.et_question);
         etDateVote = findViewById(R.id.et_date_vote);
         etTimeVote = findViewById(R.id.et_time_vote);
@@ -58,28 +59,61 @@ public class VotingAdminActivity extends BaseActivity implements View.OnClickLis
         etChoiceThree = findViewById(R.id.et_choice_three);
         btnUpload = findViewById(R.id.btn_upload);
 
+        if (ubahData()) {
+            setToolbar(toolbar, getString(R.string.title_menu_update_voting));
+            btnUpload.setText(R.string.label_update);
+            setData();
+        } else {
+            setToolbar(toolbar, getString(R.string.title_menu_voting));
+            btnUpload.setText(R.string.label_upload);
+        }
+
         etTimeVote.setOnClickListener(this);
         etDateVote.setOnClickListener(this);
         btnUpload.setOnClickListener(this);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_add, menu);
-        menu.findItem(R.id.menu_toolbar).setIcon(R.drawable.ic_baseline_menu_24);
-        return true;
+    private boolean ubahData() {
+        if (getIntent().getParcelableExtra("edit_voting") != null) {
+            editVoting = getIntent().getParcelableExtra("edit_voting");
+            return true;
+        }
+        return false;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.menu_toolbar) {
-            nextActivity(VotingListActivity.class);
-            return true;
-        } else {
-            return super.onOptionsItemSelected(item);
+    private void setData() {
+        etQuestion.setText(editVoting.getQuestion());
+        etDateVote.setText(editVoting.getDateVote());
+        etTimeVote.setText(editVoting.getTimeVote());
+        if (editVoting.getChoice().size() > 0) {
+            etChoiceOne.setText(editVoting.getChoice().get(0).getPilihan());
+            if (editVoting.getChoice().size() > 1) {
+                etChoiceTwo.setText(editVoting.getChoice().get(1).getPilihan());
+            }
+
+            if (editVoting.getChoice().size() > 2) {
+                etChoiceThree.setText(editVoting.getChoice().get(2).getPilihan());
+            }
         }
     }
+
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        MenuInflater inflater = getMenuInflater();
+//        inflater.inflate(R.menu.menu_add, menu);
+//        menu.findItem(R.id.menu_toolbar).setIcon(R.drawable.ic_baseline_menu_24);
+//        return true;
+//    }
+//
+//    @Override
+//    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+//        if (item.getItemId() == R.id.menu_toolbar) {
+//            nextActivity(VotingListActivity.class);
+//            return true;
+//        } else {
+//            return super.onOptionsItemSelected(item);
+//        }
+//    }
 
     @Override
     public void onClick(View v) {
@@ -132,10 +166,30 @@ public class VotingAdminActivity extends BaseActivity implements View.OnClickLis
         Log.d(TAG, choices.toString());
 
         showProgressBarUpload(true);
-        mApiService.addVoting("Bearer " + getUserToken(), question, dueDate, choices).enqueue(addVotingCallback.build());
+        if (ubahData()) {
+            mApiService.updateVoting("Bearer " + getUserToken(), editVoting.getVoteId(), question, dueDate, choices).enqueue(updateVoting.build());
+        } else {
+            mApiService.addVoting("Bearer " + getUserToken(), question, dueDate, choices).enqueue(addVotingCallback.build());
+        }
     }
 
     ApiCallback addVotingCallback = new ApiCallback() {
+        @Override
+        public void onApiSuccess(String result) {
+            showProgressBarUpload(false);
+            ApiStatus status = new Gson().fromJson(result, ApiStatus.class);
+            Toast.makeText(context, status.getMessage(), Toast.LENGTH_SHORT).show();
+            finish();
+        }
+
+        @Override
+        public void onApiFailure(String errorMessage) {
+            showProgressBar(false);
+            Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show();
+        }
+    };
+
+    ApiCallback updateVoting = new ApiCallback() {
         @Override
         public void onApiSuccess(String result) {
             showProgressBarUpload(false);

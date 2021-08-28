@@ -63,7 +63,6 @@ public class AddLetterFragment extends Fragment {
     Button btnUpload;
     EditText etApplicantName, etDateNeed, etDescription,
         etDateBirth, etPlaceBirth, etAddress, etEmail;
-    List<LetterType> _dataLetterType = new ArrayList<>();
     LetterType _letterSelected;
 
     BaseApiService mApiService;

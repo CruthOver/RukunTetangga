@@ -30,6 +30,7 @@ public class AppSession {
         editor = sharedPreferences.edit();
         editor.remove(TOKEN);
         editor.remove(USER);
+        editor.remove(IS_ADMIN);
         editor.apply();
     }
 
@@ -42,6 +43,12 @@ public class AppSession {
     }
 
     public void setData(String data, String value){
+        editor = sharedPreferences.edit();
+        editor.putString(data, value);
+        editor.apply();
+    }
+
+    public void setUserData(String data, String value){
         editor = sharedPreferences.edit();
         editor.putString(data, value);
         editor.apply();

@@ -46,7 +46,7 @@
             android:textSize="20sp" />
 
         <EditText
-            android:id="@+id/et_name"
+            android:id="@+id/et_job_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -55,7 +55,7 @@
             android:layout_marginRight="16dp"
             android:layout_marginBottom="16dp"
             android:background="@drawable/edit_text_rounded_gray"
-            android:hint="@string/hint_warga_name"
+            android:hint="@string/hint_lowongan"
             android:importantForAutofill="no"
             android:inputType="text"
             android:padding="8dp" />
@@ -75,12 +75,31 @@
             android:background="@drawable/edit_text_rounded_gray">
 
             <ImageView
-                android:id="@+id/iv_kegiatan"
+                android:id="@+id/iv_job"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:layout_centerInParent="true"
                 android:layout_margin="48dp"
                 android:src="@drawable/ic_baseline_add_24" />
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:id="@+id/preview_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="145dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/banner_collection" />
+
+                <ImageView
+                    android:id="@+id/iv_remove_image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_baseline_close_24"
+                    android:background="@drawable/circle_background"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true" />
+            </RelativeLayout>
         </RelativeLayout>
 
         <Button

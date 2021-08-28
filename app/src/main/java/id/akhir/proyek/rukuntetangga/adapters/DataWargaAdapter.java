@@ -51,6 +51,7 @@ public class DataWargaAdapter extends RecyclerView.Adapter<DataWargaAdapter.View
         holder.tvName.setText(user.getFullName());
         holder.tvStatus.setText(user.getStatusPerkawinan());
         holder.tvNomor.setText(""+(position+1));
+        holder.tvNikWarga.setText(user.getNikWarga());
     }
 
     @Override
@@ -59,13 +60,14 @@ public class DataWargaAdapter extends RecyclerView.Adapter<DataWargaAdapter.View
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView tvNomor, tvName, tvStatus, tvJob, tvDetail;
+        TextView tvNomor, tvName, tvStatus, tvJob, tvDetail, tvNikWarga;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             tvNomor = itemView.findViewById(R.id.tv_nomor);
             tvName = itemView.findViewById(R.id.tv_nama_warga);
             tvStatus = itemView.findViewById(R.id.tv_status_warga);
             tvJob = itemView.findViewById(R.id.tv_pekerjaan_warga);
+            tvNikWarga = itemView.findViewById(R.id.tv_nik_warga);
             tvDetail = itemView.findViewById(R.id.tv_detail_warga);
             tvDetail.setOnClickListener(v -> {
                 if (listener != null) {

@@ -14,21 +14,30 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:src="@drawable/ic_logo"
-        android:layout_margin="16dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"/>
+        android:layout_alignParentRight="true"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp"/>
 
     <TextView
         android:id="@+id/tvInformation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:text="Infomarsi"
-        android:textSize="16sp"
-        android:gravity="end"
-        android:layout_margin="16dp"
-        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/imgBanner"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"/>
+        android:layout_alignParentRight="true"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="16dp"
+        android:gravity="end"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        tools:text="Infomarsi" />
 
 </RelativeLayout>

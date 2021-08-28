@@ -5,16 +5,16 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.loader.content.CursorLoader;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
-import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -22,20 +22,18 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Locale;
 
 import id.akhir.proyek.rukuntetangga.R;
+import id.akhir.proyek.rukuntetangga.activities.user.KegiatanUserActivity;
 import id.akhir.proyek.rukuntetangga.apihelper.AppSession;
 import id.akhir.proyek.rukuntetangga.controllers.BaseActivity;
 import id.akhir.proyek.rukuntetangga.helpers.DatePickerFragment;
 import id.akhir.proyek.rukuntetangga.helpers.TimePicker;
 import id.akhir.proyek.rukuntetangga.listener.UniversalListener;
+import id.akhir.proyek.rukuntetangga.models.Activities;
 import id.akhir.proyek.rukuntetangga.models.ApiStatus;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -48,11 +46,12 @@ public class KegiatanAdminActivity extends BaseActivity implements View.OnClickL
 
     Toolbar toolbar;
 
-    private EditText etDescription, etDate, etHour;
+    private EditText etDescription, etDate, etHour, etLocation, etDitujukan;
     private ImageView ivImage, ivPreviewImage, ivRemoveImage;
     private Button btnUpload;
     Uri uri;
     File _filePhoto;
+    Activities activities;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,10 +62,12 @@ public class KegiatanAdminActivity extends BaseActivity implements View.OnClickL
 
     private void initData() {
         toolbar = findViewById(R.id.toolbar);
-        setToolbar(toolbar, getString(R.string.title_menu_kegiatan));
+
         etDescription = findViewById(R.id.et_description_activity);
         etDate = findViewById(R.id.et_date_activity);
         etHour = findViewById(R.id.et_hour_activity);
+        etLocation = findViewById(R.id.et_location_activity);
+        etDitujukan = findViewById(R.id.et_ditujukan);
         ivImage = findViewById(R.id.iv_kegiatan);
         ivPreviewImage = findViewById(R.id.preview_image);
         ivRemoveImage = findViewById(R.id.iv_remove_image);
@@ -83,16 +84,51 @@ public class KegiatanAdminActivity extends BaseActivity implements View.OnClickL
         });
         btnUpload = findViewById(R.id.btn_upload);
 
+        if (ubahData()) {
+            setToolbar(toolbar, getString(R.string.title_menu_ubah_kegiatan));
+            btnUpload.setText(R.string.label_update);
+            setData();
+        } else {
+            setToolbar(toolbar, getString(R.string.title_menu_kegiatan));
+            btnUpload.setText(R.string.label_upload);
+        }
+
         btnUpload.setOnClickListener(this);
         etDate.setOnClickListener(this);
         etHour.setOnClickListener(this);
         ivImage.setOnClickListener(this);
     }
 
+    private boolean ubahData() {
+        if (getIntent().getParcelableExtra("edit_activity") != null) {
+            activities = getIntent().getParcelableExtra("edit_activity");
+            Toast.makeText(context, activities.getActivityId() +"", Toast.LENGTH_SHORT).show();
+            return true;
+        }
+        return false;
+    }
+
+    private void setData() {
+        etDescription.setText(activities.getTitleActivity());
+        etDate.setText(activities.getDateActivity());
+        etHour.setText(activities.getHour());
+        etLocation.setText(activities.getLocation());
+        etDitujukan.setText(activities.getDitujukan());
+        if (activities.getImageActivity() != null) {
+            ivPreviewImage.setVisibility(View.VISIBLE);
+            ivRemoveImage.setVisibility(View.VISIBLE);
+            ivImage.setVisibility(View.GONE);
+            Picasso.get().load(activities.getImageActivity())
+                    .placeholder(R.drawable.image_placeholder)
+                    .error(R.drawable.broken_image)
+                    .into(ivPreviewImage);
+        }
+    }
+
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.et_date_activity) {
-            DatePickerFragment newDatePicker = new DatePickerFragment(setDateOneMonth(), setDateToday());
+            DatePickerFragment newDatePicker = new DatePickerFragment(0, 0);
             newDatePicker.holder = etDate;
             newDatePicker.listener = new UniversalListener() {
                 @Override
@@ -124,7 +160,11 @@ public class KegiatanAdminActivity extends BaseActivity implements View.OnClickL
             };
             timePicker.show(getSupportFragmentManager(), "timePicker");
         } else if (v.getId() == R.id.btn_upload) {
-            submitData();
+            if (ubahData()) {
+                editData();
+            } else {
+                submitData();
+            }
         } else if (v.getId() == R.id.iv_kegiatan) {
             pickImageGallery();
         }
@@ -191,19 +231,37 @@ public class KegiatanAdminActivity extends BaseActivity implements View.OnClickL
 
     private void submitData() {
         RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), _filePhoto);
-//
-//        // MultipartBody.Part is used to send also the actual file name
+//      MultipartBody.Part is used to send also the actual file name
         MultipartBody.Part body = MultipartBody.Part.createFormData("foto_kegiatan", _filePhoto.getName(), requestFile);
-//        RequestBody rb_foto = RequestBody.create(okhttp3.MultipartBody.FORM, _filePhoto);
-        RequestBody rbToken = RequestBody.create(MultipartBody.FORM, appSession.getData(AppSession.TOKEN));
-        RequestBody rbContentType = RequestBody.create(MultipartBody.FORM, "multipart/form-data");
         RequestBody rbDescription = RequestBody.create(MultipartBody.FORM, etDescription.getText().toString());
         RequestBody rbDateKegiatan = RequestBody.create(MultipartBody.FORM, etDate.getText().toString());
         RequestBody rbTimeKegiatan = RequestBody.create(MultipartBody.FORM, etHour.getText().toString());
+        RequestBody rbLocation = RequestBody.create(MultipartBody.FORM, etLocation.getText().toString());
+        RequestBody rbDitujukan = RequestBody.create(MultipartBody.FORM, etDitujukan.getText().toString());
 
         showProgressBarUpload(true);
         mApiService.addKegiatan("Bearer " + getUserToken(), rbDescription,
-                rbDateKegiatan, rbTimeKegiatan, body).enqueue(addKegiatanCallback.build());
+                rbDateKegiatan, rbTimeKegiatan, rbLocation, rbDitujukan, body).enqueue(addKegiatanCallback.build());
+    }
+
+    private void editData() {
+        MultipartBody.Part body = null;
+        if (_filePhoto != null) {
+            RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), _filePhoto);
+//          MultipartBody.Part is used to send also the actual file name
+            body = MultipartBody.Part.createFormData("foto_kegiatan", _filePhoto.getName(), requestFile);
+        }
+        RequestBody rbActivityId = RequestBody.create(MultipartBody.FORM, String.valueOf(activities.getActivityId()));
+        RequestBody rbDescription = RequestBody.create(MultipartBody.FORM, etDescription.getText().toString());
+        RequestBody rbDateKegiatan = RequestBody.create(MultipartBody.FORM, etDate.getText().toString());
+        RequestBody rbTimeKegiatan = RequestBody.create(MultipartBody.FORM, etHour.getText().toString());
+        RequestBody rbLocation = RequestBody.create(MultipartBody.FORM, etLocation.getText().toString());
+        RequestBody rbDitujukan = RequestBody.create(MultipartBody.FORM, etDitujukan.getText().toString());
+
+        showProgressBarUpload(true);
+
+            mApiService.updateKegiatan("Bearer " + getUserToken(), rbActivityId, rbDescription,
+                    rbDateKegiatan, rbTimeKegiatan, rbLocation, rbDitujukan, body).enqueue(updateKegiatanCallback.build());
     }
 
     ApiCallback addKegiatanCallback = new ApiCallback() {
@@ -219,6 +277,22 @@ public class KegiatanAdminActivity extends BaseActivity implements View.OnClickL
         public void onApiFailure(String errorMessage) {
             showProgressBar(false);
             Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show();
+        }
+    };
+
+    ApiCallback updateKegiatanCallback = new ApiCallback() {
+        @Override
+        public void onApiSuccess(String result) {
+            showProgressBar(false);
+            ApiStatus status = new Gson().fromJson(result, ApiStatus.class);
+            showToast(status.getMessage());
+            finish();
+        }
+
+        @Override
+        public void onApiFailure(String errorMessage) {
+            showProgressBar(false);
+            showToast(errorMessage);
         }
     };
 }

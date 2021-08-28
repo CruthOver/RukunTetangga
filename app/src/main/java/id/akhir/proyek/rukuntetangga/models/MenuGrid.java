@@ -1,17 +1,17 @@
 package id.akhir.proyek.rukuntetangga.models;
 
 public class MenuGrid {
-    int title;
+    String title;
     int imageIcon;
     Class<?> mClassDestination;
 
-    public MenuGrid(int title, int imageIcon, Class<?> classDestination) {
+    public MenuGrid(String title, int imageIcon, Class<?> classDestination) {
         this.title = title;
         this.imageIcon = imageIcon;
         this.mClassDestination = classDestination;
     }
 
-    public int getTitle() {
+    public String getTitle() {
         return title;
     }
 
@@ -19,7 +19,7 @@ public class MenuGrid {
         return mClassDestination;
     }
 
-    public void setTitle(int title) {
+    public void setTitle(String title) {
         this.title = title;
     }
     public void setClass(Class<?> classDestination) {
@@ -32,5 +32,10 @@ public class MenuGrid {
 
     public void setImageIcon(int imageIcon) {
         this.imageIcon = imageIcon;
+    }
+
+    @Override
+    public String toString() {
+        return title;
     }
 }

@@ -24,17 +24,21 @@ import id.akhir.proyek.rukuntetangga.models.ApiData;
 import id.akhir.proyek.rukuntetangga.models.ApiStatus;
 import id.akhir.proyek.rukuntetangga.models.Letter;
 import id.akhir.proyek.rukuntetangga.models.Position;
+import id.akhir.proyek.rukuntetangga.models.User;
 
 public class AddDataWargaActivity extends BaseActivity implements View.OnClickListener {
 
     Toolbar toolbar;
     EditText etName, etBirthPlace, etBirthDate, etNik;
-    EditText etNoTelp, etEmail, etAddress;
+    EditText etNoTelp, etEmail, etAddress, etJob;
     Spinner spReligion, spGender, spMarriedStatus, spPendidikan;
     Button btnUpload;
 
+    ArrayAdapter<String> adapterReligion, adapterPendidikan
+            , adapterGender, adapterStatus;
     String religion, statusMarried, pendidikan;
     int gender;
+    User editUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +49,6 @@ public class AddDataWargaActivity extends BaseActivity implements View.OnClickLi
 
     private void initData() {
         toolbar = findViewById(R.id.toolbar);
-        setToolbar(toolbar, getString(R.string.title_add_data_warga));
 
         etName = findViewById(R.id.et_name);
         etEmail = findViewById(R.id.et_email);
@@ -53,6 +56,7 @@ public class AddDataWargaActivity extends BaseActivity implements View.OnClickLi
         etBirthDate = findViewById(R.id.et_birth_date);
         etBirthPlace = findViewById(R.id.et_birth_place);
         etAddress = findViewById(R.id.et_address);
+        etJob = findViewById(R.id.et_job);
         etNik = findViewById(R.id.et_nik);
         spReligion = findViewById(R.id.sp_religion);
         spPendidikan = findViewById(R.id.sp_pendidikan);
@@ -61,12 +65,76 @@ public class AddDataWargaActivity extends BaseActivity implements View.OnClickLi
         btnUpload = findViewById(R.id.btn_upload);
 
         setSpinner();
+        if (ubahData()) {
+            setToolbar(toolbar, getString(R.string.title_edit_data_warga));
+            btnUpload.setText(R.string.label_update);
+            setData();
+        } else {
+            setToolbar(toolbar, getString(R.string.title_add_data_warga));
+            btnUpload.setText(R.string.label_upload);
+        }
         etBirthDate.setOnClickListener(this);
         btnUpload.setOnClickListener(this);
     }
 
+    private boolean ubahData() {
+        if (getIntent().getParcelableExtra("edit_user") != null) {
+            editUser = getIntent().getParcelableExtra("edit_user");
+            return true;
+        }
+        return false;
+    }
+
+    private void setData() {
+        etName.setText(editUser.getFullName());
+        etEmail.setText(editUser.getEmail());
+        etNoTelp.setText(editUser.getPhoneNumber());
+        etBirthPlace.setText(editUser.getBirthPlace());
+        etBirthDate.setText(editUser.getDateBirth());
+        etNik.setText(editUser.getNikWarga());
+        etJob.setText(editUser.getPekerjaan());
+        etAddress.setText(editUser.getAddress());
+
+        if (!editUser.getAgama().equals("") || editUser.getAgama() != null) {
+            int spinnerPosition = adapterReligion.getPosition(editUser.getAgama());
+            spReligion.setSelection(spinnerPosition);
+            religion = spReligion.getSelectedItem().toString();
+        } else {
+            spReligion.setSelection(0);
+        }
+
+        Log.d("Pendidikan", editUser.getGender());
+        if (!editUser.getPendidikan().equals("") || editUser.getPendidikan() != null) {
+            int spinnerPosition = adapterPendidikan.getPosition(editUser.getPendidikan());
+            spPendidikan.setSelection(spinnerPosition);
+            pendidikan = spPendidikan.getSelectedItem().toString();
+        } else {
+            spPendidikan.setSelection(0);
+        }
+
+        if (!editUser.getGender().equals("") || editUser.getGender() != null) {
+            String genderName = editUser.getGender().equals("1") ? "Perempuan" : "Laki-laki";
+            int spinnerPosition = adapterGender.getPosition(genderName);
+            spGender.setSelection(spinnerPosition);
+            if (spGender.getSelectedItem().toString().equals("Perempuan")) {
+                gender = 1;
+            } else
+                gender = 0;
+        } else {
+            spGender.setSelection(0);
+        }
+
+        if (!editUser.getStatusPerkawinan().equals("") || editUser.getStatusPerkawinan() != null) {
+            int spinnerPosition = adapterStatus.getPosition(editUser.getStatusPerkawinan().toUpperCase());
+            spMarriedStatus.setSelection(spinnerPosition);
+            statusMarried = spMarriedStatus.getSelectedItem().toString();
+        } else {
+            spMarriedStatus.setSelection(0);
+        }
+    }
+
     private void setSpinner() {
-        final ArrayAdapter<String> adapterReligion = new ArrayAdapter<String>(context,
+        adapterReligion = new ArrayAdapter<>(context,
                 R.layout.spinner_position, getResources().getStringArray(R.array.agama));
         adapterReligion.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
         spReligion.setAdapter(adapterReligion);
@@ -84,7 +152,7 @@ public class AddDataWargaActivity extends BaseActivity implements View.OnClickLi
         });
 
 
-        final ArrayAdapter<String> adapterGender = new ArrayAdapter<String>(context,
+        adapterGender = new ArrayAdapter<>(context,
                 R.layout.spinner_position, getResources().getStringArray(R.array.gender));
         adapterGender.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
         spGender.setAdapter(adapterGender);
@@ -104,7 +172,7 @@ public class AddDataWargaActivity extends BaseActivity implements View.OnClickLi
             }
         });
 
-        final ArrayAdapter<String> adapterStatus = new ArrayAdapter<String>(context,
+        adapterStatus = new ArrayAdapter<>(context,
                 R.layout.spinner_position, getResources().getStringArray(R.array.status_perkawinan));
         adapterStatus.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
         spMarriedStatus.setAdapter(adapterStatus);
@@ -121,7 +189,7 @@ public class AddDataWargaActivity extends BaseActivity implements View.OnClickLi
             }
         });
 
-        final ArrayAdapter<String> adapterPendidikan = new ArrayAdapter<String>(context,
+        adapterPendidikan = new ArrayAdapter<>(context,
                 R.layout.spinner_position, getResources().getStringArray(R.array.pendidikan));
         adapterPendidikan.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
         spPendidikan.setAdapter(adapterPendidikan);
@@ -161,7 +229,8 @@ public class AddDataWargaActivity extends BaseActivity implements View.OnClickLi
         }
     }
 
-    private boolean validateData(String fullName, String address, String phoneNumber, String nik, String birthDate, String birthPlace, String email) {
+    private boolean validateData(String fullName, String address, String phoneNumber, String nik,
+                                 String birthDate, String birthPlace, String email, String job) {
         if (fullName.trim().isEmpty()) {
             etName.setError(getString(R.string.error_textfield_empty, "Nama Lengkap"));
             etName.requestFocus();
@@ -205,6 +274,12 @@ public class AddDataWargaActivity extends BaseActivity implements View.OnClickLi
             return false;
         }
 
+        if (job.trim().isEmpty()) {
+            etJob.setError(getString(R.string.error_textfield_empty, "Pekerjaan"));
+            etJob.requestFocus();
+            return false;
+        }
+
 //        if (email.trim().matches(emailPattern)) {
 //            etEmail.setError(getString(R.string.error_email_invalid));
 //            etEmail.requestFocus();
@@ -222,17 +297,18 @@ public class AddDataWargaActivity extends BaseActivity implements View.OnClickLi
         String birthPlace = etBirthPlace.getText().toString();
         String nik = etNik.getText().toString();
         String address = etAddress.getText().toString();
+        String job = etJob.getText().toString();
 
-        if (!validateData(name, address, phoneNumber, nik, birthDate, birthPlace, email)) return;
+        if (!validateData(name, address, phoneNumber, nik, birthDate, birthPlace, email, job)) return;
 
-        Log.d("Name", name);
-        Log.d("Phone Number", name);
-        Log.d("Email", name);
-        Log.d("address", name);
-        Log.d("nik", name);
         showProgressBarUpload(true);
-        mApiService.addWarga("Bearer " + getUserToken(), name, address, phoneNumber, nik, birthDate, birthPlace, email,
-                gender, religion, statusMarried, pendidikan).enqueue(addWargaCallback.build());
+        if (ubahData()) {
+            mApiService.updateProfile("Bearer " + getUserToken(), editUser.getUserId(), name, email,  birthDate, birthPlace,
+                    nik, address, phoneNumber, gender, religion, pendidikan, statusMarried, job).enqueue(updateWargaCallback.build());
+        } else {
+            mApiService.addWarga("Bearer " + getUserToken(), name, address, phoneNumber, nik, birthDate, birthPlace, email,
+                    gender, religion, statusMarried, pendidikan, job).enqueue(addWargaCallback.build());
+        }
     }
 
     ApiCallback addWargaCallback = new ApiCallback() {
@@ -248,6 +324,22 @@ public class AddDataWargaActivity extends BaseActivity implements View.OnClickLi
         public void onApiFailure(String errorMessage) {
             showProgressBarUpload(false);
             Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show();
+        }
+    };
+
+    ApiCallback updateWargaCallback = new ApiCallback() {
+        @Override
+        public void onApiSuccess(String result) {
+            showProgressBarUpload(false);
+            ApiStatus status = new Gson().fromJson(result, new TypeToken<ApiStatus>(){}.getType());
+            showToast(status.getMessage());
+            finish();
+        }
+
+        @Override
+        public void onApiFailure(String errorMessage) {
+            showProgressBarUpload(false);
+            showToast(errorMessage);
         }
     };
 }

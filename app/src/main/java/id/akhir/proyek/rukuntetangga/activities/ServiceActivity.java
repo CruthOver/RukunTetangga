@@ -75,7 +75,7 @@ public class ServiceActivity extends BaseActivity {
         rvEmergency.setAdapter(adapter);
     }
 
-    public void openWhatsApp(String toNumber){
+    private void openWhatsApp(String toNumber){
         try {
             String text = "This is a test";// Replace with your message.
 
@@ -86,6 +86,14 @@ public class ServiceActivity extends BaseActivity {
         catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        showProgressBar(true);
+        mApiService.getService("Bearer " + appSession.getData(AppSession.TOKEN), 2).enqueue(serviceCallback.build());
+        rvEmergency.setAdapter(adapter);
     }
 
     @Override

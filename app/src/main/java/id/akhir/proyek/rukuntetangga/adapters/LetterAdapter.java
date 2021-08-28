@@ -18,14 +18,24 @@ import java.util.List;
 
 import id.akhir.proyek.rukuntetangga.R;
 import id.akhir.proyek.rukuntetangga.listener.AdapterListener;
+import id.akhir.proyek.rukuntetangga.listener.MenuListener;
 import id.akhir.proyek.rukuntetangga.models.Letter;
 
 public class LetterAdapter extends RecyclerView.Adapter<LetterAdapter.ViewHolder>{
 
     private List<Letter> dataLetter;
     private final AdapterListener<Letter> listener;
-    private boolean canUpdateStatus;
-    private Context context;
+    private MenuListener<Letter> deleteListener;
+    private final boolean canUpdateStatus;
+    private final Context context;
+
+    public LetterAdapter(Context context, boolean canUpdateStatus, List<Letter> dataLetter, AdapterListener<Letter> listener, MenuListener<Letter> deleteListener) {
+        this.dataLetter = dataLetter;
+        this.listener = listener;
+        this.canUpdateStatus = canUpdateStatus;
+        this.context = context;
+        this.deleteListener = deleteListener;
+    }
 
     public LetterAdapter(Context context, boolean canUpdateStatus, List<Letter> dataLetter, AdapterListener<Letter> listener) {
         this.dataLetter = dataLetter;
@@ -57,8 +67,15 @@ public class LetterAdapter extends RecyclerView.Adapter<LetterAdapter.ViewHolder
         holder.tvAddress.setText(letter.getUser().getCurrentAddress());
         holder.tvDescription.setText(letter.getDescription());
         holder.tvEmail.setText(letter.getUser().getEmail());
+        holder.btnStatus.setBackgroundColor(statusTypeColor(letter.getStatusLetter()));
         holder.btnStatus.setText(statusType(letter.getStatusLetter()));
         if (canUpdateStatus) {
+            if (letter.getStatusLetter() == 2) {
+                holder.btnDelete.setVisibility(View.VISIBLE);
+            } else {
+                holder.btnDelete.setVisibility(View.GONE);
+            }
+
             holder.tvEmail.setLinksClickable(true);
             holder.tvEmail.setOnClickListener(v -> {
                 Intent emailIntent = new Intent(Intent.ACTION_SEND);
@@ -75,6 +92,16 @@ public class LetterAdapter extends RecyclerView.Adapter<LetterAdapter.ViewHolder
             holder.tvEmail.setLinksClickable(false);
             holder.btnStatus.setEnabled(false);
             holder.btnStatus.setClickable(false);
+        }
+    }
+
+    private int statusTypeColor(int status) {
+        if (status == 1) {
+            return context.getResources().getColor(R.color.colorGray);
+        } else if (status == 2) {
+            return context.getResources().getColor(R.color.colorSecondary);
+        } else {
+            return context.getResources().getColor(R.color.colorRed);
         }
     }
 
@@ -96,7 +123,7 @@ public class LetterAdapter extends RecyclerView.Adapter<LetterAdapter.ViewHolder
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView tvLetterType, tvApplicant, tvDateBirth, tvDateNeed, tvAddress
                 , tvDescription, tvEmail;
-        Button btnStatus;
+        Button btnStatus, btnDelete;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
@@ -108,6 +135,12 @@ public class LetterAdapter extends RecyclerView.Adapter<LetterAdapter.ViewHolder
             tvDescription = itemView.findViewById(R.id.tv_description);
             tvEmail = itemView.findViewById(R.id.tv_email);
             btnStatus = itemView.findViewById(R.id.btn_status_letter);
+            btnDelete = itemView.findViewById(R.id.btn_delete_letter);
+
+            btnDelete.setOnClickListener(v -> {
+                if (deleteListener !=null)
+                    deleteListener.onDelete(dataLetter.get(getBindingAdapterPosition()));
+            });
 
             btnStatus.setOnClickListener(v -> {
                 if (listener != null)

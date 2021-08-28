@@ -123,8 +123,8 @@ public class StructureAdminActivity extends BaseActivity {
             RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), _filePhoto);
 //        // MultipartBody.Part is used to send also the actual file name
             MultipartBody.Part body = MultipartBody.Part.createFormData("user_photo", _filePhoto.getName(), requestFile);
-            RequestBody rbUserId = RequestBody.create(MultipartBody.FORM, String.valueOf(_selectedPosition));
-            RequestBody rbPositionId = RequestBody.create(MultipartBody.FORM, String.valueOf(_selectedWarga));
+            RequestBody rbUserId = RequestBody.create(MultipartBody.FORM, String.valueOf(_selectedWarga));
+            RequestBody rbPositionId = RequestBody.create(MultipartBody.FORM, String.valueOf(_selectedPosition));
             showProgressBarUpload(true);
             mApiService.addStructure("Bearer " + getUserToken(), rbUserId, rbPositionId, body).enqueue(addStructureCallback.build());
         });

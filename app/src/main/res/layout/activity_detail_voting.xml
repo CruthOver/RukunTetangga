@@ -69,6 +69,7 @@
 
                 <!--View to display the yellow color icon-->
                 <View
+                    android:id="@+id/view_choice_one"
                     android:layout_width="15dp"
                     android:layout_height="15dp"
                     android:layout_gravity="center"
@@ -76,14 +77,15 @@
 
                 <!--Text view to display R -->
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:id="@+id/tv_choice_one"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="R"
                     android:layout_gravity="center"
-                    android:paddingEnd="4dp"
                     android:paddingStart="10dp"
+                    android:paddingLeft="10dp"
+                    android:paddingEnd="4dp"
                     android:paddingRight="4dp"
-                    android:paddingLeft="10dp" />
+                    android:text="R" />
 
             </LinearLayout>
 
@@ -94,6 +96,7 @@
 
                 <!--View to display the yellow color icon-->
                 <View
+                    android:id="@+id/view_choice_two"
                     android:layout_width="15dp"
                     android:layout_height="15dp"
                     android:layout_gravity="center"
@@ -101,14 +104,15 @@
 
                 <!--Text view to display R -->
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:id="@+id/tv_choice_two"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="R"
                     android:layout_gravity="center"
-                    android:paddingEnd="4dp"
                     android:paddingStart="10dp"
+                    android:paddingLeft="10dp"
+                    android:paddingEnd="4dp"
                     android:paddingRight="4dp"
-                    android:paddingLeft="10dp" />
+                    android:text="R" />
 
             </LinearLayout>
             <LinearLayout
@@ -118,6 +122,7 @@
 
                 <!--View to display the yellow color icon-->
                 <View
+                    android:id="@+id/view_choice_three"
                     android:layout_width="15dp"
                     android:layout_height="15dp"
                     android:layout_gravity="center"
@@ -125,7 +130,8 @@
 
                 <!--Text view to display R -->
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:id="@+id/tv_choice_three"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="R"
                     android:layout_gravity="center"

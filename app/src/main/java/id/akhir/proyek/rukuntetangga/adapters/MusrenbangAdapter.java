@@ -18,7 +18,7 @@ import id.akhir.proyek.rukuntetangga.models.Musrenbang;
 
 public class MusrenbangAdapter extends RecyclerView.Adapter<MusrenbangAdapter.ViewHolder> {
 
-    private final List<Musrenbang> dataMusrenbang;
+    private List<Musrenbang> dataMusrenbang;
     private final AdapterListener<Musrenbang> listener;
     private Context context;
 
@@ -26,6 +26,11 @@ public class MusrenbangAdapter extends RecyclerView.Adapter<MusrenbangAdapter.Vi
         this.dataMusrenbang = dataMusrenbang;
         this.listener = listener;
         this.context = context;
+    }
+
+    public void setData(List<Musrenbang> dataMusrenbang) {
+        this.dataMusrenbang = dataMusrenbang;
+        notifyDataSetChanged();
     }
 
     @NonNull

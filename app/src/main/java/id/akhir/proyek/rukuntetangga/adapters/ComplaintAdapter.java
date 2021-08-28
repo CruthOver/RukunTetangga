@@ -61,8 +61,8 @@ public class ComplaintAdapter extends RecyclerView.Adapter<ComplaintAdapter.View
             holder.btnStatusComplaint.setClickable(true);
         } else {
             holder.tvDateComplaint.setVisibility(View.VISIBLE);
-            holder.btnStatusComplaint.setEnabled(false);
-            holder.btnStatusComplaint.setClickable(false);
+//            holder.btnStatusComplaint.setEnabled(false);
+//            holder.btnStatusComplaint.setClickable(false);
         }
     }
 

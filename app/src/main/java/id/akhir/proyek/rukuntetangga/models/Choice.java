@@ -1,8 +1,11 @@
 package id.akhir.proyek.rukuntetangga.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
-public class Choice {
+public class Choice implements Parcelable {
     @SerializedName("id")
     private int id;
     @SerializedName("voting_Id")
@@ -39,5 +42,40 @@ public class Choice {
 
     public void setPilihan(String pilihan) {
         this.pilihan = pilihan;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.id);
+        dest.writeInt(this.voteId);
+        dest.writeString(this.pilihan);
+    }
+
+    protected Choice(Parcel in) {
+        this.id = in.readInt();
+        this.voteId = in.readInt();
+        this.pilihan = in.readString();
+    }
+
+    // Cukup sesuaikan nama objeknya
+    public static final Parcelable.Creator<Choice> CREATOR = new Parcelable.Creator<Choice>() {
+        @Override
+        public Choice createFromParcel(Parcel source) {
+            return new Choice(source);
+        }
+
+        @Override
+        public Choice[] newArray(int size) {
+            return new Choice[size];
+        }
+    };
+
+    public static Creator<Choice> getCREATOR() {
+        return CREATOR;
     }
 }

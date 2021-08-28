@@ -195,17 +195,40 @@
                 android:id="@+id/et_nik"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/edit_text_rounded_gray"
-                android:hint="@string/hint_nik"
                 android:layout_marginStart="16dp"
                 android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
                 android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
                 android:layout_marginBottom="16dp"
+                android:background="@drawable/edit_text_rounded_gray"
+                android:hint="@string/hint_nik"
+                android:importantForAutofill="no"
                 android:inputType="numberSigned"
                 android:padding="8dp"
-                tools:ignore="TextFields"
-                android:importantForAutofill="no" />
+                tools:ignore="TextFields" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/label_menu_job"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:layout_marginBottom="8dp" />
+
+            <EditText
+                android:id="@+id/et_job"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/edit_text_rounded_gray"
+                android:hint="@string/hint_job"
+                android:importantForAutofill="no"
+                android:inputType="text"
+                android:padding="8dp" />
 
             <TextView
                 android:layout_width="wrap_content"

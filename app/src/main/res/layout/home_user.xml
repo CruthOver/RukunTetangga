@@ -48,11 +48,10 @@
                         android:layout_weight="1.5">
 
                         <EditText
-                            android:id="@+id/etPassword"
+                            android:id="@+id/search_bar"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@drawable/edit_text_rounded"
-                            android:focusableInTouchMode="false"
                             android:hint="@string/hint_search"
                             android:importantForAutofill="no"
                             android:inputType="text"
