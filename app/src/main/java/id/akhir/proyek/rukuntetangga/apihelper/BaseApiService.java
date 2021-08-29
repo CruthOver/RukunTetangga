@@ -99,6 +99,16 @@ public interface BaseApiService {
     Call<ResponseBody> getKasUser(@Header("Authorization") String authToken,
                                   @Query("user_id") int userId);
 
+    @GET("kas/kas_admin")
+    Call<ResponseBody> getKasAdmin(@Header("Authorization") String authToken,
+                                   @Query("month") int month);
+
+    @FormUrlEncoded
+    @POST("kas/kas_admin")
+    Call<ResponseBody> addKasAdmin(@Header("Authorization") String authToken,
+                                   @Query("month") int month,
+                                   @Query("tanggal_bayar") String datePay);
+
     @FormUrlEncoded
     @POST("informasi")
     Call<ResponseBody> addInformation(@Header("Authorization") String authToken,
