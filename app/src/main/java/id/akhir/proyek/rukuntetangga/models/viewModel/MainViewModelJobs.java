@@ -1,5 +1,6 @@
 package id.akhir.proyek.rukuntetangga.models.viewModel;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.widget.Toast;
 
@@ -23,8 +24,10 @@ public class MainViewModelJobs extends ViewModel {
     private BaseApiService mApiService = UtilsApi.getApiService();
 
     private MutableLiveData<List<Jobs>> listJob= new MutableLiveData<>();
+    private Dialog progressDialog;
 
-    public void setData(String authToken, Context context) {
+    public void setData(String authToken, Context context, Dialog progressDialog) {
+        this.progressDialog = progressDialog;
         apiCallback.context = context;
         Call<ResponseBody> callJobList = mApiService.getJobs(authToken);
         callJobList.enqueue(apiCallback.build());
@@ -33,12 +36,14 @@ public class MainViewModelJobs extends ViewModel {
     CallbackApi apiCallback = new CallbackApi() {
         @Override
         public void onApiSuccess(String result) {
+            progressDialog.dismiss();
             ApiData<Jobs> apiJobs = new Gson().fromJson(result, new TypeToken<ApiData<Jobs>>(){}.getType());
             listJob.postValue(apiJobs.getData());
         }
 
         @Override
         public void onApiFailure(String errorMessage) {
+            progressDialog.dismiss();
             Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show();
         }
     };

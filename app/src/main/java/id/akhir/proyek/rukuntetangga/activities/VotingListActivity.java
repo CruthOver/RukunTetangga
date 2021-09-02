@@ -133,7 +133,6 @@ public class VotingListActivity extends BaseActivity {
     ApiCallback getVotingCallback = new ApiCallback() {
         @Override
         public void onApiSuccess(String result) {
-
             showProgressBar(false);
             ApiData<Voting> apiService = new Gson().fromJson(result, new TypeToken<ApiData<Voting>>(){}.getType());
             dataVoting = apiService.getData();

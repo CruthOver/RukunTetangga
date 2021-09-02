@@ -50,7 +50,6 @@ public class DetailKegiatanActivity extends BaseActivity {
         tvJamKegiatan.setText(detailActivity.getHour());
         tvLokasiKegiatan.setText(detailActivity.getLocation());
         tvTanggalKegiatan.setText(detailActivity.getDateActivity());
-        tvDitujukan.setText(detailActivity.getDitujukan());
         Picasso.get().load(detailActivity.getImageActivity())
                 .placeholder(R.drawable.image_placeholder)
                 .error(R.drawable.broken_image)

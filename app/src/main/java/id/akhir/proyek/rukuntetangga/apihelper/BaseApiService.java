@@ -1,16 +1,11 @@
 package id.akhir.proyek.rukuntetangga.apihelper;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
-import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
-import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -20,7 +15,6 @@ import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Part;
-import retrofit2.http.PartMap;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -39,7 +33,7 @@ public interface BaseApiService {
 
     @GET("service")
     Call<ResponseBody> getService(@Header("Authorization") String authToken,
-                                     @Query("tipe_id") int serviceType);
+                                  @Query("tipe_id") int serviceType);
 
     @GET("structure/position")
     Call<ResponseBody> getPosition(@Header("Authorization") String authToken);
@@ -147,9 +141,9 @@ public interface BaseApiService {
     @FormUrlEncoded
     @POST("kas/info_keuangan")
     Call<ResponseBody> addInfoKeuangan(@Header("Authorization") String authToken,
-                                       @Field("saldo") String saldo,
+//                                       @Field("saldo") String saldo,
                                        @Field("bulan_id") int bulanId,
-                                       @Field("kebutuhan") String kebutuhan,
+//                                       @Field("kebutuhan") String kebutuhan,
                                        @Field("pemasukan") String income,
                                        @Field("pengeluaran") String expense);
 
@@ -160,15 +154,14 @@ public interface BaseApiService {
                                    @Part("tanggal_kegiatan") RequestBody dateKegiatan,
                                    @Part("jam_kegiatan") RequestBody timeKegiatan,
                                    @Part("lokasi") RequestBody location,
-                                   @Part("ditujukan") RequestBody ditujukan,
                                    @Part MultipartBody.Part fotoKegiatan);
 
     @Multipart
     @POST("service")
     Call<ResponseBody> addService(@Header("Authorization") String authToken,
-                                   @Part("nama_jasa") RequestBody serviceName,
-                                   @Part("nomor_telepon") RequestBody phoneNumber,
-                                   @Part MultipartBody.Part fotoKegiatan);
+                                  @Part("nama_jasa") RequestBody serviceName,
+                                  @Part("nomor_telepon") RequestBody phoneNumber,
+                                  @Part MultipartBody.Part fotoKegiatan);
 
     @Multipart
     @POST("activities/update")
@@ -178,22 +171,21 @@ public interface BaseApiService {
                                       @Part("tanggal_kegiatan") RequestBody dateKegiatan,
                                       @Part("jam_kegiatan") RequestBody timeKegiatan,
                                       @Part("lokasi") RequestBody location,
-                                      @Part("ditujukan") RequestBody ditujukan,
                                       @Part MultipartBody.Part fotoKegiatan);
 
     @Multipart
     @POST("structure")
     Call<ResponseBody> addStructure(@Header("Authorization") String authToken,
-                                   @Part("user_id") RequestBody userId,
-                                   @Part("position_id") RequestBody positionId,
-                                   @Part MultipartBody.Part fotoUser);
+                                    @Part("name") RequestBody userId,
+                                    @Part("position_id") RequestBody positionId,
+                                    @Part MultipartBody.Part fotoUser);
 
     @Multipart
     @POST("jobs")
     Call<ResponseBody> addJob(@Header("Authorization") String authToken,
-                                    @Part("user_id") RequestBody userId,
-                                    @Part("job_name") RequestBody jobName,
-                                    @Part MultipartBody.Part fotoPekerjaan);
+                              @Part("user_id") RequestBody userId,
+                              @Part("job_name") RequestBody jobName,
+                              @Part MultipartBody.Part fotoPekerjaan);
 
     @Multipart
     @POST("niaga")
@@ -207,22 +199,22 @@ public interface BaseApiService {
     @Multipart
     @POST("musrenbang")
     Call<ResponseBody> addMusrenbang(@Header("Authorization") String authToken,
-                                @Part("nama") RequestBody musrenbangName,
-                                @Part MultipartBody.Part niagaPhoto);
+                                     @Part("nama") RequestBody musrenbangName,
+                                     @Part MultipartBody.Part niagaPhoto);
 
     @Multipart
     @POST("report")
     Call<ResponseBody> addLaporan(@Header("Authorization") String authToken,
-                                     @Part("complaint") RequestBody complaintDescription,
-                                     @Part("user_id") RequestBody userId,
-                                     @Part MultipartBody.Part complaintFoto);
+                                  @Part("complaint") RequestBody complaintDescription,
+                                  @Part("user_id") RequestBody userId,
+                                  @Part MultipartBody.Part complaintFoto);
 
     @Multipart
     @POST("report/tindakan")
     Call<ResponseBody> tindakLanjut(@Header("Authorization") String authToken,
-                                     @Part("laporan_id") RequestBody complaintId,
-                                     @Part("description") RequestBody description,
-                                     @Part MultipartBody.Part imageAction);
+                                    @Part("laporan_id") RequestBody complaintId,
+                                    @Part("description") RequestBody description,
+                                    @Part MultipartBody.Part imageAction);
 
     @FormUrlEncoded
     @POST("surat")
@@ -247,8 +239,8 @@ public interface BaseApiService {
     @FormUrlEncoded
     @PUT("surat")
     Call<ResponseBody> updateStatusLetter(@Header("Authorization") String authToken,
-                                           @Field("letter_id") int letterId,
-                                           @Field("status_id") int statusId);
+                                          @Field("letter_id") int letterId,
+                                          @Field("status_id") int statusId);
 
     @Multipart
     @POST("users/user_data")
@@ -263,6 +255,12 @@ public interface BaseApiService {
                                     @Part("user_id") RequestBody userId,
                                     @Part("type") RequestBody type,
                                     @Part MultipartBody.Part imageKK);
+
+    @FormUrlEncoded
+    @POST("kas/kas_admin")
+    Call<ResponseBody> addPembayaranUser(@Header("Authorization") String authToken,
+                                         @Field("user_id") int userId,
+                                         @Field("month") int month);
 
     @FormUrlEncoded
     @PUT("users")
@@ -289,13 +287,24 @@ public interface BaseApiService {
                                     @Field("batas_waktu") String dueDate,
                                     @Field("pilihan[]") List<String> choices);
 
+    @FormUrlEncoded
+    @PUT("users/change_password")
+    Call<ResponseBody> changePassword(@Header("Authorization") String authToken,
+                                    @Field("user_id") int userId,
+                                    @Field("current_password") String oldPassword,
+                                    @Field("password") String newPassword);
+
     @DELETE("users/{id}")
     Call<ResponseBody> deleteUser(@Header("Authorization") String authToken,
                                   @Path("id") int id);
 
     @DELETE("surat/{id}")
     Call<ResponseBody> deleteSurat(@Header("Authorization") String authToken,
-                                  @Path("id") int id);
+                                   @Path("id") int id);
+
+    @DELETE("report/{id}")
+    Call<ResponseBody> deleteComplaint(@Header("Authorization") String authToken,
+                                       @Path("id") int id);
 
     @DELETE("voting/{id}")
     Call<ResponseBody> deleteVoting(@Header("Authorization") String authToken,
@@ -303,9 +312,9 @@ public interface BaseApiService {
 
     @DELETE("activities/{id}")
     Call<ResponseBody> deleteActivity(@Header("Authorization") String authToken,
-                                    @Path("id") int id);
+                                      @Path("id") int id);
 
     @DELETE("informasi/{id}")
     Call<ResponseBody> deleteInformasi(@Header("Authorization") String authToken,
-                                      @Path("id") int id);
+                                       @Path("id") int id);
 }

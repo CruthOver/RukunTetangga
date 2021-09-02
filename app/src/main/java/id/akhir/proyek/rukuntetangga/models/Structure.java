@@ -5,15 +5,13 @@ import com.google.gson.annotations.SerializedName;
 public class Structure {
     @SerializedName("id")
     int id;
-    @SerializedName("user_id")
-    int userId;
     @SerializedName("posisi_id")
     int positionId;
     @SerializedName("foto_user")
     String userPhoto;
     @SerializedName("nama_posisi")
     String positionName;
-    @SerializedName("nama_lengkap")
+    @SerializedName("nama")
     String fullName;
 
     public int getId() {
@@ -22,14 +20,6 @@ public class Structure {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
     }
 
     public int getPositionId() {

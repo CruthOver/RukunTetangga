@@ -101,17 +101,6 @@
                 android:background="@drawable/back"
                 android:gravity="center"
                 android:padding="8dp"
-                android:text="No. Tagihan"
-                android:textColor="@color/black"
-                android:textSize="12sp" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/back"
-                android:gravity="center"
-                android:padding="8dp"
                 android:text="Nama"
                 android:textColor="@color/black"
                 android:textSize="12sp" />

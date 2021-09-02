@@ -110,120 +110,105 @@ public class StructureUserActivity extends BaseActivity {
                 case 1:
                     tvKetuaRT.setText(data.getPositionName());
                     tvNamaKetuaRT.setText(data.getFullName());
+                    if (!data.getUserPhoto().isEmpty()) {
+                        setPicasso(data.getUserPhoto(), ivKetuaRT);
+                    } else {
+                        ivKetuaRT.setImageResource(R.drawable.ic_account);
+                    }
                     break;
                 case 2:
                     tvSekretaris.setText(data.getPositionName());
                     tvNamaSekretaris.setText(data.getFullName());
+                    if (!data.getUserPhoto().isEmpty()) {
+                        setPicasso(data.getUserPhoto(), ivSekretaris);
+                    } else {
+                        ivSekretaris.setImageResource(R.drawable.ic_account);
+                    }
                     break;
                 case 3:
                     tvBendahara.setText(data.getPositionName());
                     tvNamaBendahara.setText(data.getFullName());
+                    if (!data.getUserPhoto().isEmpty()) {
+                        setPicasso(data.getUserPhoto(), ivBendahara);
+                    } else {
+                        ivBendahara.setImageResource(R.drawable.ic_account);
+                    }
                     break;
                 case 4:
                     tvInfrastruktur.setText(data.getPositionName());
                     tvNamaInfrastruktur.setText(data.getFullName());
+                    if (!data.getUserPhoto().isEmpty()) {
+                        setPicasso(data.getUserPhoto(), ivInfrastruktur);
+                    } else {
+                        ivInfrastruktur.setImageResource(R.drawable.ic_account);
+                    }
                     break;
                 case 5:
                     tvKerohanian.setText(data.getPositionName());
                     tvNamaKerohanian.setText(data.getFullName());
+                    if (!data.getUserPhoto().isEmpty()) {
+                        setPicasso(data.getUserPhoto(), ivKerohanian);
+                    } else {
+                        ivKerohanian.setImageResource(R.drawable.ic_account);
+                    }
                     break;
                 case 6:
                     tvKeamanan.setText(data.getPositionName());
                     tvNamaKeamanan.setText(data.getFullName());
+                    if (!data.getUserPhoto().isEmpty()) {
+                        setPicasso(data.getUserPhoto(), ivKeamanan);
+                    } else {
+                        ivKeamanan.setImageResource(R.drawable.ic_account);
+                    }
                     break;
                 case 7:
                     tvPKK.setText(data.getPositionName());
                     tvNamaPKK.setText(data.getFullName());
+                    if (!data.getUserPhoto().isEmpty()) {
+                        setPicasso(data.getUserPhoto(), ivPKK);
+                    } else {
+                        ivPKK.setImageResource(R.drawable.ic_account);
+                    }
                     break;
                 case 8:
                     tvPemudaOlahraga.setText(data.getPositionName());
                     tvNamaPemudaOlahraga.setText(data.getFullName());
+                    if (!data.getUserPhoto().isEmpty()) {
+                        setPicasso(data.getUserPhoto(), ivPemudaOlahraga);
+                    } else {
+                        ivPemudaOlahraga.setImageResource(R.drawable.ic_account);
+                    }
                     break;
                 case 9:
                     tvPubDok.setText(data.getPositionName());
                     tvNamaPubDok.setText(data.getFullName());
+                    if (!data.getUserPhoto().isEmpty()) {
+                        setPicasso(data.getUserPhoto(), ivPubDok);
+                    } else {
+                        ivPubDok.setImageResource(R.drawable.ic_account);
+                    }
                     break;
                 case 10:
                     tvKebersihan.setText(data.getPositionName());
                     tvNamaKebersihan.setText(data.getFullName());
+                    if (!data.getUserPhoto().isEmpty()) {
+                        setPicasso(data.getUserPhoto(), ivKebersihan);
+                    } else {
+                        ivKebersihan.setImageResource(R.drawable.ic_account);
+                    }
                     break;
                 case 11:
                     tvKesehatan.setText(data.getPositionName());
                     tvNamaKesehatan.setText(data.getFullName());
+                    if (!data.getUserPhoto().isEmpty()) {
+                        setPicasso(data.getUserPhoto(), ivKesehatan);
+                    } else {
+                        ivKesehatan.setImageResource(R.drawable.ic_account);
+                    }
                     break;
                 default:
                     break;
             }
-        }
-
-        setImageUser();
-    }
-
-    private void setImageUser() {
-        if (!dataStructure.get(0).getUserPhoto().isEmpty()) {
-            setPicasso(dataStructure.get(0).getUserPhoto(), ivKetuaRT);
-        } else {
-            ivKetuaRT.setImageResource(R.drawable.ic_account);
-        }
-
-        if (!dataStructure.get(1).getUserPhoto().isEmpty()) {
-            setPicasso(dataStructure.get(1).getUserPhoto(), ivSekretaris);
-        } else {
-            ivSekretaris.setImageResource(R.drawable.ic_account);
-        }
-
-        if (!dataStructure.get(2).getUserPhoto().isEmpty()) {
-            setPicasso(dataStructure.get(2).getUserPhoto(), ivBendahara);
-        } else {
-            ivBendahara.setImageResource(R.drawable.ic_account);
-        }
-
-        if (!dataStructure.get(3).getUserPhoto().isEmpty()) {
-            setPicasso(dataStructure.get(3).getUserPhoto(), ivInfrastruktur);
-        } else {
-            ivInfrastruktur.setImageResource(R.drawable.ic_account);
-        }
-
-        if (!dataStructure.get(4).getUserPhoto().isEmpty()) {
-            setPicasso(dataStructure.get(4).getUserPhoto(), ivKerohanian);
-        } else {
-            ivKerohanian.setImageResource(R.drawable.ic_account);
-        }
-
-        if (!dataStructure.get(5).getUserPhoto().isEmpty()) {
-            setPicasso(dataStructure.get(5).getUserPhoto(), ivPKK);
-        } else {
-            ivPKK.setImageResource(R.drawable.ic_account);
-        }
-
-        if (!dataStructure.get(6).getUserPhoto().isEmpty()) {
-            setPicasso(dataStructure.get(6).getUserPhoto(), ivKeamanan);
-        } else {
-            ivKeamanan.setImageResource(R.drawable.ic_account);
-        }
-
-        if (!dataStructure.get(7).getUserPhoto().isEmpty()) {
-            setPicasso(dataStructure.get(7).getUserPhoto(), ivPemudaOlahraga);
-        } else {
-            ivPemudaOlahraga.setImageResource(R.drawable.ic_account);
-        }
-
-        if (!dataStructure.get(8).getUserPhoto().isEmpty()) {
-            setPicasso(dataStructure.get(8).getUserPhoto(), ivPubDok);
-        } else {
-            ivPubDok.setImageResource(R.drawable.ic_account);
-        }
-
-        if (!dataStructure.get(9).getUserPhoto().isEmpty()) {
-            setPicasso(dataStructure.get(9).getUserPhoto(), ivKebersihan);
-        } else {
-            ivKebersihan.setImageResource(R.drawable.ic_account);
-        }
-
-        if (!dataStructure.get(10).getUserPhoto().isEmpty()) {
-            setPicasso(dataStructure.get(10).getUserPhoto(), ivKesehatan);
-        } else {
-            ivKesehatan.setImageResource(R.drawable.ic_account);
         }
     }
 

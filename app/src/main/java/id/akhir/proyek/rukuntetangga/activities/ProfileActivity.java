@@ -29,6 +29,7 @@ import com.squareup.picasso.Picasso;
 import java.io.File;
 
 import id.akhir.proyek.rukuntetangga.R;
+import id.akhir.proyek.rukuntetangga.activities.user.ChangePasswordActivity;
 import id.akhir.proyek.rukuntetangga.apihelper.AppSession;
 import id.akhir.proyek.rukuntetangga.controllers.BaseActivity;
 import id.akhir.proyek.rukuntetangga.models.ApiData;
@@ -90,7 +91,7 @@ public class ProfileActivity extends BaseActivity {
     private void setData() {
         user = getUserSession();
         String gender = user.getGender().equals("0") ? "Laki-laki" : "Perempuan";
-        String birthDate = user.getBirthPlace() + "," + user.getDateBirth();
+        String birthDate = user.getBirthPlace() + ", " + user.getDateBirth();
         tvUsername.setText(user.getFullName());
         tvAddress.setText(user.getCurrentAddress());
         tvPhoneNumber.setText(user.getPhoneNumber());
@@ -229,6 +230,7 @@ public class ProfileActivity extends BaseActivity {
         inflater.inflate(R.menu.menu_add, menu);
         menu.findItem(R.id.menu_toolbar).setIcon(R.drawable.ic_edit);
         menu.findItem(R.id.logout).setVisible(true);
+        menu.findItem(R.id.changePassword).setVisible(true);
         return true;
     }
 
@@ -241,6 +243,9 @@ public class ProfileActivity extends BaseActivity {
             return true;
         } else if (item.getItemId() == R.id.logout) {
             logout();
+            return true;
+        } else if (item.getItemId() == R.id.changePassword) {
+            nextActivity(ChangePasswordActivity.class);
             return true;
         } else {
             return super.onOptionsItemSelected(item);

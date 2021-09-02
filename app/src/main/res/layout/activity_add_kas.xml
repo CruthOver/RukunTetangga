@@ -46,30 +46,6 @@
                 android:layout_marginStart="12dp"
                 android:layout_marginLeft="12dp"
                 android:layout_marginBottom="8dp"
-                android:text="@string/label_saldo"
-                android:textColor="@color/black"
-                android:textSize="20sp" />
-
-            <EditText
-                android:id="@+id/et_saldo"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginLeft="24dp"
-                android:layout_marginEnd="20dp"
-                android:layout_marginRight="24dp"
-                android:layout_marginBottom="16dp"
-                android:background="@drawable/edit_text_rounded_gray"
-                android:inputType="numberSigned"
-                android:importantForAutofill="no"
-                android:padding="8dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
-                android:layout_marginLeft="12dp"
-                android:layout_marginBottom="8dp"
                 android:text="@string/label_month"
                 android:textColor="@color/black"
                 android:textSize="20sp" />
@@ -84,29 +60,6 @@
                 android:layout_marginRight="24dp"
                 android:layout_marginBottom="16dp"
                 android:background="@drawable/edit_text_rounded_gray"
-                android:padding="8dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
-                android:layout_marginLeft="12dp"
-                android:layout_marginBottom="8dp"
-                android:text="@string/label_kebutuhan"
-                android:textColor="@color/black"
-                android:textSize="20sp" />
-
-            <EditText
-                android:id="@+id/et_kebutuhan"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginLeft="24dp"
-                android:layout_marginEnd="20dp"
-                android:layout_marginRight="24dp"
-                android:layout_marginBottom="16dp"
-                android:background="@drawable/edit_text_rounded_gray"
-                android:inputType="text"
                 android:padding="8dp" />
 
             <TextView

@@ -17,7 +17,9 @@ import java.util.List;
 
 import id.akhir.proyek.rukuntetangga.R;
 import id.akhir.proyek.rukuntetangga.listener.AdapterListener;
+import id.akhir.proyek.rukuntetangga.listener.MenuListener;
 import id.akhir.proyek.rukuntetangga.models.Complaint;
+import id.akhir.proyek.rukuntetangga.models.Letter;
 
 public class ComplaintAdapter extends RecyclerView.Adapter<ComplaintAdapter.ViewHolder> {
 
@@ -25,6 +27,15 @@ public class ComplaintAdapter extends RecyclerView.Adapter<ComplaintAdapter.View
     private final AdapterListener<Complaint> listener;
     private final Context context;
     private final boolean canUpdateStatus;
+    private MenuListener<Complaint> deleteListener;
+
+    public ComplaintAdapter(boolean canUpdateStatus, List<Complaint> dataComplaint, Context context, AdapterListener<Complaint> listener, MenuListener<Complaint> deleteListener) {
+        this.dataComplaint = dataComplaint;
+        this.listener = listener;
+        this.context = context;
+        this.deleteListener = deleteListener;
+        this.canUpdateStatus = canUpdateStatus;
+    }
 
     public ComplaintAdapter(boolean canUpdateStatus, List<Complaint> dataComplaint, Context context, AdapterListener<Complaint> listener) {
         this.dataComplaint = dataComplaint;
@@ -56,14 +67,20 @@ public class ComplaintAdapter extends RecyclerView.Adapter<ComplaintAdapter.View
         holder.btnStatusComplaint.setBackgroundColor(statusTypeColor(complaint.getStatusComplaint()));
         holder.btnStatusComplaint.setText(statusType(complaint.getStatusComplaint()));
         if (canUpdateStatus) {
-            holder.tvDateComplaint.setVisibility(View.GONE);
+            if (complaint.getStatusComplaint() == 2) {
+                holder.btnDelete.setVisibility(View.VISIBLE);
+            } else {
+                holder.btnDelete.setVisibility(View.GONE);
+            }
             holder.btnStatusComplaint.setEnabled(true);
             holder.btnStatusComplaint.setClickable(true);
         } else {
-            holder.tvDateComplaint.setVisibility(View.VISIBLE);
-//            holder.btnStatusComplaint.setEnabled(false);
-//            holder.btnStatusComplaint.setClickable(false);
+            holder.btnDelete.setVisibility(View.GONE);
+            holder.btnStatusComplaint.setEnabled(false);
+            holder.btnStatusComplaint.setClickable(false);
         }
+
+        holder.onClick(complaint);
     }
 
     private String statusType(int status) {
@@ -92,9 +109,9 @@ public class ComplaintAdapter extends RecyclerView.Adapter<ComplaintAdapter.View
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView tvTitleComplaint, tvStatusComplaint, tvDateComplaint;
+        TextView tvTitleComplaint, tvDateComplaint;
         ImageView ivImageComplaint;
-        Button btnStatusComplaint;
+        Button btnStatusComplaint, btnDelete;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -103,17 +120,39 @@ public class ComplaintAdapter extends RecyclerView.Adapter<ComplaintAdapter.View
             tvDateComplaint = itemView.findViewById(R.id.tv_complaint_date);
             ivImageComplaint = itemView.findViewById(R.id.iv_complaint);
             btnStatusComplaint = itemView.findViewById(R.id.btn_status_complaint);
+            btnDelete = itemView.findViewById(R.id.btn_delete);
 
-            btnStatusComplaint.setOnClickListener(v -> {
-                if (listener != null)
-                    listener.onItemSelected(dataComplaint.get(getBindingAdapterPosition()));
+            btnDelete.setOnClickListener(v -> {
+                if (deleteListener !=null)
+                    deleteListener.onDelete(dataComplaint.get(getBindingAdapterPosition()));
             });
+        }
 
-            btnStatusComplaint.setOnLongClickListener(v -> {
-                if (listener != null)
-                    listener.onItemLongSelected(dataComplaint.get(getBindingAdapterPosition()));
-                return true;
-            });
+        public void onClick(Complaint data) {
+            if (data.getStatusComplaint() == 2) {
+                itemView.setOnClickListener(v -> {
+                    if (listener != null)
+                        listener.onItemSelected(data);
+                });
+
+                itemView.setOnLongClickListener(v -> {
+                    if (listener != null)
+                        listener.onItemLongSelected(data);
+                    return true;
+                });
+
+            } else {
+                btnStatusComplaint.setOnClickListener(v -> {
+                    if (listener != null)
+                        listener.onItemSelected(data);
+                });
+
+                btnStatusComplaint.setOnLongClickListener(v -> {
+                    if (listener != null)
+                        listener.onItemLongSelected(data);
+                    return true;
+                });
+            }
         }
     }
 }

@@ -108,7 +108,7 @@ public class EmergencyFragment extends Fragment {
         progressDialog.show();
         MainViewModelEmergency mainViewModel = ViewModelProviders.of(this).get(MainViewModelEmergency.class);
         mainViewModel.getListEmergency().observe(getViewLifecycleOwner(), getEmergency);
-        mainViewModel.setData("Bearer " + appSession.getData(AppSession.TOKEN), getContext());
+        mainViewModel.setData("Bearer " + appSession.getData(AppSession.TOKEN), getContext(), progressDialog);
         rvEmergency.setAdapter(adapter);
     }
 

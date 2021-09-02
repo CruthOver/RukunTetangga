@@ -7,10 +7,18 @@
         app:showAsAction="always">
     </item>
 
+    <item android:id="@+id/changePassword"
+        android:title="@string/label_change_password"
+        android:icon="@drawable/ic_baseline_logout_24"
+        app:showAsAction="never"
+        android:visible="false">
+    </item>
+
     <item android:id="@+id/logout"
         android:title="@string/label_logout"
         android:icon="@drawable/ic_baseline_logout_24"
         app:showAsAction="never"
         android:visible="false">
     </item>
+
 </menu>

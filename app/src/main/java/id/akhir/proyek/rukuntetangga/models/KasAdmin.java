@@ -3,20 +3,50 @@ package id.akhir.proyek.rukuntetangga.models;
 import com.google.gson.annotations.SerializedName;
 
 public class KasAdmin {
+    @SerializedName("user_id")
+    int userId;
     @SerializedName("name")
     String name;
-    @SerializedName("no_tagihan")
-    String noTagihan;
     @SerializedName("tanggal_bayar")
     String datePay;
     @SerializedName("status")
     String status;
+    @SerializedName("month")
+    int month;
+    @SerializedName("tahun")
+    int year;
 
-    public KasAdmin(String name, String noTagihan, String datePay, String status) {
+    public KasAdmin(int userId, String name, String datePay, String status, int month, int year) {
+        this.userId = userId;
         this.name = name;
-        this.noTagihan = noTagihan;
         this.datePay = datePay;
         this.status = status;
+        this.month = month;
+        this.year = year;
+    }
+
+    public int getMonth() {
+        return month;
+    }
+
+    public void setMonth(int month) {
+        this.month = month;
+    }
+
+    public int getYear() {
+        return year;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public String getName() {
@@ -25,14 +55,6 @@ public class KasAdmin {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getNoTagihan() {
-        return noTagihan;
-    }
-
-    public void setNoTagihan(String noTagihan) {
-        this.noTagihan = noTagihan;
     }
 
     public String getDatePay() {

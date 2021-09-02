@@ -42,9 +42,12 @@ public class KasAdapter extends RecyclerView.Adapter<KasAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.tvNo.setText(""+(position+1));
         holder.tvName.setText(dataKas.get(position).getName());
-        holder.tvNoTagihan.setText(dataKas.get(position).getNoTagihan());
         holder.tvDatePay.setText(dataKas.get(position).getDatePay());
         holder.tvStatus.setText(dataKas.get(position).getStatus());
+        if (dataKas.get(position).getStatus().equals("Lunas")) {
+            holder.tvStatus.setBackgroundColor(context.getResources().getColor(R.color.colorPrimary));
+            holder.tvStatus.setTextColor(context.getResources().getColor(R.color.white));
+        }
     }
 
     @Override
@@ -53,13 +56,12 @@ public class KasAdapter extends RecyclerView.Adapter<KasAdapter.ViewHolder> {
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
-        TextView tvNo, tvName, tvNoTagihan, tvDatePay, tvStatus;
+        TextView tvNo, tvName, tvDatePay, tvStatus;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             tvNo = itemView.findViewById(R.id.tv_no);
             tvName = itemView.findViewById(R.id.tv_name);
-            tvNoTagihan = itemView.findViewById(R.id.tv_tagihan);
             tvDatePay = itemView.findViewById(R.id.tv_date_pay);
             tvStatus = itemView.findViewById(R.id.tv_status);
 

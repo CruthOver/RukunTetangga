@@ -19,7 +19,15 @@
         android:theme="@style/AppThemeNoActionBar"
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
-        <activity android:name=".activities.admin.ViewInformationActivity"
+        <activity android:name=".activities.user.ChangePasswordActivity"
+            android:label="@string/title_change_password"
+            android:parentActivityName=".activities.ProfileActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.ProfileActivity" />
+        </activity>
+        <activity
+            android:name=".activities.admin.ViewInformationActivity"
             android:label="@string/title_menu_informasi"
             android:parentActivityName=".activities.admin.InformationActivity">
             <meta-data

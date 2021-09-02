@@ -21,6 +21,7 @@ import id.akhir.proyek.rukuntetangga.apihelper.AppSession;
 import id.akhir.proyek.rukuntetangga.controllers.BaseActivity;
 import id.akhir.proyek.rukuntetangga.listener.AdapterListener;
 import id.akhir.proyek.rukuntetangga.models.ApiData;
+import id.akhir.proyek.rukuntetangga.models.ApiStatus;
 import id.akhir.proyek.rukuntetangga.models.Complaint;
 import id.akhir.proyek.rukuntetangga.models.Service;
 
@@ -66,7 +67,6 @@ public class ComplaintActivity extends BaseActivity {
     ApiCallback complaintCallback = new ApiCallback() {
         @Override
         public void onApiSuccess(String result) {
-
             showProgressBar(false);
             ApiData<Complaint> apiService = new Gson().fromJson(result, new TypeToken<ApiData<Complaint>>(){}.getType());
             dataComplaint = apiService.getData();

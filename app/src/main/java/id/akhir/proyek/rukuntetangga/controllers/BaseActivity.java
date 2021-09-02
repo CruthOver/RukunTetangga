@@ -104,6 +104,7 @@ public class BaseActivity extends AppCompatActivity {
                 appSession.logout();
                 appSession.clearSession();
                 nextActivity(LoginActivity.class);
+                finish();
             }
 
             @Override

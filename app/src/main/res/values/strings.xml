@@ -67,6 +67,7 @@
     <string name="title_detail_warga">Detail Data Warga</string>
     <string name="title_add_data_warga">Input Data Warga</string>
     <string name="hint_warga_name">Masukkan Nama Warga</string>
+    <string name="hint_name">Masukkan Nama</string>
     <string name="hint_birth_place">Tempat Lahir</string>
     <string name="hint_birth_date">Tanggal Lahir</string>
     <string name="hint_nik">Masukkan NIK</string>
@@ -116,6 +117,7 @@
 
     <string name="warning_title">Konfirmasi</string>
     <string name="warning_confirmation">Anda yakin data yang dimasukkan sudah sesuai?</string>
+    <string name="warning_confirmation_2">Anda yakin ini merubah status pembayaran untuk warga %1$s!?</string>
     <string name="warning_confirmation_update">Anda yakin ingin merubah status laporan ini?</string>
     <string name="warning_ok">Iya</string>
     <string name="warning_cancel">Tidak</string>
@@ -161,6 +163,15 @@
     <string name="hint_for">Ditujukan Kepada</string>
     <string name="title_menu_ubah_kegiatan">Ubah Kegiatan</string>
     <string name="title_menu_update_voting">Ubah Voting</string>
+    <string name="label_change_password">Ubah Sandi</string>
+    <string name="label_old_password">Kata Sandi Lama</string>
+    <string name="hint_old_password">Masukkan Kata Sandi Lama</string>
+    <string name="label_new_password">Kata Sandi Baru</string>
+    <string name="hint_confirmation_new_password">Masukkan Kata Sandi Baru Lagi</string>
+    <string name="label_confirmation_new_password">Konfirmasi Kata Sandi Baru</string>
+    <string name="hint_new_password">Masukkan Kata Sandi Baru</string>
+    <string name="error_password_confirmation">Kata Sandi tidak sama</string>
+    <string name="title_change_password">Ubah Kata Sandi</string>
 
     <string-array name="agama">
         <item>Islam</item>

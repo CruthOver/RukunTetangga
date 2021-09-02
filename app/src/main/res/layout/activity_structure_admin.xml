@@ -71,17 +71,20 @@
             android:textColor="@color/black"
             android:textSize="20sp" />
 
-        <Spinner
-            android:id="@+id/sp_name"
+        <EditText
+            android:id="@+id/et_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/edit_text_rounded_gray"
+            android:hint="@string/hint_name"
             android:layout_marginStart="16dp"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
-            android:padding="8dp"/>
+            android:inputType="text"
+            android:importantForAutofill="no"
+            android:padding="8dp" />
 
         <TextView
             android:layout_width="wrap_content"

@@ -59,7 +59,7 @@ public class InfoKeuanganActivity extends BaseActivity {
 
             int saldo = 0;
             for (int i=0; i<dataKeuangan.size(); i++) {
-                saldo += dataKeuangan.get(i).getSaldo();
+                saldo += dataKeuangan.get(i).getIncome() - dataKeuangan.get(i).getExpense();
             }
             tvSaldo.setText(formatRupiah(saldo));
             adapter.setData(dataKeuangan);

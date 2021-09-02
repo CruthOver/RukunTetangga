@@ -46,7 +46,7 @@ public class KegiatanAdminActivity extends BaseActivity implements View.OnClickL
 
     Toolbar toolbar;
 
-    private EditText etDescription, etDate, etHour, etLocation, etDitujukan;
+    private EditText etDescription, etDate, etHour, etLocation;
     private ImageView ivImage, ivPreviewImage, ivRemoveImage;
     private Button btnUpload;
     Uri uri;
@@ -67,7 +67,6 @@ public class KegiatanAdminActivity extends BaseActivity implements View.OnClickL
         etDate = findViewById(R.id.et_date_activity);
         etHour = findViewById(R.id.et_hour_activity);
         etLocation = findViewById(R.id.et_location_activity);
-        etDitujukan = findViewById(R.id.et_ditujukan);
         ivImage = findViewById(R.id.iv_kegiatan);
         ivPreviewImage = findViewById(R.id.preview_image);
         ivRemoveImage = findViewById(R.id.iv_remove_image);
@@ -113,7 +112,6 @@ public class KegiatanAdminActivity extends BaseActivity implements View.OnClickL
         etDate.setText(activities.getDateActivity());
         etHour.setText(activities.getHour());
         etLocation.setText(activities.getLocation());
-        etDitujukan.setText(activities.getDitujukan());
         if (activities.getImageActivity() != null) {
             ivPreviewImage.setVisibility(View.VISIBLE);
             ivRemoveImage.setVisibility(View.VISIBLE);
@@ -237,11 +235,10 @@ public class KegiatanAdminActivity extends BaseActivity implements View.OnClickL
         RequestBody rbDateKegiatan = RequestBody.create(MultipartBody.FORM, etDate.getText().toString());
         RequestBody rbTimeKegiatan = RequestBody.create(MultipartBody.FORM, etHour.getText().toString());
         RequestBody rbLocation = RequestBody.create(MultipartBody.FORM, etLocation.getText().toString());
-        RequestBody rbDitujukan = RequestBody.create(MultipartBody.FORM, etDitujukan.getText().toString());
 
         showProgressBarUpload(true);
         mApiService.addKegiatan("Bearer " + getUserToken(), rbDescription,
-                rbDateKegiatan, rbTimeKegiatan, rbLocation, rbDitujukan, body).enqueue(addKegiatanCallback.build());
+                rbDateKegiatan, rbTimeKegiatan, rbLocation, body).enqueue(addKegiatanCallback.build());
     }
 
     private void editData() {
@@ -256,12 +253,11 @@ public class KegiatanAdminActivity extends BaseActivity implements View.OnClickL
         RequestBody rbDateKegiatan = RequestBody.create(MultipartBody.FORM, etDate.getText().toString());
         RequestBody rbTimeKegiatan = RequestBody.create(MultipartBody.FORM, etHour.getText().toString());
         RequestBody rbLocation = RequestBody.create(MultipartBody.FORM, etLocation.getText().toString());
-        RequestBody rbDitujukan = RequestBody.create(MultipartBody.FORM, etDitujukan.getText().toString());
 
         showProgressBarUpload(true);
 
             mApiService.updateKegiatan("Bearer " + getUserToken(), rbActivityId, rbDescription,
-                    rbDateKegiatan, rbTimeKegiatan, rbLocation, rbDitujukan, body).enqueue(updateKegiatanCallback.build());
+                    rbDateKegiatan, rbTimeKegiatan, rbLocation, body).enqueue(updateKegiatanCallback.build());
     }
 
     ApiCallback addKegiatanCallback = new ApiCallback() {

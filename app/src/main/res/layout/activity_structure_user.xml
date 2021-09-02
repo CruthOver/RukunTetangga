@@ -81,6 +81,8 @@
                         android:layout_gravity="center"
                         android:textColor="@color/black"
                         android:textSize="14sp"
+                        android:ellipsize="end"
+                        android:maxLines="1"
                         tools:text="Ketua RT" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
@@ -135,6 +137,8 @@
                             android:layout_gravity="center"
                             android:textColor="@color/black"
                             android:textSize="14sp"
+                            android:ellipsize="end"
+                            android:maxLines="1"
                             tools:text="Bendahara" />
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
@@ -183,6 +187,8 @@
                             android:layout_gravity="center"
                             android:textColor="@color/black"
                             android:textSize="14sp"
+                            android:ellipsize="end"
+                            android:maxLines="1"
                             tools:text="Sekretaris" />
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
@@ -208,6 +214,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:gravity="center"
+                            android:minLines="2"
                             android:textColor="@color/black"
                             android:textSize="14sp"
                             android:textStyle="bold"
@@ -229,6 +236,8 @@
                             android:layout_gravity="center"
                             android:textColor="@color/black"
                             android:textSize="14sp"
+                            android:ellipsize="end"
+                            android:maxLines="1"
                             tools:text="Infrastruktur" />
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
@@ -263,6 +272,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:gravity="center"
+                            android:minLines="2"
                             android:textColor="@color/black"
                             android:textSize="14sp"
                             android:textStyle="bold"
@@ -284,6 +294,8 @@
                             android:layout_gravity="center"
                             android:textColor="@color/black"
                             android:textSize="14sp"
+                            android:ellipsize="end"
+                            android:maxLines="1"
                             tools:text="Kerohanian" />
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
@@ -333,6 +345,8 @@
                             android:layout_gravity="center"
                             android:textColor="@color/black"
                             android:textSize="14sp"
+                            android:ellipsize="end"
+                            android:maxLines="1"
                             tools:text="Sekretaris" />
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
@@ -360,6 +374,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:gravity="center"
+                            android:minLines="2"
                             android:textColor="@color/black"
                             android:textSize="14sp"
                             android:textStyle="bold"
@@ -381,6 +396,8 @@
                             android:layout_gravity="center"
                             android:textColor="@color/black"
                             android:textSize="14sp"
+                            android:ellipsize="end"
+                            android:maxLines="1"
                             tools:text="Infrastruktur" />
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
@@ -415,6 +432,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:gravity="center"
+                            android:minLines="2"
                             android:textColor="@color/black"
                             android:textSize="14sp"
                             android:textStyle="bold"
@@ -436,6 +454,8 @@
                             android:layout_gravity="center"
                             android:textColor="@color/black"
                             android:textSize="14sp"
+                            android:ellipsize="end"
+                            android:maxLines="1"
                             tools:text="Bendahara" />
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
@@ -485,6 +505,8 @@
                             android:layout_gravity="center"
                             android:textColor="@color/black"
                             android:textSize="14sp"
+                            android:ellipsize="end"
+                            android:maxLines="1"
                             tools:text="Sekretaris" />
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
@@ -495,6 +517,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="8dp"
+                    android:layout_marginStart="2dp"
+                    android:layout_marginLeft="2dp"
                     app:cardElevation="10dp"
                     app:cardPreventCornerOverlap="false"
                     app:contentPadding="8dp">
@@ -510,6 +534,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:gravity="center"
+                            android:minLines="2"
                             android:textColor="@color/black"
                             android:textSize="14sp"
                             android:textStyle="bold"
@@ -529,9 +554,11 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
+                            android:ellipsize="end"
+                            android:maxLines="1"
                             android:textColor="@color/black"
                             android:textSize="14sp"
-                            tools:text="Infrastruktur" />
+                            tools:text="Infrastruktur asdqwa awqwad" />
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
             </LinearLayout>
@@ -582,6 +609,8 @@
                         android:layout_gravity="center"
                         android:textColor="@color/black"
                         android:textSize="14sp"
+                        android:ellipsize="end"
+                        android:maxLines="1"
                         tools:text="Kesehatan" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>

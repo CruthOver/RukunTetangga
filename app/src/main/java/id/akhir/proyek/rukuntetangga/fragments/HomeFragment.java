@@ -22,27 +22,20 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewStub;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.TextView;;
 
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import id.akhir.proyek.rukuntetangga.R;
 import id.akhir.proyek.rukuntetangga.activities.LoginActivity;
@@ -51,29 +44,22 @@ import id.akhir.proyek.rukuntetangga.activities.ProfileActivity;
 import id.akhir.proyek.rukuntetangga.activities.ServiceActivity;
 import id.akhir.proyek.rukuntetangga.activities.VotingListActivity;
 import id.akhir.proyek.rukuntetangga.activities.admin.DataWargaActivity;
-import id.akhir.proyek.rukuntetangga.activities.admin.InformationActivity;
 import id.akhir.proyek.rukuntetangga.activities.admin.KasAdminActivity;
-import id.akhir.proyek.rukuntetangga.activities.admin.KegiatanAdminActivity;
 import id.akhir.proyek.rukuntetangga.activities.admin.StructureAdminActivity;
 import id.akhir.proyek.rukuntetangga.activities.admin.ViewInformationActivity;
-import id.akhir.proyek.rukuntetangga.activities.admin.VotingAdminActivity;
 import id.akhir.proyek.rukuntetangga.activities.user.ComplaintActivity;
 import id.akhir.proyek.rukuntetangga.activities.user.EmergencyActivity;
 import id.akhir.proyek.rukuntetangga.activities.user.KasUserActivity;
 import id.akhir.proyek.rukuntetangga.activities.user.KegiatanUserActivity;
 import id.akhir.proyek.rukuntetangga.activities.user.StructureUserActivity;
-import id.akhir.proyek.rukuntetangga.activities.user.VotingUserActivity;
 import id.akhir.proyek.rukuntetangga.adapters.BannerAdapter;
-import id.akhir.proyek.rukuntetangga.adapters.ComplaintAdapter;
 import id.akhir.proyek.rukuntetangga.adapters.MenuGridAdapter;
 import id.akhir.proyek.rukuntetangga.apihelper.AppSession;
 import id.akhir.proyek.rukuntetangga.listener.AdapterListener;
 import id.akhir.proyek.rukuntetangga.listener.DialogListener;
-import id.akhir.proyek.rukuntetangga.models.Complaint;
 import id.akhir.proyek.rukuntetangga.models.Information;
 import id.akhir.proyek.rukuntetangga.models.MenuGrid;
 import id.akhir.proyek.rukuntetangga.models.User;
-import id.akhir.proyek.rukuntetangga.models.viewModel.MainViewModelComplaint;
 import id.akhir.proyek.rukuntetangga.models.viewModel.MainViewModelHome;
 
 public class HomeFragment extends Fragment {
@@ -222,7 +208,7 @@ public class HomeFragment extends Fragment {
         progressDialog.show();
         MainViewModelHome mainViewModel = ViewModelProviders.of(this).get(MainViewModelHome.class);
         mainViewModel.getListInformation().observe(getViewLifecycleOwner(), getInformation);
-        mainViewModel.setData("Bearer " + appSession.getData(AppSession.TOKEN), getContext());
+        mainViewModel.setData("Bearer " + appSession.getData(AppSession.TOKEN), getContext(), progressDialog);
 
         viewPager2.setClipToPadding(false);
         viewPager2.setClipChildren(false);

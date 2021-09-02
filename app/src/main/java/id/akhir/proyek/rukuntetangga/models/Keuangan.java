@@ -5,12 +5,10 @@ import com.google.gson.annotations.SerializedName;
 public class Keuangan {
     @SerializedName("id")
     int id;
-    @SerializedName("saldo")
-    int saldo;
     @SerializedName("bulan_id")
     int bulanId;
-    @SerializedName("kebutuhan")
-    String kebutuhan;
+    @SerializedName("tahun")
+    int year;
     @SerializedName("pemasukkan")
     int income;
     @SerializedName("pengeluaran")
@@ -21,12 +19,11 @@ public class Keuangan {
     int createdBy;
     boolean isExpanded;
 
-    public Keuangan(int id, int saldo, int bulanId, String kebutuhan, int income, int expense, String createdAt, int createdBy) {
+    public Keuangan(int id, int bulanId, int year, int income, int expense, String createdAt, int createdBy) {
         this.id = id;
-        this.saldo = saldo;
         this.bulanId = bulanId;
-        this.kebutuhan = kebutuhan;
         this.income = income;
+        this.year = year;
         this.expense = expense;
         this.createdAt = createdAt;
         this.createdBy = createdBy;
@@ -40,28 +37,12 @@ public class Keuangan {
         this.id = id;
     }
 
-    public int getSaldo() {
-        return saldo;
-    }
-
-    public void setSaldo(int saldo) {
-        this.saldo = saldo;
-    }
-
     public int getBulanId() {
         return bulanId;
     }
 
     public void setBulanId(int bulanId) {
         this.bulanId = bulanId;
-    }
-
-    public String getKebutuhan() {
-        return kebutuhan;
-    }
-
-    public void setKebutuhan(String kebutuhan) {
-        this.kebutuhan = kebutuhan;
     }
 
     public int getIncome() {
@@ -102,5 +83,13 @@ public class Keuangan {
 
     public void setExpanded(boolean expanded) {
         isExpanded = expanded;
+    }
+
+    public int getYear() {
+        return year;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
     }
 }

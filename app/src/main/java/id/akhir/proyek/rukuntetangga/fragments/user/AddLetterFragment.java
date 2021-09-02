@@ -175,7 +175,7 @@ public class AddLetterFragment extends Fragment {
         progressDialog.show();
         MainViewModelLetterType mainViewModel = ViewModelProviders.of(this).get(MainViewModelLetterType.class);
         mainViewModel.getListLetterType().observe(getViewLifecycleOwner(), getLetterType);
-        mainViewModel.setData("Bearer " + appSession.getData(AppSession.TOKEN), getContext());
+        mainViewModel.setData("Bearer " + appSession.getData(AppSession.TOKEN), getContext(), progressDialog);
     }
 
     private void showProgress(){

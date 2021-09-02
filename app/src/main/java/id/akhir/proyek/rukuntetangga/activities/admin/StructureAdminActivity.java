@@ -47,7 +47,8 @@ public class StructureAdminActivity extends BaseActivity {
 
     Toolbar toolbar;
 
-    Spinner spinner, spName;
+    Spinner spinner;
+    EditText etName;
     Button btnUpload;
     ImageView ivPosition, ivPreviewImage, ivRemoveImage;
 
@@ -71,7 +72,7 @@ public class StructureAdminActivity extends BaseActivity {
         toolbar = findViewById(R.id.toolbar);
         setToolbar(toolbar, getString(R.string.title_menu_structure));
 
-        spName = findViewById(R.id.sp_name);
+        etName = findViewById(R.id.et_name);
         spinner = findViewById(R.id.spinner_position);
         ivPosition = findViewById(R.id.iv_position_structure);
         ivPreviewImage = findViewById(R.id.preview_image);
@@ -102,32 +103,45 @@ public class StructureAdminActivity extends BaseActivity {
             }
         });
 
-        spName.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                user = (User) parent.getSelectedItem();
-                _selectedWarga = user.getUserId();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
+//        spName.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                user = (User) parent.getSelectedItem();
+//                _selectedWarga = user.getUserId();
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+//
+//            }
+//        });
 
         ivPosition.setOnClickListener(v -> {
             pickImageGallery();
         });
 
         btnUpload.setOnClickListener(v -> {
+            String name = etName.getText().toString();
+            if (!validateData(name)) return;
+
             RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), _filePhoto);
 //        // MultipartBody.Part is used to send also the actual file name
             MultipartBody.Part body = MultipartBody.Part.createFormData("user_photo", _filePhoto.getName(), requestFile);
-            RequestBody rbUserId = RequestBody.create(MultipartBody.FORM, String.valueOf(_selectedWarga));
+//            RequestBody rbUserId = RequestBody.create(MultipartBody.FORM, String.valueOf(_selectedWarga));
+            RequestBody rbName = RequestBody.create(MultipartBody.FORM, name);
             RequestBody rbPositionId = RequestBody.create(MultipartBody.FORM, String.valueOf(_selectedPosition));
             showProgressBarUpload(true);
-            mApiService.addStructure("Bearer " + getUserToken(), rbUserId, rbPositionId, body).enqueue(addStructureCallback.build());
+            mApiService.addStructure("Bearer " + getUserToken(), rbName, rbPositionId, body).enqueue(addStructureCallback.build());
         });
+    }
+
+    private boolean validateData(String name) {
+        if (name.trim().isEmpty()) {
+            etName.setError(getString(R.string.error_textfield_empty, "Nama"));
+            etName.requestFocus();
+            return false;
+        }
+        return true;
     }
 
     private void pickImageGallery() {
@@ -151,7 +165,7 @@ public class StructureAdminActivity extends BaseActivity {
         showProgressBar(true);
         mApiService.getPosition("Bearer "+ appSession.getData(AppSession.TOKEN)).enqueue(getPositionCallback.build());
 
-        mApiService.getWarga("Bearer "+ appSession.getData(AppSession.TOKEN)).enqueue(getUserCallback.build());
+//        mApiService.getWarga("Bearer "+ appSession.getData(AppSession.TOKEN)).enqueue(getUserCallback.build());
     }
 
     @Override
@@ -215,23 +229,23 @@ public class StructureAdminActivity extends BaseActivity {
         }
     };
 
-    ApiCallback getUserCallback = new ApiCallback() {
-        @Override
-        public void onApiSuccess(String result) {
-            showProgressBar(false);
-            ApiData<User> apiPosition = new Gson().fromJson(result, new TypeToken<ApiData<User>>(){}.getType());
-            _dataUser = apiPosition.getData();
-            final ArrayAdapter<User> adapter = new ArrayAdapter<User>(context,
-                    R.layout.spinner_position, _dataUser);
-            adapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
-            spName.setAdapter(adapter);
-        }
-
-        @Override
-        public void onApiFailure(String errorMessage) {
-            Toast.makeText(context, "Gagal Mengambil User Karena " + errorMessage, Toast.LENGTH_SHORT).show();
-        }
-    };
+//    ApiCallback getUserCallback = new ApiCallback() {
+//        @Override
+//        public void onApiSuccess(String result) {
+//            showProgressBar(false);
+//            ApiData<User> apiPosition = new Gson().fromJson(result, new TypeToken<ApiData<User>>(){}.getType());
+//            _dataUser = apiPosition.getData();
+//            final ArrayAdapter<User> adapter = new ArrayAdapter<User>(context,
+//                    R.layout.spinner_position, _dataUser);
+//            adapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
+//            spName.setAdapter(adapter);
+//        }
+//
+//        @Override
+//        public void onApiFailure(String errorMessage) {
+//            Toast.makeText(context, "Gagal Mengambil User Karena " + errorMessage, Toast.LENGTH_SHORT).show();
+//        }
+//    };
 
     ApiCallback addStructureCallback = new ApiCallback() {
         @Override

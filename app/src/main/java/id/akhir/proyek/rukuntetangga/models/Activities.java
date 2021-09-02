@@ -20,16 +20,13 @@ public class Activities implements Parcelable {
     private String hour;
     @SerializedName("lokasi")
     private String location;
-    @SerializedName("ditujukan")
-    private String ditujukan;
 
-    public Activities(int activityId, String imageActivity, String titleActivity, String dateActivity, String hour, String location, String ditujukan) {
+    public Activities(int activityId, String imageActivity, String titleActivity, String dateActivity, String hour, String location) {
         this.activityId = activityId;
         this.imageActivity = imageActivity;
         this.titleActivity = titleActivity;
         this.dateActivity = dateActivity;
         this.location = location;
-        this.ditujukan = ditujukan;
         this.hour = hour;
     }
 
@@ -81,14 +78,6 @@ public class Activities implements Parcelable {
         this.location = location;
     }
 
-    public String getDitujukan() {
-        return ditujukan;
-    }
-
-    public void setDitujukan(String ditujukan) {
-        this.ditujukan = ditujukan;
-    }
-
     @Override
     public String toString() {
         return "Activities{" +
@@ -112,7 +101,6 @@ public class Activities implements Parcelable {
         dest.writeString(this.dateActivity);
         dest.writeString(this.hour);
         dest.writeString(this.imageActivity);
-        dest.writeString(this.ditujukan);
         dest.writeString(this.location);
     }
 
@@ -122,7 +110,6 @@ public class Activities implements Parcelable {
         this.dateActivity = in.readString();
         this.hour = in.readString();
         this.imageActivity = in.readString();
-        this.ditujukan = in.readString();
         this.location = in.readString();
     }
 

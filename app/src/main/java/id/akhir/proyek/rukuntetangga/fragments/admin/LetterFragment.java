@@ -30,7 +30,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import id.akhir.proyek.rukuntetangga.R;
-import id.akhir.proyek.rukuntetangga.adapters.ComplaintAdapter;
 import id.akhir.proyek.rukuntetangga.adapters.LetterAdapter;
 import id.akhir.proyek.rukuntetangga.apihelper.AppSession;
 import id.akhir.proyek.rukuntetangga.apihelper.BaseApiService;
@@ -41,12 +40,7 @@ import id.akhir.proyek.rukuntetangga.listener.DialogListener;
 import id.akhir.proyek.rukuntetangga.listener.MenuListener;
 import id.akhir.proyek.rukuntetangga.models.ApiStatus;
 import id.akhir.proyek.rukuntetangga.models.ApiUser;
-import id.akhir.proyek.rukuntetangga.models.Complaint;
 import id.akhir.proyek.rukuntetangga.models.Letter;
-import id.akhir.proyek.rukuntetangga.models.Service;
-import id.akhir.proyek.rukuntetangga.models.User;
-import id.akhir.proyek.rukuntetangga.models.viewModel.MainViewModelComplaint;
-import id.akhir.proyek.rukuntetangga.models.viewModel.MainViewModelEmergency;
 import id.akhir.proyek.rukuntetangga.models.viewModel.MainViewModelLetter;
 
 public class LetterFragment extends Fragment {
@@ -163,7 +157,7 @@ public class LetterFragment extends Fragment {
         progressDialog.show();
         MainViewModelLetter mainViewModel = ViewModelProviders.of(this).get(MainViewModelLetter.class);
         mainViewModel.getListLetter().observe(getViewLifecycleOwner(), getLetter);
-        mainViewModel.setData("Bearer " + appSession.getData(AppSession.TOKEN), getContext());
+        mainViewModel.setData("Bearer " + appSession.getData(AppSession.TOKEN), getContext(), progressDialog);
         rvLetter.setAdapter(adapter);
     }
 

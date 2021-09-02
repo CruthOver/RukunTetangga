@@ -46,6 +46,7 @@ public class NiagaFragment extends Fragment {
     private RecyclerView rvNiaga;
     AppSession appSession;
     Dialog progressDialog;
+    MainViewModelNiaga mainViewModel;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -71,11 +72,6 @@ public class NiagaFragment extends Fragment {
     private final Observer<List<Niaga>> getNiaga = new Observer<List<Niaga>>() {
         @Override
         public void onChanged(List<Niaga> niagaData) {
-//            if (serviceData != null) {
-//
-//            } else {
-//                layoutNoConnection(getView());
-//            }
             progressDialog.dismiss();
             adapter.setData(niagaData);
         }
@@ -96,15 +92,18 @@ public class NiagaFragment extends Fragment {
             }
         });
         progressDialog.show();
-        MainViewModelNiaga mainViewModel = ViewModelProviders.of(this).get(MainViewModelNiaga.class);
+        mainViewModel = ViewModelProviders.of(this).get(MainViewModelNiaga.class);
         mainViewModel.getListNiaga().observe(getViewLifecycleOwner(), getNiaga);
-        mainViewModel.setData("Bearer " + appSession.getData(AppSession.TOKEN), getContext());
+        mainViewModel.setData("Bearer " + appSession.getData(AppSession.TOKEN), getContext(), progressDialog);
         rvNiaga.setAdapter(adapter);
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        mainViewModel = ViewModelProviders.of(this).get(MainViewModelNiaga.class);
+        mainViewModel.getListNiaga().observe(getViewLifecycleOwner(), getNiaga);
+        mainViewModel.setData("Bearer " + appSession.getData(AppSession.TOKEN), getContext(), progressDialog);
         rvNiaga.setAdapter(adapter);
         adapter.notifyDataSetChanged();
     }

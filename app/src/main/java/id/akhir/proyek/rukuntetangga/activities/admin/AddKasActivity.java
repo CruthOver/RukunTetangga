@@ -21,7 +21,7 @@ import id.akhir.proyek.rukuntetangga.models.Month;
 public class AddKasActivity extends BaseActivity {
 
     Toolbar toolbar;
-    EditText etSaldo, etIncome, etExpense, etKebutuhan;
+    EditText etIncome, etExpense;
     Spinner spMonth;
     Button btnUpload;
 
@@ -37,10 +37,8 @@ public class AddKasActivity extends BaseActivity {
     private void initData() {
         toolbar = findViewById(R.id.toolbar);
         setToolbar(toolbar, getString(R.string.title_menu_kas));
-        etSaldo = findViewById(R.id.et_saldo);
         etIncome = findViewById(R.id.et_income);
         etExpense = findViewById(R.id.et_expense);
-        etKebutuhan = findViewById(R.id.et_kebutuhan);
         spMonth = findViewById(R.id.spinner_month);
         btnUpload = findViewById(R.id.btn_upload);
 
@@ -61,12 +59,10 @@ public class AddKasActivity extends BaseActivity {
         });
 
         btnUpload.setOnClickListener(v -> {
-            String saldo = etSaldo.getText().toString();
             String income = etIncome.getText().toString();
             String expense = etExpense.getText().toString();
-            String kebutuhan = etKebutuhan.getText().toString();
             showProgressBarUpload(true);
-            mApiService.addInfoKeuangan("Bearer " + getUserToken(), saldo, monthId, kebutuhan,
+            mApiService.addInfoKeuangan("Bearer " + getUserToken(), monthId,
                     income, expense).enqueue(addKeuanganCallback.build());
         });
     }

@@ -55,6 +55,7 @@ public class JobFragment extends Fragment {
 
     Toolbar toolbar;
     Dialog progressDialog;
+    MainViewModelJobs mainViewModel;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -95,6 +96,15 @@ public class JobFragment extends Fragment {
         }
     };
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        mainViewModel = ViewModelProviders.of(this).get(MainViewModelJobs.class);
+        mainViewModel.getListJob().observe(getViewLifecycleOwner(), getJobs);
+        mainViewModel.setData("Bearer " + appSession.getData(AppSession.TOKEN), getContext(), progressDialog);
+        rvJobs.setAdapter(adapter);
+    }
+
     private void initData(View view) {
         rvJobs = view.findViewById(R.id.rv_jobs);
         rvJobs.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -103,9 +113,9 @@ public class JobFragment extends Fragment {
         adapter = new JobAdapter(dataJobs, getContext());
 
         progressDialog.show();
-        MainViewModelJobs mainViewModel = ViewModelProviders.of(this).get(MainViewModelJobs.class);
+        mainViewModel = ViewModelProviders.of(this).get(MainViewModelJobs.class);
         mainViewModel.getListJob().observe(getViewLifecycleOwner(), getJobs);
-        mainViewModel.setData("Bearer " + appSession.getData(AppSession.TOKEN), getContext());
+        mainViewModel.setData("Bearer " + appSession.getData(AppSession.TOKEN), getContext(), progressDialog);
         rvJobs.setAdapter(adapter);
     }
 

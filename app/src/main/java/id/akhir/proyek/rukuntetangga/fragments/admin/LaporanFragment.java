@@ -30,30 +30,21 @@ import com.google.gson.reflect.TypeToken;
 import java.util.ArrayList;
 import java.util.List;
 
-import id.akhir.proyek.rukuntetangga.MainActivity;
 import id.akhir.proyek.rukuntetangga.R;
 import id.akhir.proyek.rukuntetangga.activities.admin.AddComplaintActionActivity;
 import id.akhir.proyek.rukuntetangga.activities.user.ComplaintActionActivity;
 import id.akhir.proyek.rukuntetangga.adapters.ComplaintAdapter;
-import id.akhir.proyek.rukuntetangga.adapters.EmergencyAdapter;
 import id.akhir.proyek.rukuntetangga.apihelper.AppSession;
 import id.akhir.proyek.rukuntetangga.apihelper.BaseApiService;
 import id.akhir.proyek.rukuntetangga.apihelper.UtilsApi;
 import id.akhir.proyek.rukuntetangga.helpers.CallbackApi;
 import id.akhir.proyek.rukuntetangga.listener.AdapterListener;
 import id.akhir.proyek.rukuntetangga.listener.DialogListener;
+import id.akhir.proyek.rukuntetangga.listener.MenuListener;
+import id.akhir.proyek.rukuntetangga.models.ApiStatus;
 import id.akhir.proyek.rukuntetangga.models.ApiUser;
 import id.akhir.proyek.rukuntetangga.models.Complaint;
-import id.akhir.proyek.rukuntetangga.models.Letter;
-import id.akhir.proyek.rukuntetangga.models.Service;
-import id.akhir.proyek.rukuntetangga.models.User;
 import id.akhir.proyek.rukuntetangga.models.viewModel.MainViewModelComplaint;
-import id.akhir.proyek.rukuntetangga.models.viewModel.MainViewModelLetter;
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
 
 public class LaporanFragment extends Fragment {
     Toolbar toolbar;
@@ -65,6 +56,7 @@ public class LaporanFragment extends Fragment {
     BaseApiService mApiService;
     Dialog progressDialog;
     MainViewModelComplaint mainViewModel;
+    Complaint complaintSelected;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -108,7 +100,7 @@ public class LaporanFragment extends Fragment {
                     Intent intent = new Intent(getContext(), AddComplaintActionActivity.class);
                     intent.putExtra("complaint_id", data.getComplaintId());
                     startActivity(intent);
-                } else {
+                } else if (data.getStatusComplaint() == 0) {
                     alertSubmitDone(R.string.warning_title, R.string.warning_confirmation_update, new DialogListener() {
                         @Override
                         public void onPositiveButton() {
@@ -119,10 +111,6 @@ public class LaporanFragment extends Fragment {
                                 status = 1;
                                 mApiService.updateStatusLaporan("Bearer " + appSession.getData(AppSession.TOKEN), data.getComplaintId(), status)
                                         .enqueue(complaintUpdate.build());
-                            } else if (status == 1){
-//                                status = 2;
-//                                mApiService.updateStatusLaporan("Bearer " + appSession.getData(AppSession.TOKEN), data.getComplaintId(), status)
-//                                        .enqueue(complaintUpdate.build());
                             } else {
                                 progressDialog.dismiss();
                                 Toast.makeText(view.getContext(), "Laporan Sudah Selesai", Toast.LENGTH_SHORT).show();
@@ -134,6 +122,10 @@ public class LaporanFragment extends Fragment {
                             Toast.makeText(getActivity(), R.string.label_cancel, Toast.LENGTH_SHORT).show();
                         }
                     });
+                } else if (data.getStatusComplaint() == 2) {
+                    Intent intent = new Intent(getContext(), ComplaintActionActivity.class);
+                    intent.putExtra("complaint_id", data.getComplaintId());
+                    startActivity(intent);
                 }
             }
 
@@ -141,11 +133,35 @@ public class LaporanFragment extends Fragment {
             public void onItemLongSelected(Complaint data) {
                 Toast.makeText(view.getContext(), data.getTitleComplaint(), Toast.LENGTH_SHORT).show();
             }
+        }, new MenuListener<Complaint>() {
+            @Override
+            public void onEdit(Complaint data) {
+
+            }
+
+            @Override
+            public void onDelete(Complaint data) {
+                alertSubmitDone(getString(R.string.warning_title), getString(R.string.delete_confirmation, "Surat"), new DialogListener() {
+                    @Override
+                    public void onPositiveButton() {
+                        deleteComplaintCallback.context = getContext();
+                        complaintSelected = data;
+                        progressDialog.show();
+                        mApiService.deleteComplaint("Bearer " + appSession.getData(AppSession.TOKEN), data.getComplaintId())
+                                .enqueue(deleteComplaintCallback.build());
+                    }
+
+                    @Override
+                    public void onNegativeButton() {
+
+                    }
+                });
+            }
         });
         progressDialog.show();
         mainViewModel = ViewModelProviders.of(this).get(MainViewModelComplaint.class);
         mainViewModel.getListComplaint().observe(getViewLifecycleOwner(), getComplaint);
-        mainViewModel.setData("Bearer " + appSession.getData(AppSession.TOKEN), getContext());
+        mainViewModel.setData("Bearer " + appSession.getData(AppSession.TOKEN), getContext(), progressDialog);
         rvComplaint.setAdapter(adapter);
     }
 
@@ -153,7 +169,7 @@ public class LaporanFragment extends Fragment {
     public void onResume() {
         super.onResume();
         mainViewModel.getListComplaint().observe(getViewLifecycleOwner(), getComplaint);
-        mainViewModel.setData("Bearer " + appSession.getData(AppSession.TOKEN), getContext());
+        mainViewModel.setData("Bearer " + appSession.getData(AppSession.TOKEN), getContext(), progressDialog);
         rvComplaint.setAdapter(adapter);
     }
 
@@ -189,8 +205,51 @@ public class LaporanFragment extends Fragment {
         }
     };
 
+    CallbackApi deleteComplaintCallback = new CallbackApi() {
+        @Override
+        public void onApiSuccess(String result) {
+            progressDialog.dismiss();
+            ApiStatus status = new Gson().fromJson(result, ApiStatus.class);
+            Toast.makeText(context, status.getMessage(), Toast.LENGTH_SHORT).show();
+            _dataComplaint.remove(complaintSelected);
+            adapter.setData(_dataComplaint);
+            rvComplaint.setAdapter(adapter);
+        }
+
+        @Override
+        public void onApiFailure(String errorMessage) {
+            progressDialog.dismiss();
+            Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show();
+        }
+    };
+
     public void alertSubmitDone(int title, int message, DialogListener listener){
 
+        TextView textView = new TextView(getActivity());
+        textView.setText(title);
+        textView.setPadding(32, 30, 32, 30);
+        textView.setTextSize(20F);
+        textView.setBackgroundColor(getResources().getColor(R.color.colorSecondary));
+        textView.setGravity(Gravity.CENTER);
+        textView.setTextColor(Color.WHITE);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
+                .setCustomTitle(textView)
+                .setMessage(message);
+        builder.setPositiveButton(R.string.warning_ok, (dialog, id) -> {
+            if (listener != null)
+                listener.onPositiveButton();
+        });
+        builder.setNegativeButton(R.string.warning_cancel, (dialog, which) -> {
+            if (listener != null)
+                listener.onNegativeButton();
+        });
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
+
+    public void alertSubmitDone(String title, String message, DialogListener listener){
         TextView textView = new TextView(getActivity());
         textView.setText(title);
         textView.setPadding(32, 30, 32, 30);

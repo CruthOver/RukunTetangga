@@ -409,51 +409,37 @@
 
             </LinearLayout>
 
-<!--            <LinearLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginBottom="8dp"-->
-<!--                android:orientation="horizontal">-->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="start"
+                android:text="Foto KTP"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
 
-<!--                <TextView-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_weight="1.4"-->
-<!--                    android:gravity="start"-->
-<!--                    android:text="NIK"-->
-<!--                    android:textColor="@color/black"-->
-<!--                    android:textSize="14sp" />-->
-<!--                -->
-<!--                -->
-<!--                <TextView-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_weight="2"-->
-<!--                    android:gravity="start"-->
-<!--                    android:text=":"-->
-<!--                    android:textColor="@color/black"-->
-<!--                    android:textSize="14sp" />-->
+            <ImageView
+                android:id="@+id/iv_foto_ktp"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginTop="8dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/banner_collection" />
 
-<!--                <TextView-->
-<!--                    android:id="@+id/tv_nik"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_weight="1"-->
-<!--                    android:gravity="start"-->
-<!--                    android:text="Diploma Rasa S3"-->
-<!--                    android:textColor="@color/black"-->
-<!--                    android:textSize="14sp" />-->
-<!--                -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="start"
+                android:text="Foto Kartu Keluarga"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
 
-<!--            </LinearLayout>-->
-
-<!--            <ImageView-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_gravity="center"-->
-<!--                android:layout_marginTop="8dp"-->
-<!--                android:scaleType="fitXY"-->
-<!--                android:src="@drawable/ic_launcher_background" />-->
+            <ImageView
+                android:id="@+id/iv_foto_kartu_keluarga"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginTop="8dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/banner_collection" />
 
         </LinearLayout>
 

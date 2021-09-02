@@ -26,7 +26,9 @@ import id.akhir.proyek.rukuntetangga.R;
 import id.akhir.proyek.rukuntetangga.adapters.KasAdapter;
 import id.akhir.proyek.rukuntetangga.controllers.BaseActivity;
 import id.akhir.proyek.rukuntetangga.listener.AdapterListener;
+import id.akhir.proyek.rukuntetangga.listener.DialogListener;
 import id.akhir.proyek.rukuntetangga.models.ApiData;
+import id.akhir.proyek.rukuntetangga.models.ApiStatus;
 import id.akhir.proyek.rukuntetangga.models.KasAdmin;
 import id.akhir.proyek.rukuntetangga.models.Month;
 import id.akhir.proyek.rukuntetangga.models.Paginator;
@@ -40,6 +42,7 @@ public class KasAdminActivity extends BaseActivity {
     Paginator<KasAdmin> paginator;
     List<KasAdmin> dataKasAdmin = new ArrayList<>();
     KasAdapter kasAdapter;
+    KasAdmin _kasAdminSelected;
 
     private int totalPages = 0;
     private int currentPage = 0;
@@ -82,7 +85,19 @@ public class KasAdminActivity extends BaseActivity {
         kasAdapter = new KasAdapter(context, new AdapterListener<KasAdmin>() {
             @Override
             public void onItemSelected(KasAdmin data) {
+                alertSubmitDone(getString(R.string.warning_title), getString(R.string.warning_confirmation_2, data.getName()), new DialogListener() {
+                    @Override
+                    public void onPositiveButton() {
+                        _kasAdminSelected = data;
+                        showProgressBar(true);
+                        mApiService.addPembayaranUser("Bearer " + getUserToken(), data.getUserId(), monthId).enqueue(addCallback.build());
+                    }
 
+                    @Override
+                    public void onNegativeButton() {
+
+                    }
+                });
             }
 
             @Override
@@ -171,12 +186,17 @@ public class KasAdminActivity extends BaseActivity {
     ApiCallback addCallback = new ApiCallback() {
         @Override
         public void onApiSuccess(String result) {
-
+//            showProgressBar(false);
+//            ApiStatus status = new Gson().fromJson(result, ApiStatus.class);
+//            showToast(status.getMessage());
+            showProgressBar(true);
+            mApiService.getKasAdmin("Bearer " + getUserToken(), monthId).enqueue(apiCallback.build());
         }
 
         @Override
         public void onApiFailure(String errorMessage) {
-
+            showProgressBar(false);
+            showToast(errorMessage);
         }
     };
 }

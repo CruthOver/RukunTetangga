@@ -1,5 +1,6 @@
 package id.akhir.proyek.rukuntetangga.models.viewModel;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.widget.Toast;
 
@@ -23,8 +24,10 @@ public class MainViewModelLetterType extends ViewModel {
     private BaseApiService mApiService = UtilsApi.getApiService();
 
     private MutableLiveData<List<LetterType>> listLetterType= new MutableLiveData<>();
+    private Dialog progressDialog;
 
-    public void setData(String authToken, Context context) {
+    public void setData(String authToken, Context context, Dialog progressDialog) {
+        this.progressDialog = progressDialog;
         apiCallback.context = context;
         Call<ResponseBody> callInformation = mApiService.getLetterType(authToken);
         callInformation.enqueue(apiCallback.build());
@@ -33,12 +36,14 @@ public class MainViewModelLetterType extends ViewModel {
     CallbackApi apiCallback = new CallbackApi() {
         @Override
         public void onApiSuccess(String result) {
+            progressDialog.dismiss();
             ApiData<LetterType> apiService = new Gson().fromJson(result, new TypeToken<ApiData<LetterType>>(){}.getType());
             listLetterType.postValue(apiService.getData());
         }
 
         @Override
         public void onApiFailure(String errorMessage) {
+            progressDialog.dismiss();
             Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show();
         }
     };

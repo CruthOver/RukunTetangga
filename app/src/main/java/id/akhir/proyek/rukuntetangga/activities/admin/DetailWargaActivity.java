@@ -6,15 +6,18 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.squareup.picasso.Picasso;
 
 import id.akhir.proyek.rukuntetangga.R;
 import id.akhir.proyek.rukuntetangga.activities.user.KegiatanUserActivity;
@@ -28,7 +31,7 @@ public class DetailWargaActivity extends BaseActivity {
     Toolbar toolbar;
     TextView tvName, tvPhoneNumber, tvAddress, tvGender,
         tvDateBirth, tvBirthPlace, tvNik, tvReligion, tvStatus, tvPendidikan;
-
+    ImageView ivPhotoKTP, ivPhotoKK;
     User detailUser;
 
     @Override
@@ -53,12 +56,13 @@ public class DetailWargaActivity extends BaseActivity {
         tvStatus = findViewById(R.id.tv_status);
         tvPendidikan = findViewById(R.id.tv_pendidikan);
         tvGender = findViewById(R.id.tv_gender);
+        ivPhotoKTP = findViewById(R.id.iv_foto_ktp);
+        ivPhotoKK = findViewById(R.id.iv_foto_kartu_keluarga);
         setData();
     }
 
     private void setData() {
         String gender = detailUser.getGender().equals("0") ? "Laki-laki" :"Perempuan";
-        Toast.makeText(context, detailUser.getDateBirth(), Toast.LENGTH_SHORT).show();
         tvName.setText(detailUser.getFullName());
         tvPhoneNumber.setText(detailUser.getPhoneNumber());
         tvAddress.setText(detailUser.getAddress());
@@ -69,6 +73,23 @@ public class DetailWargaActivity extends BaseActivity {
         tvReligion.setText(detailUser.getAgama());
         tvStatus.setText(detailUser.getStatusPerkawinan());
         tvPendidikan.setText(detailUser.getPendidikan());
+        if (!detailUser.getImageKTP().equals("") && detailUser.getImageKTP() != null) {
+            Picasso.get().load(detailUser.getImageKTP()).
+                    placeholder(R.drawable.image_placeholder).
+                    error(R.drawable.broken_image).
+                    into(ivPhotoKTP);
+        } else {
+            ivPhotoKTP.setImageResource(R.drawable.image_placeholder);
+        }
+
+        if (!detailUser.getImageKK().equals("") && detailUser.getImageKK() != null) {
+            Picasso.get().load(detailUser.getImageKK()).
+                    placeholder(R.drawable.image_placeholder).
+                    error(R.drawable.broken_image).
+                    into(ivPhotoKK);
+        } else {
+            ivPhotoKK.setImageResource(R.drawable.image_placeholder);
+        }
     }
 
     @Override
