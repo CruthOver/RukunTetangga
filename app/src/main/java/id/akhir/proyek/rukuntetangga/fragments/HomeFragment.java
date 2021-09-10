@@ -30,9 +30,12 @@ import android.view.ViewStub;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.TextView;;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.Toast;;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +43,7 @@ import java.util.List;
 import id.akhir.proyek.rukuntetangga.R;
 import id.akhir.proyek.rukuntetangga.activities.LoginActivity;
 import id.akhir.proyek.rukuntetangga.activities.MusrenbangActivity;
+import id.akhir.proyek.rukuntetangga.activities.NotificationLogActivity;
 import id.akhir.proyek.rukuntetangga.activities.ProfileActivity;
 import id.akhir.proyek.rukuntetangga.activities.ServiceActivity;
 import id.akhir.proyek.rukuntetangga.activities.VotingListActivity;
@@ -55,10 +59,15 @@ import id.akhir.proyek.rukuntetangga.activities.user.StructureUserActivity;
 import id.akhir.proyek.rukuntetangga.adapters.BannerAdapter;
 import id.akhir.proyek.rukuntetangga.adapters.MenuGridAdapter;
 import id.akhir.proyek.rukuntetangga.apihelper.AppSession;
+import id.akhir.proyek.rukuntetangga.controllers.BaseActivity;
+import id.akhir.proyek.rukuntetangga.helpers.CallbackApi;
 import id.akhir.proyek.rukuntetangga.listener.AdapterListener;
 import id.akhir.proyek.rukuntetangga.listener.DialogListener;
+import id.akhir.proyek.rukuntetangga.models.ApiData;
+import id.akhir.proyek.rukuntetangga.models.ApiUser;
 import id.akhir.proyek.rukuntetangga.models.Information;
 import id.akhir.proyek.rukuntetangga.models.MenuGrid;
+import id.akhir.proyek.rukuntetangga.models.Notification;
 import id.akhir.proyek.rukuntetangga.models.User;
 import id.akhir.proyek.rukuntetangga.models.viewModel.MainViewModelHome;
 
@@ -69,8 +78,9 @@ public class HomeFragment extends Fragment {
     RecyclerView recyclerView;
     MenuGridAdapter menuGridAdapter;
     ViewPager2 viewPager2;
-    TextView tvWelcome, tvFullName;
+    TextView tvWelcome, tvFullName, tvTotalBadge;
     ImageView ivProfile;
+    RelativeLayout rlNotification;
     EditText etSearchBar;
     ImageButton ibLogout;
 
@@ -81,10 +91,14 @@ public class HomeFragment extends Fragment {
     List<MenuGrid> dataMenu = new ArrayList<MenuGrid>();
     List<MenuGrid> dataFilterMenu = new ArrayList<MenuGrid>();
     List<Information> dataInformation = new ArrayList<Information>();
+    private int totalNotification = 0;
+    User user;
+    MainViewModelHome mainViewModel;
 
     public HomeFragment() {
         // Required empty public constructor
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -170,14 +184,26 @@ public class HomeFragment extends Fragment {
         recyclerView.setAdapter(menuGridAdapter);
     }
 
+    private final Observer<Integer> getTotalNotification = new Observer<Integer>() {
+        @Override
+        public void onChanged(Integer dataNotification) {
+            if (dataNotification != null) {
+                totalNotification = dataNotification;
+                if (totalNotification == 0) {
+                    tvTotalBadge.setVisibility(View.GONE);
+                } else {
+                    tvTotalBadge.setVisibility(View.VISIBLE);
+                    tvTotalBadge.setText(String.valueOf(totalNotification));
+                }
+            } else {
+                tvTotalBadge.setVisibility(View.GONE);
+            }
+        }
+    };
+
     private final Observer<List<Information>> getInformation = new Observer<List<Information>>() {
         @Override
         public void onChanged(List<Information> informationData) {
-//            if (serviceData != null) {
-//
-//            } else {
-//                layoutNoConnection(getView());
-//            }
             progressDialog.dismiss();
             adapter.setData(informationData);
             viewPager2.setAdapter(adapter);
@@ -185,20 +211,23 @@ public class HomeFragment extends Fragment {
     };
 
     private void initHomeUser() {
-        User user = new Gson().fromJson(appSession.getData(AppSession.USER), User.class);
+        user = new Gson().fromJson(appSession.getData(AppSession.USER), User.class);
         viewStub.setLayoutResource(R.layout.home_user);
         _viewHome = viewStub.inflate();
         viewPager2 = _viewHome.findViewById(R.id.viewPagerBanner);
         ivProfile = _viewHome.findViewById(R.id.iv_profile);
         tvWelcome = _viewHome.findViewById(R.id.tv_welcome);
         tvFullName = _viewHome.findViewById(R.id.tv_full_name);
+        tvTotalBadge = _viewHome.findViewById(R.id.badge_notification);
+        rlNotification = _viewHome.findViewById(R.id.rl_notification);
         tvWelcome.setText(R.string.label_welcome);
         tvFullName.setText(user.getFullName());
         etSearchBar = _viewHome.findViewById(R.id.search_bar);
-//        dataInformation.add(new Information(1, "Informasi 1"));
-//        dataInformation.add(new Information(2, "Informasi 2"));
-//        dataInformation.add(new Information(3, "Informasi 3"));
 
+        rlNotification.setOnClickListener(v -> {
+            Intent intent = new Intent(getContext(), NotificationLogActivity.class);
+            startActivity(intent);
+        });
         ivProfile.setOnClickListener(v -> {
             Intent intent = new Intent(getContext(), ProfileActivity.class);
             startActivity(intent);
@@ -206,7 +235,7 @@ public class HomeFragment extends Fragment {
         adapter = new BannerAdapter(getActivity(), dataInformation, viewPager2);
 
         progressDialog.show();
-        MainViewModelHome mainViewModel = ViewModelProviders.of(this).get(MainViewModelHome.class);
+        mainViewModel = ViewModelProviders.of(this).get(MainViewModelHome.class);
         mainViewModel.getListInformation().observe(getViewLifecycleOwner(), getInformation);
         mainViewModel.setData("Bearer " + appSession.getData(AppSession.TOKEN), getContext(), progressDialog);
 
@@ -222,6 +251,15 @@ public class HomeFragment extends Fragment {
         });
 
         viewPager2.setPageTransformer(compositePageTransformer);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (!appSession.isAdmin()) {
+            mainViewModel.getTotalNotification().observe(getViewLifecycleOwner(), getTotalNotification);
+            mainViewModel.setData("Bearer " + appSession.getData(AppSession.TOKEN), user.getUserId(), getContext());
+        }
     }
 
     public void setDataMenu(boolean isAdmin) {

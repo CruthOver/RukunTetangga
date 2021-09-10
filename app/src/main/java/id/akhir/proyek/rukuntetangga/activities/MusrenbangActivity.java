@@ -67,8 +67,10 @@ public class MusrenbangActivity extends BaseActivity {
         adapter = new MusrenbangAdapter(dataMusrenbang, context, new AdapterListener<Musrenbang>() {
             @Override
             public void onItemSelected(Musrenbang data) {
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(data.getUrlBerkas()));
-                startActivity(browserIntent);
+//                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(data.getUrlBerkas()));
+                Intent intent = new Intent(context, PdfViewActivity.class);
+                intent.putExtra("pdf_url", data.getUrlBerkas());
+                startActivity(intent);
             }
 
             @Override

@@ -66,7 +66,6 @@ public class JobFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_job, container, false);
     }
 
@@ -87,6 +86,20 @@ public class JobFragment extends Fragment {
         initData(view);
     }
 
+    private void initData(View view) {
+        rvJobs = view.findViewById(R.id.rv_jobs);
+        rvJobs.setLayoutManager(new LinearLayoutManager(getContext()));
+        rvJobs.setHasFixedSize(true);
+        ((SimpleItemAnimator) rvJobs.getItemAnimator()).setSupportsChangeAnimations(false);
+        adapter = new JobAdapter(dataJobs, getContext());
+
+        progressDialog.show();
+        mainViewModel = ViewModelProviders.of(this).get(MainViewModelJobs.class);
+        mainViewModel.getListJob().observe(getViewLifecycleOwner(), getJobs);
+        mainViewModel.setData("Bearer " + appSession.getData(AppSession.TOKEN), getContext(), progressDialog);
+        rvJobs.setAdapter(adapter);
+    }
+
     private final Observer<List<Jobs>> getJobs = new Observer<List<Jobs>>() {
         @Override
         public void onChanged(List<Jobs> jobsData) {
@@ -99,20 +112,6 @@ public class JobFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        mainViewModel = ViewModelProviders.of(this).get(MainViewModelJobs.class);
-        mainViewModel.getListJob().observe(getViewLifecycleOwner(), getJobs);
-        mainViewModel.setData("Bearer " + appSession.getData(AppSession.TOKEN), getContext(), progressDialog);
-        rvJobs.setAdapter(adapter);
-    }
-
-    private void initData(View view) {
-        rvJobs = view.findViewById(R.id.rv_jobs);
-        rvJobs.setLayoutManager(new LinearLayoutManager(getContext()));
-        rvJobs.setHasFixedSize(true);
-        ((SimpleItemAnimator) rvJobs.getItemAnimator()).setSupportsChangeAnimations(false);
-        adapter = new JobAdapter(dataJobs, getContext());
-
-        progressDialog.show();
         mainViewModel = ViewModelProviders.of(this).get(MainViewModelJobs.class);
         mainViewModel.getListJob().observe(getViewLifecycleOwner(), getJobs);
         mainViewModel.setData("Bearer " + appSession.getData(AppSession.TOKEN), getContext(), progressDialog);

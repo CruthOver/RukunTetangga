@@ -70,7 +70,7 @@ public class StructureUserActivity extends BaseActivity {
         tvNamaInfrastruktur = findViewById(R.id.tv_name_infrastruktur);
         tvNamaKerohanian = findViewById(R.id.tv_name_kerohanian);
         tvNamaPKK = findViewById(R.id.tv_name_pkk);
-        tvNamaKeamanan = findViewById(R.id.tv_name_pemuda);
+        tvNamaKeamanan = findViewById(R.id.tv_name_keamanan);
         tvNamaPemudaOlahraga = findViewById(R.id.tv_name_pemuda);
         tvNamaPubDok = findViewById(R.id.tv_name_pubdok);
         tvNamaKebersihan = findViewById(R.id.tv_name_kebersihan);

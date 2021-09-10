@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Paginator<T> {
     public int TOTAL_NUM_ITEMS = 0;
-    public static final int ITEMS_PER_PAGE = 5;
+    public static final int ITEMS_PER_PAGE = 10;
     public int ITEMS_REMAINING = 0;
     public int LAST_PAGE = 0;
 

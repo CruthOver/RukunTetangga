@@ -398,7 +398,7 @@
                             android:textSize="14sp"
                             android:ellipsize="end"
                             android:maxLines="1"
-                            tools:text="Infrastruktur" />
+                            android:text="Infrastruktur" />
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
             </LinearLayout>

@@ -54,6 +54,12 @@ public class AppSession {
         editor.apply();
     }
 
+    public void setFcmToken(String fcmToken){
+        editor = sharedPreferences.edit();
+        editor.putString("FCM_TOKEN", fcmToken);
+        editor.apply();
+    }
+
     public void deleteData(String data){
         editor = sharedPreferences.edit();
         editor.remove(data);

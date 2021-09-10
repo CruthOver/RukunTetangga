@@ -141,10 +141,8 @@ public class AddNiagaActivity extends BaseActivity {
 
     private void submitData() {
         RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), _filePhoto);
-//
-//        // MultipartBody.Part is used to send also the actual file name
+
         MultipartBody.Part body = MultipartBody.Part.createFormData("foto_niaga", _filePhoto.getName(), requestFile);
-//        RequestBody rb_foto = RequestBody.create(okhttp3.MultipartBody.FORM, _filePhoto);
         RequestBody rbDescription = RequestBody.create(MultipartBody.FORM, etDescription.getText().toString());
         RequestBody rbNameNiaga = RequestBody.create(MultipartBody.FORM, etNameNiage.getText().toString());
         RequestBody rbPhoneNumber = RequestBody.create(MultipartBody.FORM, etPhoneNumber.getText().toString());

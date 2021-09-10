@@ -77,20 +77,6 @@ public class LetterFragment extends Fragment {
         initData(view);
     }
 
-    private final Observer<List<Letter>> getLetter = new Observer<List<Letter>>() {
-        @Override
-        public void onChanged(List<Letter> letterData) {
-//            if (serviceData != null) {
-//
-//            } else {
-//                layoutNoConnection(getView());
-//            }
-            progressDialog.dismiss();
-            _dataLetter = letterData;
-            adapter.setData(letterData);
-        }
-    };
-
     private void initData(View view) {
         rvLetter = view.findViewById(R.id.rv_letter);
         rvLetter.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -160,6 +146,15 @@ public class LetterFragment extends Fragment {
         mainViewModel.setData("Bearer " + appSession.getData(AppSession.TOKEN), getContext(), progressDialog);
         rvLetter.setAdapter(adapter);
     }
+
+    private final Observer<List<Letter>> getLetter = new Observer<List<Letter>>() {
+        @Override
+        public void onChanged(List<Letter> letterData) {
+            progressDialog.dismiss();
+            _dataLetter = letterData;
+            adapter.setData(letterData);
+        }
+    };
 
     private void showProgress(){
         progressDialog.setContentView(R.layout.progressdialog);

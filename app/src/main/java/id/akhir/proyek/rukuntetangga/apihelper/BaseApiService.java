@@ -23,7 +23,8 @@ public interface BaseApiService {
     @FormUrlEncoded
     @POST("auth/login")
     Call<ResponseBody> signInRequest(@Field("no_telp") String phoneNumber,
-                                     @Field("password") String password);
+                                     @Field("password") String password,
+                                     @Field("fcm") String fcmToken);
 
     @GET("surat/tipe")
     Call<ResponseBody> getLetterType(@Header("Authorization") String authToken);
@@ -96,6 +97,14 @@ public interface BaseApiService {
     @GET("kas/kas_admin")
     Call<ResponseBody> getKasAdmin(@Header("Authorization") String authToken,
                                    @Query("month") int month);
+
+    @GET("notification")
+    Call<ResponseBody> getNotificationLog(@Header("Authorization") String authToken,
+                                          @Query("user_id") int userId);
+
+    @GET("notification/total_notification")
+    Call<ResponseBody> getTotalNotificationLog(@Header("Authorization") String authToken,
+                                               @Query("user_id") int userId);
 
     @FormUrlEncoded
     @POST("kas/kas_admin")
@@ -290,9 +299,14 @@ public interface BaseApiService {
     @FormUrlEncoded
     @PUT("users/change_password")
     Call<ResponseBody> changePassword(@Header("Authorization") String authToken,
-                                    @Field("user_id") int userId,
-                                    @Field("current_password") String oldPassword,
-                                    @Field("password") String newPassword);
+                                      @Field("user_id") int userId,
+                                      @Field("current_password") String oldPassword,
+                                      @Field("password") String newPassword);
+
+    @FormUrlEncoded
+    @PUT("notification")
+    Call<ResponseBody> setReadNotification(@Header("Authorization") String authToken,
+                                           @Field("id") int notificationId);
 
     @DELETE("users/{id}")
     Call<ResponseBody> deleteUser(@Header("Authorization") String authToken,

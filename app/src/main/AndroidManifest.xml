@@ -19,7 +19,23 @@
         android:theme="@style/AppThemeNoActionBar"
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
-        <activity android:name=".activities.user.ChangePasswordActivity"
+        <activity android:name=".activities.NotificationLogActivity"
+            android:label="@string/title_notification"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+        <activity
+            android:name=".activities.PdfViewActivity"
+            android:label="PDF Preview"
+            android:parentActivityName=".activities.MusrenbangActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.MusrenbangActivity" />
+        </activity>
+        <activity
+            android:name=".activities.user.ChangePasswordActivity"
             android:label="@string/title_change_password"
             android:parentActivityName=".activities.ProfileActivity">
             <meta-data
@@ -195,14 +211,6 @@
                 android:value=".MainActivity" />
         </activity>
         <activity
-            android:name=".activities.user.MusrenbangUserActivity"
-            android:label="@string/title_menu_musrenbang"
-            android:parentActivityName=".MainActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
-        </activity>
-        <activity
             android:name=".activities.MusrenbangActivity"
             android:label="@string/title_menu_musrenbang"
             android:parentActivityName=".MainActivity">
@@ -213,10 +221,10 @@
         <activity
             android:name=".activities.admin.InformationActivity"
             android:label="@string/title_menu_informasi"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".activities.admin.ViewInformationActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
+                android:value=".activities.admin.ViewInformationActivity" />
         </activity>
         <activity
             android:name=".activities.user.VotingUserActivity"
@@ -300,6 +308,30 @@
             </intent-filter>
         </activity>
         <activity android:name=".MainActivity" />
+
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/ic_stat_ic_notification" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/colorPrimary" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_channel_id"
+            android:value="@string/default_notification_channel_id" />
+        <meta-data
+            android:name="firebase_messaging_auto_init_enabled"
+            android:value="false" />
+        <meta-data
+            android:name="firebase_analytics_collection_enabled"
+            android:value="false" />
+
+        <service
+            android:name=".notifications.MyFirebaseService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>

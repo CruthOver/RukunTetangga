@@ -61,7 +61,6 @@ public class LaporanFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_laporan, container, false);
     }
 
@@ -80,15 +79,6 @@ public class LaporanFragment extends Fragment {
         showProgress();
         initData(view);
     }
-
-    private final Observer<List<Complaint>> getComplaint = new Observer<List<Complaint>>() {
-        @Override
-        public void onChanged(List<Complaint> complaintData) {
-            progressDialog.dismiss();
-            _dataComplaint = complaintData;
-            adapter.setData(complaintData);
-        }
-    };
 
     private void initData(View view) {
         rvComplaint = view.findViewById(R.id.rv_complaint);
@@ -164,6 +154,15 @@ public class LaporanFragment extends Fragment {
         mainViewModel.setData("Bearer " + appSession.getData(AppSession.TOKEN), getContext(), progressDialog);
         rvComplaint.setAdapter(adapter);
     }
+
+    private final Observer<List<Complaint>> getComplaint = new Observer<List<Complaint>>() {
+        @Override
+        public void onChanged(List<Complaint> complaintData) {
+            progressDialog.dismiss();
+            _dataComplaint = complaintData;
+            adapter.setData(complaintData);
+        }
+    };
 
     @Override
     public void onResume() {

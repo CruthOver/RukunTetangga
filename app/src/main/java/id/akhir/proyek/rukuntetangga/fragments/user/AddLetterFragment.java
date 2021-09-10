@@ -71,9 +71,7 @@ public class AddLetterFragment extends Fragment {
     Dialog progressDialog;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_add_letter, container, false);
     }
 
@@ -141,23 +139,18 @@ public class AddLetterFragment extends Fragment {
             newDatePicker.show(getActivity().getSupportFragmentManager(), "datePicker");
         });
 
-        btnUpload.setOnClickListener(new View.OnClickListener() {
+        btnUpload.setOnClickListener(v -> alertSubmitDone(R.string.warning_title, R.string.warning_confirmation, new DialogListener() {
             @Override
-            public void onClick(View v) {
-                alertSubmitDone(R.string.warning_title, R.string.warning_confirmation, new DialogListener() {
-                    @Override
-                    public void onPositiveButton() {
-                        addLetterCallback.context = getContext();
-                        submitData();
-                    }
-
-                    @Override
-                    public void onNegativeButton() {
-
-                    }
-                });
+            public void onPositiveButton() {
+                addLetterCallback.context = getContext();
+                submitData();
             }
-        });
+
+            @Override
+            public void onNegativeButton() {
+
+            }
+        }));
     }
 
     private final Observer<List<LetterType>> getLetterType = new Observer<List<LetterType>>() {

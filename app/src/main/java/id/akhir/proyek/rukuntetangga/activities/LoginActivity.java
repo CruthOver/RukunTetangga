@@ -1,9 +1,6 @@
 package id.akhir.proyek.rukuntetangga.activities;
 
-
-import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
@@ -11,34 +8,30 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.iid.FirebaseInstanceIdReceiver;
+import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.Timer;
 
 import id.akhir.proyek.rukuntetangga.MainActivity;
 import id.akhir.proyek.rukuntetangga.R;
 import id.akhir.proyek.rukuntetangga.controllers.BaseActivity;
-import id.akhir.proyek.rukuntetangga.listener.DialogListener;
-import id.akhir.proyek.rukuntetangga.models.ApiData;
 import id.akhir.proyek.rukuntetangga.models.ApiUser;
 import id.akhir.proyek.rukuntetangga.models.User;
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class LoginActivity extends BaseActivity implements View.OnClickListener {
 
     private EditText _etPhone, _etPassword;
     private Button _btnLogin;
     private ImageView _eyePassword;
-    private boolean _showPassword, isAdmin;
+    private boolean _showPassword;
+    private String fcmToken;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +39,21 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         setContentView(R.layout.activity_login);
         checkSession();
         initData();
+        FirebaseMessaging.getInstance().setAutoInitEnabled(true);
+
+        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(task -> {
+            if (!task.isSuccessful()) {
+                Log.w(TAG, "Fetching FCM registration token failed", task.getException());
+                return;
+            }
+
+            // Get new FCM registration token
+            fcmToken = task.getResult();
+
+            // Log and toast
+            Log.d(TAG + " FCM", fcmToken);
+
+        });
     }
 
     private void initData() {
@@ -90,7 +98,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         if (!validateData(phoneNumber, password)) return;
 
         showProgressBar(true);
-        mApiService.signInRequest(phoneNumber, password).enqueue(loginCallback.build());
+        mApiService.signInRequest(phoneNumber, password, fcmToken).enqueue(loginCallback.build());
     }
 
     @Override

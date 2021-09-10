@@ -172,6 +172,8 @@
     <string name="hint_new_password">Masukkan Kata Sandi Baru</string>
     <string name="error_password_confirmation">Kata Sandi tidak sama</string>
     <string name="title_change_password">Ubah Kata Sandi</string>
+    <string name="default_notification_channel_id">rukun_tetangga</string>
+    <string name="title_notification">Notification</string>
 
     <string-array name="agama">
         <item>Islam</item>

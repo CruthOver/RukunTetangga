@@ -85,7 +85,6 @@ public class AddLaporanFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_add_laporan, container, false);
     }
 
@@ -152,14 +151,6 @@ public class AddLaporanFragment extends Fragment {
         Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
         intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-//        ActivityResultLauncher<Intent> someActivityResultLauncher = registerForActivityResult(
-//                new ActivityResultContracts.StartActivityForResult(),
-//                result -> {
-//                    if (result.getResultCode() == Activity.RESULT_OK) {
-//                        // There are no request codes
-//                        Intent data = result.getData();
-//                    }
-//                });
         startActivityForResult(Intent.createChooser(intent, getString(R.string.title_choose_image)),
                 REQUEST_CHOOSE_PHOTO);
     }
@@ -254,10 +245,7 @@ public class AddLaporanFragment extends Fragment {
         if (!validateData(_description, _filePhoto)) return;
 
         RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), _filePhoto);
-//
-//        // MultipartBody.Part is used to send also the actual file name
         MultipartBody.Part body = MultipartBody.Part.createFormData("gambar_laporan", _filePhoto.getName(), requestFile);
-//        RequestBody rb_foto = RequestBody.create(okhttp3.MultipartBody.FORM, _filePhoto);
         RequestBody rbDescription = RequestBody.create(MultipartBody.FORM, _description);
         RequestBody rbUserId = RequestBody.create(MultipartBody.FORM, String.valueOf(user.getUserId()));
 

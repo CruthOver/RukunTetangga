@@ -51,7 +51,6 @@ public class NiagaFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_niaga, container, false);
     }
 
@@ -68,14 +67,6 @@ public class NiagaFragment extends Fragment {
         showProgress();
         initData(view);
     }
-
-    private final Observer<List<Niaga>> getNiaga = new Observer<List<Niaga>>() {
-        @Override
-        public void onChanged(List<Niaga> niagaData) {
-            progressDialog.dismiss();
-            adapter.setData(niagaData);
-        }
-    };
 
     private void initData(View view) {
         rvNiaga = view.findViewById(R.id.rv_niaga);
@@ -97,6 +88,14 @@ public class NiagaFragment extends Fragment {
         mainViewModel.setData("Bearer " + appSession.getData(AppSession.TOKEN), getContext(), progressDialog);
         rvNiaga.setAdapter(adapter);
     }
+
+    private final Observer<List<Niaga>> getNiaga = new Observer<List<Niaga>>() {
+        @Override
+        public void onChanged(List<Niaga> niagaData) {
+            progressDialog.dismiss();
+            adapter.setData(niagaData);
+        }
+    };
 
     @Override
     public void onResume() {

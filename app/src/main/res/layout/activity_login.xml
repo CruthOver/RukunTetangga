@@ -110,5 +110,13 @@
             android:layout_gravity="center"
             android:textStyle="bold"
             android:textSize="24sp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="WARGA SEHAT EKONOMI KUAT"
+            android:textColor="@color/white"
+            android:layout_gravity="center"
+            android:textStyle="bold"
+            android:textSize="24sp"/>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

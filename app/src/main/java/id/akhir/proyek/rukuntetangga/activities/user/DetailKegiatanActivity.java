@@ -16,7 +16,7 @@ public class DetailKegiatanActivity extends BaseActivity {
 
     Toolbar toolbar;
     TextView tvNamaKegiatan, tvJamKegiatan, tvLokasiKegiatan,
-        tvTanggalKegiatan, tvDitujukan;
+        tvTanggalKegiatan;
     ImageView ivFotoKegiatan;
 
     Activities detailActivity;
@@ -41,7 +41,6 @@ public class DetailKegiatanActivity extends BaseActivity {
         tvJamKegiatan = findViewById(R.id.tv_hour);
         tvLokasiKegiatan = findViewById(R.id.tv_location);
         tvTanggalKegiatan = findViewById(R.id.tv_date);
-        tvDitujukan = findViewById(R.id.tv_ditujukan);
         ivFotoKegiatan = findViewById(R.id.iv_activity_image);
     }
 
